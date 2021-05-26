@@ -1,5 +1,8 @@
-﻿namespace API.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API.Models
 {
+    [Table("TB_M_TicketStatus")]
     public class TicketStatus
     {
         public int ID { get; set; }
