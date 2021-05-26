@@ -1,3 +1,4 @@
+using API.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Repositories;
+using API.Repositories.Data;
+using API.Repositories.Interface;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
 
 namespace API
 {
@@ -26,6 +34,28 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // For Entity Framework  
+            services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
+
+            //Dependencies Injection
+            services.AddScoped<AccountRepository>();
+            services.AddScoped<CategoriesRespository>();
+            services.AddScoped<ClientRepository>();
+            services.AddScoped<DepartmentRepository>();
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<EmployeeRoleRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<StatusRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<TicketRepository>();
+            services.AddScoped<TicketMessageRepository>();
+            services.AddScoped<TicketResponseDetailRepository>();
+            services.AddScoped<TicketResponseRepository>();
+            services.AddScoped<TicketStatusRepository>();
+            //services.AddScoped<IGenericDapper, GeneralDapperr>();
+
+            services.AddMvc();
 
             //Swagger
             services.AddSwaggerGen();

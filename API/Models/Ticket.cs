@@ -16,5 +16,6 @@ namespace API.Models
         public Client Client { get; set; }
         public ICollection<TicketMessage> TicketMessages { get; set; }
         public ICollection<TicketResponse> TicketResponses { get; set; }
+        public ICollection<TicketStatus> TicketStatuses { get; set; }
     }
 }

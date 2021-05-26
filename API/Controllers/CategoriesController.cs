@@ -1,5 +1,6 @@
 ﻿using API.Base;
 using API.Models;
+using API.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +12,10 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : BaseController<Category, CategoryRepository, int>
+    public class CategoriesController : BaseController<Category, CategoriesRespository, int>
     {
-        private readonly CategoryRepository categoryRepository;
-        public CategoriesController(CategoryRepository categoryRepository) : base(categoryRepository)
+        private readonly CategoriesRespository categoryRepository;
+        public CategoriesController(CategoriesRespository categoryRepository) : base(categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }

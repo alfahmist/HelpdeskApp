@@ -1,5 +1,6 @@
 ﻿using API.Base;
 using API.Models;
+using API.Repositories.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +12,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TicketStatusesController : BaseController<Ticket, TicketStatusRepository, int>
+    public class TicketStatusesController : BaseController<TicketStatus, TicketStatusRepository, int>
     {
         private readonly TicketStatusRepository ticketStatusRepository;
         public TicketStatusesController(TicketStatusRepository ticketStatusRepository) : base(ticketStatusRepository)

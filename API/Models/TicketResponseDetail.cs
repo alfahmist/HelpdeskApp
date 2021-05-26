@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
@@ -8,7 +9,7 @@ namespace API.Models
         public int ID { get; set; }
         public string Solution { get; set; }
         public string Detail { get; set; }
-        public string ResponseDate { get; set; }
+        public DateTime ResponseDate { get; set; }
         public TicketResponse TicketResponse { get; set; }
     }
 }
