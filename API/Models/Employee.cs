@@ -20,7 +20,6 @@ namespace API.Models
         public Account Account { get; set; }
         public Department Department { get; set; }
         public Role Role { get; set; }
-        
         public ICollection<TicketResponse> TicketResponses { get; set; }
 
     }
