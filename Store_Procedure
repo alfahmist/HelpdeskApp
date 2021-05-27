@@ -1,0 +1,33 @@
+CREATE PROCEDURE [dbo].[SP_Register]
+@Name varchar (200),
+@Email varchar (200),
+@Gender varchar (200),
+@PhoneNumber varchar (200),
+@BirthDate Date ,
+@Password varchar (200)
+
+
+As BEGIN
+	
+	Declare @ClientID AS Int;
+	INSERT INTO TB_M_Account([password])
+	Values (@Password)
+	Select @ClientID = Id
+	FROM TB_M_Account 
+	WHERE [password] = @Password
+	INSERT INTO TB_M_Client( [Id], [Name],BirthDate, Email, Gender, Phone)
+	Values (@ClientID, @Name, @BirthDate, @Email, @Gender, @PhoneNumber)
+END;
+
+
+
+CREATE PROCEDURE [dbo].[SP_Login_Client]
+	@email varchar(200)
+AS
+BEGIN
+			Select cl.[Name], cl.Email, acc.[Password]
+			FROM dbo.TB_M_Client  AS cl
+			JOIN dbo.TB_M_Account AS acc ON cl.ID = acc.ID
+			WHERE cl.Email = @email
+	
+END;
