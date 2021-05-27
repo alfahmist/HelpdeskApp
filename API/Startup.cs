@@ -44,7 +44,6 @@ namespace API
             services.AddScoped<ClientRepository>();
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<EmployeeRepository>();
-            services.AddScoped<EmployeeRoleRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<StatusRepository>();
             services.AddScoped<RoleRepository>();
@@ -53,7 +52,7 @@ namespace API
             services.AddScoped<TicketResponseDetailRepository>();
             services.AddScoped<TicketResponseRepository>();
             services.AddScoped<TicketStatusRepository>();
-            services.AddScoped<IGenericDapper, GeneralDapper>();
+            services.AddScoped<IGenericDapper, GeneralDapperr>();
 
             services.AddMvc();
 

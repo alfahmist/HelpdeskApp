@@ -11,7 +11,7 @@ namespace API.Models
     public class Client
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }

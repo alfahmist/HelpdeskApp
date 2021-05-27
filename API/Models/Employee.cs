@@ -11,14 +11,15 @@ namespace API.Models
     public class Employee
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
+        public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Gender { get; set; }
         public Account Account { get; set; }
         public Department Department { get; set; }
-        public ICollection<EmployeeRole> EmployeeRoles { get; set; }
+        public Role Role { get; set; }
         public ICollection<TicketResponse> TicketResponses { get; set; }
 
     }

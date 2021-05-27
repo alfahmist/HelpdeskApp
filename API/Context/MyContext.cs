@@ -61,31 +61,28 @@ namespace API.Context
                 .HasOne(Ticket => Ticket.Client)
                 .WithMany(Client => Client.Tickets);
             //Client-Account
-            modelBuilder.Entity<Account>()
-                .HasOne(Account => Account.Client)
-                .WithOne(Client => Client.Account)
-                .HasForeignKey<Client>(Client => Client.ID);
+            modelBuilder.Entity<Client>()
+                .HasOne(client => client.Account)
+                .WithOne(account => account.Client)
+                .HasForeignKey<Account>(account => account.ID);
             //TicketResponse-Employee
             modelBuilder.Entity<TicketResponse>()
                 .HasOne(TicketResponse => TicketResponse.Employee)
                 .WithMany(Employee => Employee.TicketResponses);
             //Employee-Account
-            modelBuilder.Entity<Account>()
-                .HasOne(Account => Account.Employee)
-                .WithOne(Employee => Employee.Account)
-                .HasForeignKey<Employee>(Employee => Employee.ID);
+            modelBuilder.Entity<Employee>()
+                .HasOne(employee => employee.Account)
+                .WithOne(account => account.Employee)
+                .HasForeignKey<Account>(account => account.ID);
+            //Employee-Role
+            modelBuilder.Entity<Employee>()
+                .HasOne(Employee => Employee.Role)
+                .WithMany(Role => Role.Employee);
             //Department-Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(Employee => Employee.Department)
                 .WithMany(Department => Department.Employees);
-            //Employee-EmployeeRole
-            modelBuilder.Entity<EmployeeRole>()
-                .HasOne(EmployeeRole => EmployeeRole.Employee)
-                .WithMany(Employee => Employee.EmployeeRoles);
-            //Role-EmployeeRole
-            modelBuilder.Entity<EmployeeRole>()
-                .HasOne(EmployeeRole => EmployeeRole.Role)
-                .WithMany(Role => Role.EmployeeRoles);
+   
         }
     }
 }

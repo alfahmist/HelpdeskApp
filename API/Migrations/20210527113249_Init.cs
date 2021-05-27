@@ -3,23 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class recreated : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "TB_M_Account",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_M_Account", x => x.ID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "TB_M_Category",
                 columns: table => new
@@ -32,6 +19,22 @@ namespace API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TB_M_Category", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_M_Client",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_M_Client", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,54 +78,6 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_M_Client",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    BirthDate = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_M_Client", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_TB_M_Client_TB_M_Account_ID",
-                        column: x => x.ID,
-                        principalTable: "TB_M_Account",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TB_M_Employee",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    DepartmentID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_M_Employee", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_TB_M_Employee_TB_M_Department_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "TB_M_Department",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TB_M_Employee_TB_M_Account_ID",
-                        column: x => x.ID,
-                        principalTable: "TB_M_Account",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TB_M_Ticket",
                 columns: table => new
                 {
@@ -131,7 +86,7 @@ namespace API.Migrations
                     CategoryID = table.Column<int>(nullable: true),
                     Detail = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    ClientID = table.Column<int>(nullable: true)
+                    ClientID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -151,25 +106,29 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_M_EmployeeRole",
+                name: "TB_M_Employee",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeID = table.Column<int>(nullable: true),
+                    ID = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DepartmentID = table.Column<int>(nullable: true),
                     RoleID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_M_EmployeeRole", x => x.ID);
+                    table.PrimaryKey("PK_TB_M_Employee", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TB_M_EmployeeRole_TB_M_Employee_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "TB_M_Employee",
+                        name: "FK_TB_M_Employee_TB_M_Department_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "TB_M_Department",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TB_M_EmployeeRole_TB_M_Role_RoleID",
+                        name: "FK_TB_M_Employee_TB_M_Role_RoleID",
                         column: x => x.RoleID,
                         principalTable: "TB_M_Role",
                         principalColumn: "ID",
@@ -191,32 +150,6 @@ namespace API.Migrations
                     table.PrimaryKey("PK_TB_M_TicketMessage", x => x.ID);
                     table.ForeignKey(
                         name: "FK_TB_M_TicketMessage_TB_M_Ticket_TicketID",
-                        column: x => x.TicketID,
-                        principalTable: "TB_M_Ticket",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TB_M_TicketResponse",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TicketID = table.Column<int>(nullable: true),
-                    EmployeeID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_M_TicketResponse", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_TB_M_TicketResponse_TB_M_Employee_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "TB_M_Employee",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TB_M_TicketResponse_TB_M_Ticket_TicketID",
                         column: x => x.TicketID,
                         principalTable: "TB_M_Ticket",
                         principalColumn: "ID",
@@ -251,6 +184,56 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TB_M_Account",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_M_Account", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TB_M_Account_TB_M_Client_ID",
+                        column: x => x.ID,
+                        principalTable: "TB_M_Client",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TB_M_Account_TB_M_Employee_ID",
+                        column: x => x.ID,
+                        principalTable: "TB_M_Employee",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_M_TicketResponse",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TicketID = table.Column<int>(nullable: true),
+                    EmployeeID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_M_TicketResponse", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TB_M_TicketResponse_TB_M_Employee_EmployeeID",
+                        column: x => x.EmployeeID,
+                        principalTable: "TB_M_Employee",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TB_M_TicketResponse_TB_M_Ticket_TicketID",
+                        column: x => x.TicketID,
+                        principalTable: "TB_M_Ticket",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TB_M_TicketResponseDetail",
                 columns: table => new
                 {
@@ -276,13 +259,8 @@ namespace API.Migrations
                 column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_M_EmployeeRole_EmployeeID",
-                table: "TB_M_EmployeeRole",
-                column: "EmployeeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TB_M_EmployeeRole_RoleID",
-                table: "TB_M_EmployeeRole",
+                name: "IX_TB_M_Employee_RoleID",
+                table: "TB_M_Employee",
                 column: "RoleID");
 
             migrationBuilder.CreateIndex(
@@ -324,7 +302,7 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TB_M_EmployeeRole");
+                name: "TB_M_Account");
 
             migrationBuilder.DropTable(
                 name: "TB_M_TicketMessage");
@@ -334,9 +312,6 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "TB_M_TicketStatus");
-
-            migrationBuilder.DropTable(
-                name: "TB_M_Role");
 
             migrationBuilder.DropTable(
                 name: "TB_M_TicketResponse");
@@ -354,13 +329,13 @@ namespace API.Migrations
                 name: "TB_M_Department");
 
             migrationBuilder.DropTable(
+                name: "TB_M_Role");
+
+            migrationBuilder.DropTable(
                 name: "TB_M_Category");
 
             migrationBuilder.DropTable(
                 name: "TB_M_Client");
-
-            migrationBuilder.DropTable(
-                name: "TB_M_Account");
         }
     }
 }
