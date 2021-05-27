@@ -1,0 +1,21 @@
+CREATE PROCEDURE [dbo].[SP_RegisterEmployee]
+
+	@Name varchar(200),
+	@Email varchar(200),
+	@BirthDate Date,
+	@Gender varchar(50),
+	@PhoneNumber varchar(50),
+	@Password varchar(50) OUTPUT
+
+AS
+IF NOT EXISTS (SELECT * FROM TB_M_Employee)
+BEGIN
+	ALTER SEQUENCE SequenceEmployee RESTART WITH 1
+END
+BEGIN
+	DECLARE @Nid varchar(50) = 'EMP' + FORMAT(NEXT VALUE FOR SequenceEmployee,'00')
+
+	INSERT INTO TB_M_Client ([ID], [Name],Email, BirthDate, Gender) VALUES (@Nid, @Name, @Email, @Birthdate, @Gender)
+
+	INSERT INTO TB_M_Account VALUES (@Nid, @Password)
+END
