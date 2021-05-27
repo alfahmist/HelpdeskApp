@@ -13,6 +13,6 @@ namespace API.Models
         [Key]
         public int ID { get; set; }
         public string Name { get; set; }
-        public ICollection<EmployeeRole> EmployeeRoles { get; set; }
+        public ICollection<Employee> Employee { get; set; }
     }
 }

@@ -74,18 +74,15 @@ namespace API.Context
                 .HasOne(employee => employee.Account)
                 .WithOne(account => account.Employee)
                 .HasForeignKey<Account>(account => account.ID);
+            //Employee-Role
+            modelBuilder.Entity<Employee>()
+                .HasOne(Employee => Employee.Role)
+                .WithMany(Role => Role.Employee);
             //Department-Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(Employee => Employee.Department)
                 .WithMany(Department => Department.Employees);
-            //Employee-EmployeeRole
-            modelBuilder.Entity<EmployeeRole>()
-                .HasOne(EmployeeRole => EmployeeRole.Employee)
-                .WithMany(Employee => Employee.EmployeeRoles);
-            //Role-EmployeeRole
-            modelBuilder.Entity<EmployeeRole>()
-                .HasOne(EmployeeRole => EmployeeRole.Role)
-                .WithMany(Role => Role.EmployeeRoles);
+   
         }
     }
 }
