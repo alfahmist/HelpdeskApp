@@ -102,7 +102,6 @@ namespace API.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("Register")]
         public ActionResult Register(RegisterVM registerVM)
@@ -117,7 +116,30 @@ namespace API.Controllers
             dbparams.Add("PhoneNumber", registerVM.PhoneNumber, DbType.String);
             dbparams.Add("Gender", registerVM.Gender, DbType.String);
 
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_Register]", dbparams, commandType: CommandType.StoredProcedure));
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_RegisterClient]", dbparams, commandType: CommandType.StoredProcedure));
+
+            return Ok(new Response
+            {
+                Status = "Success",
+                Message = "User created successfully!"
+            });
+        }
+
+        [HttpPost]
+        [Route("Register/Employee")]
+        public ActionResult RegisterEmployee(RegisterVM registerVM)
+        {
+            var password = Hashing.HashPassword(registerVM.Password);
+            var dbparams = new DynamicParameters();
+
+            dbparams.Add("Name", registerVM.Name, DbType.String);
+            dbparams.Add("Password", password, DbType.String);
+            dbparams.Add("Email", registerVM.Email, DbType.String);
+            dbparams.Add("BirthDate", registerVM.BirthDate, DbType.DateTime);
+            dbparams.Add("PhoneNumber", registerVM.PhoneNumber, DbType.String);
+            dbparams.Add("Gender", registerVM.Gender, DbType.String);
+
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_RegisterEmployee]", dbparams, commandType: CommandType.StoredProcedure));
 
             return Ok(new Response
             {
