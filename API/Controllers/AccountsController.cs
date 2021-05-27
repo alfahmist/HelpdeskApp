@@ -84,8 +84,9 @@ namespace API.Controllers
                 var jwtRead = jwt.ReadJwtToken(token);
                 // new password
                 var email = jwtRead.Claims.First(claim => claim.Type == "email").Value;
-                var account = myContext.Clients.FirstOrDefault(x => x.Email == email).Account;
-                if(account == null)
+                var client = myContext.Clients.FirstOrDefault(x => x.Email == email);
+                var account = myContext.Accounts.FirstOrDefault(x => x.ID == client.ID);
+                if(client == null)
                 {
                     return NotFound();
                 }
