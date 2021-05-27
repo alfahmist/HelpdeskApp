@@ -21,7 +21,7 @@ namespace API.Services
             _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
         }
 
-        public string GenerateSecurityToken(string email, string name)
+        public string ForgotToken(string email)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
@@ -30,8 +30,7 @@ namespace API.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     //tambahkan data yang dibutuhkan
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Name, name)
+                    new Claim(ClaimTypes.Email, email)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
