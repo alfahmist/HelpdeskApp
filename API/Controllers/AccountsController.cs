@@ -132,7 +132,7 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
             dbparams.Add("Email", loginVM.Email, DbType.String);
             dynamic result = dapper.Get<dynamic>(
-                "[dbo].[SP_Login]",
+                "[dbo].[SP_Login_Client]",
                 dbparams,
                 CommandType.StoredProcedure
                 );
@@ -140,7 +140,7 @@ namespace API.Controllers
             if (Hashing.ValidatePassword(loginVM.Password, result.Password))
             {
                 var jwt = new JwtService(Configuration);
-                var token = jwt.LoginToken(result.Name, result.Email);
+                var token = jwt.LoginToken(result.Email, result.Name);
                 return Ok(new { token });
             }
             return BadRequest("Wrong Password");
