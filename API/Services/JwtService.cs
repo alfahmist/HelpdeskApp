@@ -41,5 +41,26 @@ namespace API.Services
             return tokenHandler.WriteToken(token);
 
         }
+        public string LoginToken(string email, string Name)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    //tambahkan data yang dibutuhkan
+                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.Name, Name)
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+
+        }
     }
 }
