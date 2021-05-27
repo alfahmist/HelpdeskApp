@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210526092533_Init")]
-    partial class Init
+    [Migration("20210527043425_recreated")]
+    partial class recreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,9 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Property<int>("ID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -55,9 +57,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Client", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -97,9 +97,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
@@ -166,9 +164,6 @@ namespace API.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StatusDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -274,6 +269,9 @@ namespace API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("StatusDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("StatusID")
                         .HasColumnType("int");
 
@@ -289,17 +287,11 @@ namespace API.Migrations
                     b.ToTable("TB_M_TicketStatus");
                 });
 
-            modelBuilder.Entity("API.Models.Account", b =>
+            modelBuilder.Entity("API.Models.Client", b =>
                 {
-                    b.HasOne("API.Models.Client", "Client")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Models.Employee", "Employee")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "ID")
+                    b.HasOne("API.Models.Account", "Account")
+                        .WithOne("Client")
+                        .HasForeignKey("API.Models.Client", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -309,6 +301,12 @@ namespace API.Migrations
                     b.HasOne("API.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentID");
+
+                    b.HasOne("API.Models.Account", "Account")
+                        .WithOne("Employee")
+                        .HasForeignKey("API.Models.Employee", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.EmployeeRole", b =>

@@ -64,16 +64,16 @@ namespace API.Context
             modelBuilder.Entity<Account>()
                 .HasOne(Account => Account.Client)
                 .WithOne(Client => Client.Account)
-                .HasForeignKey<Account>(Account => Account.ID);
+                .HasForeignKey<Client>(Client => Client.ID);
             //TicketResponse-Employee
             modelBuilder.Entity<TicketResponse>()
                 .HasOne(TicketResponse => TicketResponse.Employee)
                 .WithMany(Employee => Employee.TicketResponses);
-            //Client-Account
+            //Employee-Account
             modelBuilder.Entity<Account>()
                 .HasOne(Account => Account.Employee)
                 .WithOne(Employee => Employee.Account)
-                .HasForeignKey<Account>(Account => Account.ID);
+                .HasForeignKey<Employee>(Employee => Employee.ID);
             //Department-Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(Employee => Employee.Department)
