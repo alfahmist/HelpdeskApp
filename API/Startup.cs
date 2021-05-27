@@ -40,6 +40,7 @@ namespace API
 
             //Dependencies Injection
             services.AddScoped<AccountRepository>();
+            services.AddScoped<AccountClientRepository>();
             services.AddScoped<CategoriesRespository>();
             services.AddScoped<ClientRepository>();
             services.AddScoped<DepartmentRepository>();
@@ -53,7 +54,7 @@ namespace API
             services.AddScoped<TicketResponseDetailRepository>();
             services.AddScoped<TicketResponseRepository>();
             services.AddScoped<TicketStatusRepository>();
-            //services.AddScoped<IGenericDapper, GeneralDapperr>();
+            services.AddScoped<IGenericDapper, GeneralDapper>();
 
             services.AddMvc();
 
