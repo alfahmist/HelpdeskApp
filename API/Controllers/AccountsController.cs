@@ -1,4 +1,6 @@
 //Hashing
+using API.Base;
+using API.Context;
 using API.Middleware;
 using API.Models;
 using API.Repositories.Data;
@@ -33,6 +35,8 @@ namespace API.Controllers
         private readonly IGenericDapper dapper;
         private readonly MyContext myContext;
         private IConfiguration Configuration;
+        private AccountRepository accountRepository;
+
         public AccountsController(AccountRepository accountRepository,
             IConfiguration Configuration,
             IGenericDapper dapper,
@@ -60,7 +64,7 @@ namespace API.Controllers
                 Credentials = new NetworkCredential(sender, pwd ),
             };
             
-            var jwt = new JwtService(config);
+            var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(email);
             MailMessage message = new MailMessage(sender, email);
             message.Subject = "Reset Password Request";
@@ -86,8 +90,7 @@ namespace API.Controllers
                     return NotFound();
                 }
                 // Bcrypt
-                account.Password = newPassword;
-
+                account.Password = Hashing.HashPassword(newPassword);
                 // Update
                 var result = accountRepository.Put(account) > 0 ? (ActionResult)Ok("Password has been updated") : BadRequest("Data can't be updated.");
                 return result;
@@ -137,7 +140,7 @@ namespace API.Controllers
             if (Hashing.ValidatePassword(loginVM.Password, result.Password))
             {
                 var jwt = new JwtService(Configuration);
-                var token = jwt.GenerateSecurityToken(result.Name, result.Email);
+                var token = jwt.LoginToken(result.Name, result.Email);
                 return Ok(new { token });
             }
             return BadRequest("Wrong Password");
