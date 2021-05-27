@@ -40,7 +40,6 @@ namespace API
 
             //Dependencies Injection
             services.AddScoped<AccountRepository>();
-            services.AddScoped<AccountClientRepository>();
             services.AddScoped<CategoriesRespository>();
             services.AddScoped<ClientRepository>();
             services.AddScoped<DepartmentRepository>();

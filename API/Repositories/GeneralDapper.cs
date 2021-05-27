@@ -44,7 +44,7 @@ namespace API.Repositories
 
         public List<T> GetAll<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
         {
-            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            using IDbConnection db = new SqlConnection(config.GetConnectionString(Connectionstring));
             return db.Query<T>(sp, parms, commandType: commandType).ToList();
         }
 
