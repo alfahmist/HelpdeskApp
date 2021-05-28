@@ -5,7 +5,9 @@ CREATE PROCEDURE [dbo].[SP_RegisterEmployee]
 	@BirthDate Date,
 	@Gender varchar(50),
 	@PhoneNumber varchar(50),
-	@Password varchar(50) OUTPUT
+	@Password varchar(50), 
+	@Role int, 
+	@Department int
 
 AS
 IF NOT EXISTS (SELECT * FROM TB_M_Employee)
@@ -15,7 +17,7 @@ END
 BEGIN
 	DECLARE @Nid varchar(50) = 'EMP' + FORMAT(NEXT VALUE FOR SequenceEmployee,'00')
 
-	INSERT INTO TB_M_Client ([ID], [Name],Email, BirthDate, Gender) VALUES (@Nid, @Name, @Email, @Birthdate, @Gender)
+	INSERT INTO TB_M_Employee([ID], [Name],Email, BirthDate, Gender,Phone,RoleID ,DepartmentID) VALUES (@Nid, @Name, @Email, @Birthdate,@Gender,@PhoneNumber, @Role, @Department)
 
 	INSERT INTO TB_M_AccountEmployee VALUES (@Nid, @Password)
 END
