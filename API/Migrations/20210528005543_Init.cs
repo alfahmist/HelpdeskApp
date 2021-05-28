@@ -78,6 +78,24 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TB_M_AccountClient",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_M_AccountClient", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TB_M_AccountClient_TB_M_Client_ID",
+                        column: x => x.ID,
+                        principalTable: "TB_M_Client",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TB_M_Ticket",
                 columns: table => new
                 {
@@ -184,7 +202,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_M_Account",
+                name: "TB_M_AccountEmployee",
                 columns: table => new
                 {
                     ID = table.Column<string>(nullable: false),
@@ -192,15 +210,9 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_M_Account", x => x.ID);
+                    table.PrimaryKey("PK_TB_M_AccountEmployee", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TB_M_Account_TB_M_Client_ID",
-                        column: x => x.ID,
-                        principalTable: "TB_M_Client",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TB_M_Account_TB_M_Employee_ID",
+                        name: "FK_TB_M_AccountEmployee_TB_M_Employee_ID",
                         column: x => x.ID,
                         principalTable: "TB_M_Employee",
                         principalColumn: "ID",
@@ -302,7 +314,10 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TB_M_Account");
+                name: "TB_M_AccountClient");
+
+            migrationBuilder.DropTable(
+                name: "TB_M_AccountEmployee");
 
             migrationBuilder.DropTable(
                 name: "TB_M_TicketMessage");

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210527113249_Init")]
+    [Migration("20210528005543_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("API.Models.Account", b =>
+            modelBuilder.Entity("API.Models.AccountClient", b =>
                 {
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
@@ -31,7 +31,20 @@ namespace API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("TB_M_Account");
+                    b.ToTable("TB_M_AccountClient");
+                });
+
+            modelBuilder.Entity("API.Models.AccountEmployee", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TB_M_AccountEmployee");
                 });
 
             modelBuilder.Entity("API.Models.Category", b =>
@@ -277,17 +290,20 @@ namespace API.Migrations
                     b.ToTable("TB_M_TicketStatus");
                 });
 
-            modelBuilder.Entity("API.Models.Account", b =>
+            modelBuilder.Entity("API.Models.AccountClient", b =>
                 {
                     b.HasOne("API.Models.Client", "Client")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "ID")
+                        .WithOne("AccountClient")
+                        .HasForeignKey("API.Models.AccountClient", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("API.Models.AccountEmployee", b =>
+                {
                     b.HasOne("API.Models.Employee", "Employee")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "ID")
+                        .WithOne("AccountEmployee")
+                        .HasForeignKey("API.Models.AccountEmployee", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
