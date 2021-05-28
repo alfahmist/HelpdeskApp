@@ -5,7 +5,7 @@ CREATE PROCEDURE [dbo].[SP_RegisterClient]
 	@BirthDate Date,
 	@Gender varchar(50),
 	@PhoneNumber varchar(50),
-	@Password varchar(50) OUTPUT
+	@Password varchar(50) 
 
 AS
 IF NOT EXISTS (SELECT * FROM TB_M_Client)
