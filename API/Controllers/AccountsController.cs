@@ -129,7 +129,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Register/Employee")]
-        public ActionResult RegisterEmployee(RegisterVM registerVM)
+        public ActionResult RegisterEmployee(RegisterEmployeeVM registerVM)
         {
             var password = Hashing.HashPassword(registerVM.Password);
             var dbparams = new DynamicParameters();
@@ -140,6 +140,8 @@ namespace API.Controllers
             dbparams.Add("BirthDate", registerVM.BirthDate, DbType.DateTime);
             dbparams.Add("PhoneNumber", registerVM.PhoneNumber, DbType.String);
             dbparams.Add("Gender", registerVM.Gender, DbType.String);
+            dbparams.Add("Role", registerVM.Role, DbType.Int32);
+            dbparams.Add("Department", registerVM.Department, DbType.Int32);
 
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_RegisterEmployee]", dbparams, commandType: CommandType.StoredProcedure));
 
