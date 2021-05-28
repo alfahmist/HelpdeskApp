@@ -17,5 +17,5 @@ BEGIN
 
 	INSERT INTO TB_M_Client ([ID], [Name],Email, BirthDate, Gender) VALUES (@Nid, @Name, @Email, @Birthdate, @Gender)
 
-	INSERT INTO TB_M_Account VALUES (@Nid, @Password)
+	INSERT INTO TB_M_AccountClient VALUES (@Nid, @Password)
 END
