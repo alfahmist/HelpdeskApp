@@ -16,12 +16,12 @@ namespace API.Context
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         { }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountEmployee> AccountEmployees { get; set; }
+        public DbSet<AccountClient> AccountClients { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeRole> EmployeeRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
@@ -62,18 +62,18 @@ namespace API.Context
                 .WithMany(Client => Client.Tickets);
             //Client-Account
             modelBuilder.Entity<Client>()
-                .HasOne(client => client.Account)
-                .WithOne(account => account.Client)
-                .HasForeignKey<Account>(account => account.ID);
+                .HasOne(client => client.AccountClient)
+                .WithOne(accountClient => accountClient.Client)
+                .HasForeignKey<AccountClient>(accountClient => accountClient.ID);
             //TicketResponse-Employee
             modelBuilder.Entity<TicketResponse>()
                 .HasOne(TicketResponse => TicketResponse.Employee)
                 .WithMany(Employee => Employee.TicketResponses);
             //Employee-Account
             modelBuilder.Entity<Employee>()
-                .HasOne(employee => employee.Account)
-                .WithOne(account => account.Employee)
-                .HasForeignKey<Account>(account => account.ID);
+                .HasOne(employee => employee.AccountEmployee)
+                .WithOne(accountEmployee => accountEmployee.Employee)
+                .HasForeignKey<AccountEmployee>(accountEmployee => accountEmployee.ID);
             //Employee-Role
             modelBuilder.Entity<Employee>()
                 .HasOne(Employee => Employee.Role)

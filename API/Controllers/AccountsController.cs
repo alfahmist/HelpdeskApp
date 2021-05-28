@@ -1,6 +1,7 @@
 //Hashing
 using API.Base;
 using API.Context;
+using API.Handler;
 using API.Middleware;
 using API.Models;
 using API.Repositories.Data;
@@ -30,7 +31,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : BaseController<Account, AccountRepository, int>
+    public class AccountsController : BaseController<AccountClient, AccountRepository, int>
     {
         private readonly IGenericDapper dapper;
         private readonly MyContext myContext;
@@ -66,10 +67,10 @@ namespace API.Controllers
             
             var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(email);
-            MailMessage message = new MailMessage(sender, email);
-            message.Subject = "Reset Password Request";
-            message.Body = $"{url}{token}";
-            user.Send(message);
+            MailHandler mailHandler = new MailHandler(sender, email, url, token);
+
+
+            user.Send(mailHandler.Message());
             return Ok();
          
         }
@@ -85,11 +86,12 @@ namespace API.Controllers
                 // new password
                 var email = jwtRead.Claims.First(claim => claim.Type == "email").Value;
                 var client = myContext.Clients.FirstOrDefault(x => x.Email == email);
-                var account = myContext.Accounts.FirstOrDefault(x => x.ID == client.ID);
                 if(client == null)
                 {
                     return NotFound();
                 }
+
+                var account = client.AccountClient;
                 // Bcrypt
                 account.Password = Hashing.HashPassword(newPassword);
                 // Update
@@ -175,17 +177,17 @@ namespace API.Controllers
 
             //string token = Request.Headers["Token"].ToString();
             var jwt = new JwtSecurityTokenHandler();
-
             var jwtRead = jwt.ReadJwtToken(changePasswordVM.Token);
 
             var email = jwtRead.Claims.First(email => email.Type == "email").Value;
-            var account = myContext.Accounts.FirstOrDefault(account => account.Client.Email == email);
-            if (account != null)
+            var client = myContext.Clients.FirstOrDefault(cl => cl.Email == email);
+            var clientAccount = client.AccountClient;
+            if (client != null)
             {
-                if (Hashing.ValidatePassword(changePasswordVM.OldPassword, account.Password))
+                if (Hashing.ValidatePassword(changePasswordVM.OldPassword, clientAccount.Password))
                 {
-                    account.Password = Hashing.HashPassword(changePasswordVM.NewPassword);
-                    var result = accountRepository.Put(account) > 0 ? (ActionResult)Ok("Data berhasil diupdate") : BadRequest("Data gagal diupdate");
+                    clientAccount.Password = Hashing.HashPassword(changePasswordVM.NewPassword);
+                    var result = accountRepository.Put(clientAccount) > 0 ? (ActionResult)Ok("Data berhasil diupdate") : BadRequest("Data gagal diupdate");
                     //return result;
                     //var data = accountRepository.ChangePassword(changePasswordVM.Email, changePasswordVM.NewPassword);
                     return Ok(new { message = "Password Changed", status = "Ok" });

@@ -17,7 +17,7 @@ namespace API.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Gender { get; set; }
-        public Account Account { get; set; }
+        public AccountEmployee AccountEmployee { get; set; }
         public Department Department { get; set; }
         public Role Role { get; set; }
         public ICollection<TicketResponse> TicketResponses { get; set; }
