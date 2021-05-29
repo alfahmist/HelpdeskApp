@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_M_AccountEmployee")]
-    public class AccountEmployee
+    [Table("TB_M_Account")]
+    public class Account
     {
         [Key]
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Password { get; set; }
         public Employee Employee { get; set; }
 

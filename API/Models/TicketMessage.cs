@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_M_TicketMessage")]
+    [Table("Table_T_TicketMessage")]
     public class TicketMessage
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
+        public DateTime MessageDate { get; set; }
         public Ticket Ticket { get; set; }
+
     }
 }

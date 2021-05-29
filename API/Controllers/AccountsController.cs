@@ -1,4 +1,4 @@
-//Hashing
+﻿//Hashing
 using API.Base;
 using API.Context;
 using API.Handler;
@@ -31,7 +31,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : BaseController<AccountClient, AccountRepository, int>
+    public class AccountsController : BaseController<Account, AccountRepository, int>
     {
         private readonly IGenericDapper dapper;
         private readonly MyContext myContext;
@@ -55,16 +55,16 @@ namespace API.Controllers
 
             string sender = "aninsabrina17@gmail.com";
             string pwd = "yulisulasta";
-            string url = "https://localhost:44327/";
+            string url = "https://localhost:44397/";
             //sender
             var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(sender, pwd ),
+                Credentials = new NetworkCredential(sender, pwd),
             };
-            
+
             var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(email);
             MailHandler mailHandler = new MailHandler(sender, email, url, token);
@@ -72,7 +72,7 @@ namespace API.Controllers
 
             user.Send(mailHandler.Message());
             return Ok();
-         
+
         }
 
         [HttpPost("reset-password/{token}")]
@@ -85,17 +85,16 @@ namespace API.Controllers
                 var jwtRead = jwt.ReadJwtToken(token);
                 // new password
                 var email = jwtRead.Claims.First(claim => claim.Type == "email").Value;
-                var client = myContext.Clients.FirstOrDefault(x => x.Email == email);
-                if(client == null)
+                var client = myContext.Accounts.FirstOrDefault(x => x.Employee.Email == email);
+                if (client == null)
                 {
                     return NotFound();
                 }
 
-                var account = client.AccountClient;
                 // Bcrypt
-                account.Password = Hashing.HashPassword(newPassword);
+                client.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
                 // Update
-                var result = accountRepository.Put(account) > 0 ? (ActionResult)Ok("Password has been updated") : BadRequest("Data can't be updated.");
+                var result = accountRepository.Put(client) > 0 ? (ActionResult)Ok("Password has been updated") : BadRequest("Data can't be updated.");
                 return result;
             }
             catch (ArgumentException)
@@ -106,32 +105,9 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public ActionResult Register(RegisterVM registerVM)
-        {
-            var password = Hashing.HashPassword(registerVM.Password);
-            var dbparams = new DynamicParameters();
-
-            dbparams.Add("Name", registerVM.Name, DbType.String);
-            dbparams.Add("Password", password, DbType.String);
-            dbparams.Add("Email", registerVM.Email, DbType.String);
-            dbparams.Add("BirthDate", registerVM.BirthDate, DbType.DateTime);
-            dbparams.Add("PhoneNumber", registerVM.PhoneNumber, DbType.String);
-            dbparams.Add("Gender", registerVM.Gender, DbType.String);
-
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_RegisterClient]", dbparams, commandType: CommandType.StoredProcedure));
-
-            return Ok(new Response
-            {
-                Status = "Success",
-                Message = "User created successfully!"
-            });
-        }
-
-        [HttpPost]
-        [Route("Register/Employee")]
         public ActionResult RegisterEmployee(RegisterEmployeeVM registerVM)
         {
-            var password = Hashing.HashPassword(registerVM.Password);
+            var password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
             var dbparams = new DynamicParameters();
 
             dbparams.Add("Name", registerVM.Name, DbType.String);
@@ -159,12 +135,12 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
             dbparams.Add("Email", loginVM.Email, DbType.String);
             dynamic result = dapper.Get<dynamic>(
-                "[dbo].[SP_Login_Client]",
+                "[dbo].[SP_LoginClient]",
                 dbparams,
                 CommandType.StoredProcedure
                 );
 
-            if (Hashing.ValidatePassword(loginVM.Password, result.Password))
+            if (BCrypt.Net.BCrypt.Verify(loginVM.Password, result.Password))
             {
                 var jwt = new JwtService(Configuration);
                 var token = jwt.LoginToken(result.Email, result.Name);
@@ -182,14 +158,14 @@ namespace API.Controllers
             var jwtRead = jwt.ReadJwtToken(changePasswordVM.Token);
 
             var email = jwtRead.Claims.First(email => email.Type == "email").Value;
-            var client = myContext.Clients.FirstOrDefault(cl => cl.Email == email);
-            var clientAccount = client.AccountClient;
+            var client = myContext.Accounts.FirstOrDefault(cl => cl.Employee.Email == email);
+            //var clientAccount = client.Account;
             if (client != null)
             {
-                if (Hashing.ValidatePassword(changePasswordVM.OldPassword, clientAccount.Password))
+                if (BCrypt.Net.BCrypt.Verify(changePasswordVM.OldPassword, client.Password))
                 {
-                    clientAccount.Password = Hashing.HashPassword(changePasswordVM.NewPassword);
-                    var result = accountRepository.Put(clientAccount) > 0 ? (ActionResult)Ok("Data berhasil diupdate") : BadRequest("Data gagal diupdate");
+                    client.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
+                    var result = accountRepository.Put(client) > 0 ? (ActionResult)Ok("Data berhasil diupdate") : BadRequest("Data gagal diupdate");
                     //return result;
                     //var data = accountRepository.ChangePassword(changePasswordVM.Email, changePasswordVM.NewPassword);
                     return Ok(new { message = "Password Changed", status = "Ok" });

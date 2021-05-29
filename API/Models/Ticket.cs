@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_M_Ticket")]
+    [Table("TB_T_Ticket")]
     public class Ticket
     {
         [Key]
-        public int ID { get; set; }
-        public Category Category { get; set; }
-        public string Detail { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
-        public Client Client { get; set; }
+        public Categories Categories { get; set; }
+        public Employee Employee { get; set; }
         public ICollection<TicketMessage> TicketMessages { get; set; }
-        public ICollection<TicketResponse> TicketResponses { get; set; }
         public ICollection<TicketStatus> TicketStatuses { get; set; }
+        public ICollection<TicketResponse> TicketResponses { get; set; }
     }
 }

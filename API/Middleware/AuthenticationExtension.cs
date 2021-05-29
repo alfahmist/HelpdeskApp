@@ -29,8 +29,8 @@ namespace API.Middleware
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = "https://localhost:44327/",
-                    ValidAudience = "https://localhost:44327/"
+                    ValidIssuer = "https://localhost:44397/",
+                    ValidAudience = "https://localhost:44397/"
                 };
             });
 

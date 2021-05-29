@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Models
 {
@@ -8,8 +11,9 @@ namespace API.Models
     public class Department
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Employee> Employees { get; set; }
+        public ICollection<Employee> Employee { get; set; }
+
     }
 }

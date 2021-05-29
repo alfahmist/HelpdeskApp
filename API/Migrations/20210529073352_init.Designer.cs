@@ -4,14 +4,16 @@ using API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20210529073352_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_M_Account");
+                    b.ToTable("TB_M_ClientAccount");
                 });
 
             modelBuilder.Entity("API.Models.Categories", b =>
@@ -77,7 +79,7 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
@@ -94,10 +96,6 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("RoleId");
 
@@ -134,7 +132,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_T_Status");
+                    b.ToTable("TB_M_Status");
                 });
 
             modelBuilder.Entity("API.Models.Ticket", b =>
