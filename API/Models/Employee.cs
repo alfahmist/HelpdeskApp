@@ -13,7 +13,6 @@ namespace API.Models
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-<<<<<<< HEAD
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
         public string Email { get; set; }
@@ -23,15 +22,5 @@ namespace API.Models
         public Department Department { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
         public ICollection<TicketResponse> TicketResponse { get; set; }
-=======
-        public string Email { get; set; }
-        public string Gender { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Phone { get; set; }
-        public AccountEmployee AccountEmployee { get; set; }
-        public Role Role { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
-
->>>>>>> FrotnEnd/Fahmi
     }
 }

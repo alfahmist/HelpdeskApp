@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_T_Status")]
+    [Table("TB_M_Status")]
     public class Status
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-<<<<<<< HEAD
         public string Description { get; set; }
         public ICollection<TicketStatus> TicketStatus { get; set; }
-=======
-        public ICollection<Ticket> Tickets { get; set; }
->>>>>>> FrotnEnd/Fahmi
     }
 }

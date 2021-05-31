@@ -15,20 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-<<<<<<< HEAD
 using Microsoft.OpenApi.Models;
-=======
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using API.Repositories.Data;
-using API.Repositories.Interface;
-using API.Repositories;
->>>>>>> FrotnEnd/Fahmi
 
 namespace API
 {
@@ -47,29 +34,17 @@ namespace API
             services.AddControllers();
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
-<<<<<<< HEAD
             services.AddScoped<AccountRepository>();
             services.AddScoped<CategoriesRepository>();
-=======
-            //Dependencies Injection
-            services.AddScoped<AccountEmployeeRepository>();
-            services.AddScoped<AccountRepository>();
-            services.AddScoped<CategoriesRespository>();
-            services.AddScoped<ClientRepository>();
->>>>>>> FrotnEnd/Fahmi
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<DepartmentRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<StatusRepository>();
+            services.AddScoped<RoleRepository>();
             services.AddScoped<TicketRepository>();
-<<<<<<< HEAD
             services.AddScoped<TicketMessageRepository>();
             services.AddScoped<TicketResponseRepository>();
             services.AddScoped<TicketStatusRepository>();
-=======
-            services.AddScoped<ClientMessageRepository>();
-            services.AddScoped<ResponseMessageRepository>();
->>>>>>> FrotnEnd/Fahmi
             services.AddScoped<IGenericDapper, GeneralDapperr>();
             services.AddMvc();
 

@@ -10,12 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
-    [Migration("20210531020225_Init")]
-=======
-    [Migration("20210529125800_Init")]
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
-    partial class Init
+    [Migration("20210530024608_updateMessageTableName")]
+    partial class updateMessageTableName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,69 +41,30 @@ namespace API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.ToTable("TB_M_Categories");
-=======
-                    b.ToTable("TB_M_Category");
                 });
 
-            modelBuilder.Entity("API.Models.Client", b =>
+            modelBuilder.Entity("API.Models.Department", b =>
                 {
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RoleID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("RoleID");
-
-                    b.ToTable("TB_M_Client");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
-                });
-
-            modelBuilder.Entity("API.Models.ClientMessage", b =>
-                {
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-=======
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subject")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_M_ClientMessage");
+                    b.ToTable("TB_M_Department");
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
@@ -118,12 +75,9 @@ namespace API.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
-=======
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
@@ -143,33 +97,13 @@ namespace API.Migrations
 
                     b.HasIndex("DepartmentId");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("RoleId");
-=======
-                    b.HasIndex("RoleID");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
                     b.ToTable("TB_M_Employee");
-                });
-
-            modelBuilder.Entity("API.Models.ResponseMessage", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ResponseDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TB_M_Response");
                 });
 
             modelBuilder.Entity("API.Models.Role", b =>
@@ -194,6 +128,9 @@ namespace API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -204,17 +141,12 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.Ticket", b =>
                 {
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.Property<string>("Id")
-=======
-                    b.Property<string>("ID")
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("CategoriesId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -268,21 +200,10 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-=======
-                    b.Property<string>("ClientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ClosedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(450)");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.Property<DateTime>("ResponDate")
                         .HasColumnType("datetime2");
 
@@ -316,39 +237,14 @@ namespace API.Migrations
 
                     b.Property<string>("TicketId")
                         .HasColumnType("nvarchar(450)");
-=======
-                    b.Property<int?>("StatusID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("ClientID");
-
-                    b.HasIndex("EmployeeID");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.HasIndex("StatusId");
 
                     b.HasIndex("TicketId");
 
                     b.ToTable("TB_T_TicketStatus");
-=======
-                    b.ToTable("TB_M_Ticket");
-                });
-
-            modelBuilder.Entity("API.Models.Account", b =>
-                {
-                    b.HasOne("API.Models.Client", "Client")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
                 });
 
             modelBuilder.Entity("API.Models.Account", b =>
@@ -360,47 +256,15 @@ namespace API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.Client", b =>
+            modelBuilder.Entity("API.Models.Employee", b =>
                 {
-                    b.HasOne("API.Models.Role", "Role")
-                        .WithMany("clients")
-                        .HasForeignKey("RoleID");
-                });
-
-            modelBuilder.Entity("API.Models.ClientMessage", b =>
-                {
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                     b.HasOne("API.Models.Department", "Department")
                         .WithMany("Employee")
                         .HasForeignKey("DepartmentId");
-=======
-                    b.HasOne("API.Models.Ticket", "Ticket")
-                        .WithOne("ClientMessage")
-                        .HasForeignKey("API.Models.ClientMessage", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
-            modelBuilder.Entity("API.Models.Employee", b =>
-                {
                     b.HasOne("API.Models.Role", "Role")
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                         .WithMany("Employee")
                         .HasForeignKey("RoleId");
-=======
-                        .WithMany("employees")
-                        .HasForeignKey("RoleID");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
-                });
-
-            modelBuilder.Entity("API.Models.ResponseMessage", b =>
-                {
-                    b.HasOne("API.Models.Ticket", "Ticket")
-                        .WithOne("Response")
-                        .HasForeignKey("API.Models.ResponseMessage", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.Ticket", b =>
@@ -411,7 +275,6 @@ namespace API.Migrations
 
                     b.HasOne("API.Models.Employee", "Employee")
                         .WithMany("Tickets")
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                         .HasForeignKey("EmployeeId");
                 });
 
@@ -421,12 +284,10 @@ namespace API.Migrations
                         .WithMany("TicketMessages")
                         .HasForeignKey("TicketId");
                 });
-=======
-                        .HasForeignKey("ClientID");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
 
+            modelBuilder.Entity("API.Models.TicketResponse", b =>
+                {
                     b.HasOne("API.Models.Employee", "Employee")
-<<<<<<< HEAD:API/Migrations/20210531020225_Init.Designer.cs
                         .WithMany("TicketResponse")
                         .HasForeignKey("EmployeeId");
 
@@ -444,14 +305,6 @@ namespace API.Migrations
                     b.HasOne("API.Models.Ticket", "Ticket")
                         .WithMany("TicketStatuses")
                         .HasForeignKey("TicketId");
-=======
-                        .WithMany("Tickets")
-                        .HasForeignKey("EmployeeID");
-
-                    b.HasOne("API.Models.Status", "Status")
-                        .WithMany("Tickets")
-                        .HasForeignKey("StatusID");
->>>>>>> FrotnEnd/Fahmi:API/Migrations/20210529125800_Init.Designer.cs
                 });
 #pragma warning restore 612, 618
         }

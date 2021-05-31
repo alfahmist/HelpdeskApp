@@ -7,11 +7,11 @@ using API.Models;
 
 namespace API.Repositories.Data
 {
-    public class AccountEmployeeRepository : GeneralRepository<AccountEmployee, MyContext, int>
+    public class TicketResponseRepository : GeneralRepository<TicketResponse, MyContext, int>
     {
         private readonly MyContext myContext;
 
-        public AccountEmployeeRepository(MyContext myContext) : base(myContext)
+        public TicketResponseRepository(MyContext myContext) : base(myContext)
         {
 
         }
