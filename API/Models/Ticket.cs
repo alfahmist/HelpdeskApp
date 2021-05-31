@@ -11,6 +11,7 @@ namespace API.Models
     public class Ticket
     {
         [Key]
+<<<<<<< HEAD
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -20,5 +21,16 @@ namespace API.Models
         public ICollection<TicketMessage> TicketMessages { get; set; }
         public ICollection<TicketStatus> TicketStatuses { get; set; }
         public ICollection<TicketResponse> TicketResponses { get; set; }
+=======
+        public string ID { get; set; }
+        public Client Client { get; set; }
+        public Employee Employee { get; set; }
+        public Category Category { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? ClosedDate { get; set; }
+        public ClientMessage ClientMessage { get; set; }
+        public ResponseMessage Response { get; set; }
+        public Status Status { get; set; }
+>>>>>>> FrotnEnd/Fahmi
     }
 }

@@ -13,7 +13,12 @@ namespace API.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+<<<<<<< HEAD
         public ICollection<Employee> Employee { get; set; }
+=======
+        public ICollection<Employee> employees { get; set; }
+        public ICollection<Client> clients { get; set; }
+>>>>>>> FrotnEnd/Fahmi
 
     }
 }

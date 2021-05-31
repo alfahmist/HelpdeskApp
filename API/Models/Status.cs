@@ -13,7 +13,11 @@ namespace API.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+<<<<<<< HEAD
         public string Description { get; set; }
         public ICollection<TicketStatus> TicketStatus { get; set; }
+=======
+        public ICollection<Ticket> Tickets { get; set; }
+>>>>>>> FrotnEnd/Fahmi
     }
 }
