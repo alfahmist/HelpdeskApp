@@ -1,0 +1,16 @@
+CREATE PROCEDURE [dbo].[SP_ResponseTicket]
+
+	@TicketId varchar(200),
+	@Solution varchar(1500),
+	@EmployeeId varchar(100)
+
+AS
+
+BEGIN
+
+	INSERT INTO TB_T_TicketResponse(TicketId, EmployeeId, ResponDate, Solution) 
+	VALUES (@TicketId, @EmployeeId, GETDATE(), @Solution)
+
+	--INSERT INTO TB_T_TicketStatus(TicketId,StatusId, StatusDate)
+	--VALUES (@TicketId, 3, GETDATE())
+END
