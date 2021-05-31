@@ -14,7 +14,7 @@ BEGIN
 	JOIN TB_M_Employee as emp ON emp.Id = tic.EmployeeId
 	JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
 	JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
-	JOIN TB_T_Status AS st ON ts.StatusId = st.Id
+	JOIN TB_M_Status AS st ON ts.StatusId = st.Id
 	JOIN TB_T_TicketResponse AS tr ON tic.Id = tr.TicketId
 	JOIN TB_M_Employee AS response ON tr.EmployeeId = response.Id
 	WHERE tic.Id = @TicketId
