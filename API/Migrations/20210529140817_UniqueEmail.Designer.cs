@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210528005543_Init")]
-    partial class Init
+    [Migration("20210529140817_UniqueEmail")]
+    partial class UniqueEmail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,35 +21,22 @@ namespace API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("API.Models.AccountClient", b =>
+            modelBuilder.Entity("API.Models.Account", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.ToTable("TB_M_AccountClient");
+                    b.ToTable("TB_M_Account");
                 });
 
-            modelBuilder.Entity("API.Models.AccountEmployee", b =>
+            modelBuilder.Entity("API.Models.Categories", b =>
                 {
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TB_M_AccountEmployee");
-                });
-
-            modelBuilder.Entity("API.Models.Category", b =>
-                {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -60,39 +47,14 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.ToTable("TB_M_Category");
-                });
-
-            modelBuilder.Entity("API.Models.Client", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TB_M_Client");
+                    b.ToTable("TB_M_Categories");
                 });
 
             modelBuilder.Entity("API.Models.Department", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -100,24 +62,24 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("TB_M_Department");
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentID")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
@@ -128,21 +90,25 @@ namespace API.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleID")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
+                    b.HasIndex("DepartmentId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("TB_M_Employee");
                 });
 
             modelBuilder.Entity("API.Models.Role", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -150,14 +116,14 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("TB_M_Role");
                 });
 
             modelBuilder.Entity("API.Models.Status", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -168,42 +134,43 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.ToTable("TB_M_Status");
+                    b.ToTable("TB_T_Status");
                 });
 
             modelBuilder.Entity("API.Models.Ticket", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClientID")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CategoriesId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Detail")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("CategoryID");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ClientID");
+                    b.HasKey("Id");
 
-                    b.ToTable("TB_M_Ticket");
+                    b.HasIndex("CategoriesId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TB_T_Ticket");
                 });
 
             modelBuilder.Entity("API.Models.TicketMessage", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -211,63 +178,53 @@ namespace API.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("MessageDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TicketID")
-                        .HasColumnType("int");
+                    b.Property<string>("TicketId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("TicketID");
+                    b.HasIndex("TicketId");
 
-                    b.ToTable("TB_M_TicketMessage");
+                    b.ToTable("Table_T_TicketMessage");
                 });
 
             modelBuilder.Entity("API.Models.TicketResponse", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EmployeeID")
+                    b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("TicketID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EmployeeID");
-
-                    b.HasIndex("TicketID");
-
-                    b.ToTable("TB_M_TicketResponse");
-                });
-
-            modelBuilder.Entity("API.Models.TicketResponseDetail", b =>
-                {
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Detail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ResponseDate")
+                    b.Property<DateTime>("ResponDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Solution")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("TicketId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("TB_M_TicketResponseDetail");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TB_T_TicketResponse");
                 });
 
             modelBuilder.Entity("API.Models.TicketStatus", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -275,35 +232,26 @@ namespace API.Migrations
                     b.Property<DateTime>("StatusDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("StatusID")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TicketID")
-                        .HasColumnType("int");
+                    b.Property<string>("TicketId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("StatusID");
+                    b.HasIndex("StatusId");
 
-                    b.HasIndex("TicketID");
+                    b.HasIndex("TicketId");
 
-                    b.ToTable("TB_M_TicketStatus");
+                    b.ToTable("TB_T_TicketStatus");
                 });
 
-            modelBuilder.Entity("API.Models.AccountClient", b =>
-                {
-                    b.HasOne("API.Models.Client", "Client")
-                        .WithOne("AccountClient")
-                        .HasForeignKey("API.Models.AccountClient", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Models.AccountEmployee", b =>
+            modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.HasOne("API.Models.Employee", "Employee")
-                        .WithOne("AccountEmployee")
-                        .HasForeignKey("API.Models.AccountEmployee", "ID")
+                        .WithOne("Account")
+                        .HasForeignKey("API.Models.Account", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -311,61 +259,52 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
                     b.HasOne("API.Models.Department", "Department")
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentID");
+                        .WithMany("Employee")
+                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("API.Models.Role", "Role")
                         .WithMany("Employee")
-                        .HasForeignKey("RoleID");
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("API.Models.Ticket", b =>
                 {
-                    b.HasOne("API.Models.Category", "Category")
-                        .WithMany("Tickets")
-                        .HasForeignKey("CategoryID");
+                    b.HasOne("API.Models.Categories", "Categories")
+                        .WithMany("Ticket")
+                        .HasForeignKey("CategoriesId");
 
-                    b.HasOne("API.Models.Client", "Client")
+                    b.HasOne("API.Models.Employee", "Employee")
                         .WithMany("Tickets")
-                        .HasForeignKey("ClientID");
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("API.Models.TicketMessage", b =>
                 {
                     b.HasOne("API.Models.Ticket", "Ticket")
                         .WithMany("TicketMessages")
-                        .HasForeignKey("TicketID");
+                        .HasForeignKey("TicketId");
                 });
 
             modelBuilder.Entity("API.Models.TicketResponse", b =>
                 {
                     b.HasOne("API.Models.Employee", "Employee")
-                        .WithMany("TicketResponses")
-                        .HasForeignKey("EmployeeID");
+                        .WithMany("TicketResponse")
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("API.Models.Ticket", "Ticket")
                         .WithMany("TicketResponses")
-                        .HasForeignKey("TicketID");
-                });
-
-            modelBuilder.Entity("API.Models.TicketResponseDetail", b =>
-                {
-                    b.HasOne("API.Models.TicketResponse", "TicketResponse")
-                        .WithOne("TicketResponseDetail")
-                        .HasForeignKey("API.Models.TicketResponseDetail", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TicketId");
                 });
 
             modelBuilder.Entity("API.Models.TicketStatus", b =>
                 {
                     b.HasOne("API.Models.Status", "Status")
-                        .WithMany("TicketStatuses")
-                        .HasForeignKey("StatusID");
+                        .WithMany("TicketStatus")
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("API.Models.Ticket", "Ticket")
                         .WithMany("TicketStatuses")
-                        .HasForeignKey("TicketID");
+                        .HasForeignKey("TicketId");
                 });
 #pragma warning restore 612, 618
         }

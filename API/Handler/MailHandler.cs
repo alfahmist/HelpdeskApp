@@ -11,14 +11,14 @@ namespace API.Handler
     public class MailHandler
     {
         public string ResetUrl { get; private set; }
-        public string Url  { get; private set; }
+        public string Url { get; private set; }
         public string Sender { get; private set; }
         public string Receiver { get; private set; }
-        
+
         public MailHandler(string sender, string receiver, string url, string token)
         {
             Url = url;
-            ResetUrl = url+token;
+            ResetUrl = url + token;
             Sender = sender;
             Receiver = receiver;
         }
@@ -32,7 +32,7 @@ namespace API.Handler
             message.Body = CreateBody();
 
             return message;
-            
+
         }
 
         private string CreateBody()

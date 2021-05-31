@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_T_TicketStatus")]
-    public class TicketStatus
+    [Table("TB_M_UserAccount")]
+    public class UserAccount
     {
         [Key]
-        public int Id { get; set; }
-        public DateTime StatusDate { get; set; }
-        public Ticket Ticket { get; set; }
-        public Status Status { get; set; }
+        public string Id { get; set; }
+        public string Password { get; set; }
+        public User User { get; set; }
+
     }
 }

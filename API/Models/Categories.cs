@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("TB_M_AccountClient")]
-    public class AccountClient
+    [Table("TB_M_Categories")]
+    public class Categories
     {
         [Key]
-        public string ID { get; set; }
-        public string Password { get; set; }
-        public Client Client { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public ICollection<Ticket> Ticket { get; set; }
     }
 }

@@ -16,25 +16,22 @@ namespace API.Context
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         { }
-        public DbSet<AccountEmployee> AccountEmployees { get; set; }
-        public DbSet<AccountClient> AccountClients { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Categories> Categories { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketMessage> TicketMessages { get; set; }
         public DbSet<TicketResponse> TicketResponses { get; set; }
-        public DbSet<TicketResponseDetail> tickets { get; set; }
         public DbSet<TicketStatus> TicketStatuses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Status-TicketStatus
             modelBuilder.Entity<TicketStatus>()
                 .HasOne(TicketStatus => TicketStatus.Status)
-                .WithMany(Status => Status.TicketStatuses);
+                .WithMany(Status => Status.TicketStatus);
             //Ticket-TicketStatus
             modelBuilder.Entity<TicketStatus>()
                 .HasOne(TicketStatus => TicketStatus.Ticket)
@@ -43,46 +40,40 @@ namespace API.Context
             modelBuilder.Entity<TicketMessage>()
                 .HasOne(TicketMessages => TicketMessages.Ticket)
                 .WithMany(Ticket => Ticket.TicketMessages);
-            //Ticket-Categories
+            //Categories-Ticket
             modelBuilder.Entity<Ticket>()
-                .HasOne(Ticket => Ticket.Category)
-                .WithMany(Categories => Categories.Tickets);
-            //TicketResponse-TicketResponseDetail
-            modelBuilder.Entity<TicketResponseDetail>()
-                .HasOne(TicketResponseDetail => TicketResponseDetail.TicketResponse)
-                .WithOne(TicketResponse => TicketResponse.TicketResponseDetail)
-                .HasForeignKey<TicketResponseDetail>(TicketResponseDetail => TicketResponseDetail.ID);
+                .HasOne(Ticket => Ticket.Categories)
+                .WithMany(Categories => Categories.Ticket);
             //Ticket-TicketResponse
             modelBuilder.Entity<TicketResponse>()
                 .HasOne(TicketResponse => TicketResponse.Ticket)
                 .WithMany(Ticket => Ticket.TicketResponses);
-            //Client-Ticket
+            //Employee-Ticket
             modelBuilder.Entity<Ticket>()
-                .HasOne(Ticket => Ticket.Client)
-                .WithMany(Client => Client.Tickets);
-            //Client-Account
-            modelBuilder.Entity<Client>()
-                .HasOne(client => client.AccountClient)
-                .WithOne(accountClient => accountClient.Client)
-                .HasForeignKey<AccountClient>(accountClient => accountClient.ID);
-            //TicketResponse-Employee
-            modelBuilder.Entity<TicketResponse>()
-                .HasOne(TicketResponse => TicketResponse.Employee)
-                .WithMany(Employee => Employee.TicketResponses);
-            //Employee-Account
+                .HasOne(Ticket => Ticket.Employee)
+                .WithMany(Employee => Employee.Tickets);
+            //Client-ClientAccount
+            modelBuilder.Entity<Account>()
+                .HasOne(Account => Account.Employee)
+                .WithOne(Employee => Employee.Account)
+                .HasForeignKey<Account>(Account => Account.Id);
+            //Employee email Unique
             modelBuilder.Entity<Employee>()
-                .HasOne(employee => employee.AccountEmployee)
-                .WithOne(accountEmployee => accountEmployee.Employee)
-                .HasForeignKey<AccountEmployee>(accountEmployee => accountEmployee.ID);
-            //Employee-Role
-            modelBuilder.Entity<Employee>()
-                .HasOne(Employee => Employee.Role)
-                .WithMany(Role => Role.Employee);
+                .HasIndex(employee => employee.Email)
+                .IsUnique();
+            ////User-UserAccount
+            //modelBuilder.Entity<UserAccount>()
+            //    .HasOne(Account => Account.User)
+            //    .WithOne(Client => Client.UserAccount)
+            //    .HasForeignKey<UserAccount>(Account => Account.Id);
             //Department-Employee
             modelBuilder.Entity<Employee>()
                 .HasOne(Employee => Employee.Department)
-                .WithMany(Department => Department.Employees);
-   
+                .WithMany(Department => Department.Employee);
+            //Employee-EmployeeRole
+            modelBuilder.Entity<Employee>()
+                .HasOne(Employee => Employee.Role)
+                .WithMany(Role => Role.Employee);
         }
     }
 }

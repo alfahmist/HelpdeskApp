@@ -1,5 +1,4 @@
-
-using Dapper;
+﻿using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Repositories.Interface
 {
-    public interface IGenericDapper
+    public interface IGenericDapper : IDisposable
     {
         DbConnection GetDbconnection();
         T Get<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
