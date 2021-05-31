@@ -1,0 +1,25 @@
+CREATE PROCEDURE [dbo].[SP_TicketDetailById]
+@TicketId varchar (100)
+AS
+BEGIN
+
+	SELECT TOP 1 tic.Id AS 'TicketID',tic.[Name] AS 'Ticket Name', 
+			tic.EmployeeId AS 'RequestorID',emp.[Name] AS 'Requestor Name',  
+			tic.CreatedDate AS 'Open Date', tic.[Description] AS 'Description', 
+			TMessage.[Subject] AS 'Ticket Subject', TMessage.[Message] AS 'Ticket Message',
+			response.[Name] AS 'Respondance Name', tr.Solution , 
+			tr.ResponDate, st.[Name] AS 'Ticket Status'
+						
+	FROM TB_T_Ticket as tic
+	JOIN TB_M_Employee as emp ON emp.Id = tic.EmployeeId
+	JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
+	JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
+	JOIN TB_T_Status AS st ON ts.StatusId = st.Id
+	JOIN TB_T_TicketResponse AS tr ON tic.Id = tr.TicketId
+	JOIN TB_M_Employee AS response ON tr.EmployeeId = response.Id
+	WHERE tic.Id = @TicketId
+	ORDER BY ts.StatusDate DESC
+
+	
+
+END
