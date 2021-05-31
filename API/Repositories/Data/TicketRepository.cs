@@ -7,7 +7,7 @@ using API.Models;
 
 namespace API.Repositories.Data
 {
-    public class TicketRepository : GeneralRepository<Ticket, MyContext, int>
+    public class TicketRepository : GeneralRepository<Ticket, MyContext, string>
     {
         private readonly MyContext myContext;
 

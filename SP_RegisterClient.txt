@@ -5,7 +5,8 @@ CREATE PROCEDURE [dbo].[SP_RegisterClient]
 	@BirthDate Date,
 	@Gender varchar(50),
 	@PhoneNumber varchar(50),
-	@Password varchar(50) 
+	@Password varchar(50),
+    @RoleId int
 
 AS
 IF NOT EXISTS (SELECT * FROM TB_M_Client)
@@ -15,7 +16,9 @@ END
 BEGIN
 	DECLARE @Nid varchar(50) = 'CL' + FORMAT(NEXT VALUE FOR SequenceClient,'00')
 
-	INSERT INTO TB_M_Client ([ID], [Name],Email, BirthDate, Gender) VALUES (@Nid, @Name, @Email, @Birthdate, @Gender)
-
 	INSERT INTO TB_M_AccountClient VALUES (@Nid, @Password)
+
+	INSERT INTO TB_M_Client ([ID], [Name],Email, BirthDate ,Phone , Gender, RoleID) VALUES (@Nid, @Name, @Email, @BirthDate,@PhoneNumber, @Gender, @RoleId)
+
+	
 END

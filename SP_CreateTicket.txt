@@ -1,0 +1,18 @@
+CREATE PROCEDURE [dbo].[SP_CreateTicket]
+	@ClientID varchar(50),
+	@Subject varchar(50),
+	@Message text,
+	@Category int
+AS
+IF NOT EXISTS (SELECT * FROM TB_M_Ticket)
+BEGIN
+	ALTER SEQUENCE SequenceClient RESTART WITH 1
+END
+BEGIN
+	
+	DECLARE @Nid varchar(50) = 'TK' + FORMAT(NEXT VALUE FOR SequenceTicket,'00')
+	INSERT INTO TB_M_Ticket ([ID], CategoryID, CreatedDate, StatusID) VALUES (@Nid, @Category, GETDATE(), 3)
+	INSERT INTO TB_M_ClientMessage ([ID],[Subject], [Message]) VALUES (@Nid, @Subject, @Message)
+	
+END
+RETURN 0
