@@ -1,4 +1,4 @@
-﻿//Hashing
+﻿ //Hashing
 using API.Base;
 using API.Context;
 using API.Handler;
@@ -105,7 +105,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public ActionResult RegisterEmployee(RegisterEmployeeVM registerVM)
+        public ActionResult Register([FromBody] RegisterVM registerVM)
         {
             var password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
             var dbparams = new DynamicParameters();
@@ -114,12 +114,12 @@ namespace API.Controllers
             dbparams.Add("Password", password, DbType.String);
             dbparams.Add("Email", registerVM.Email, DbType.String);
             dbparams.Add("BirthDate", registerVM.BirthDate, DbType.DateTime);
-            dbparams.Add("PhoneNumber", registerVM.PhoneNumber, DbType.String);
+            dbparams.Add("Phone", registerVM.PhoneNumber, DbType.String);
             dbparams.Add("Gender", registerVM.Gender, DbType.String);
-            dbparams.Add("Role", registerVM.Role, DbType.Int32);
-            dbparams.Add("Department", registerVM.Department, DbType.Int32);
+            dbparams.Add("RoleId", registerVM.RoleId, DbType.Int32);
+            dbparams.Add("DepartmentId", registerVM.DepartmentId, DbType.Int32);
 
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_RegisterEmployee]", dbparams, commandType: CommandType.StoredProcedure));
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_Register]", dbparams, commandType: CommandType.StoredProcedure));
 
             return Ok(new Response
             {
@@ -135,7 +135,7 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
             dbparams.Add("Email", loginVM.Email, DbType.String);
             dynamic result = dapper.Get<dynamic>(
-                "[dbo].[SP_LoginClient]",
+                "[dbo].[SP_Login]",
                 dbparams,
                 CommandType.StoredProcedure
                 );

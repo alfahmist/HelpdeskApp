@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    [Table("Table_T_TicketMessage")]
+    [Table("TB_T_TicketMessage")]
     public class TicketMessage
     {
         [Key]
