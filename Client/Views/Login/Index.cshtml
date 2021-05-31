@@ -23,9 +23,9 @@
                             <!-- form start -->
 
                             <div class="card-body">
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="loginEmail">
                                     <label for="loginEmail" class="col-sm-3 col-form-label">Email</label>
-                                    <input type="email" class="form-control col-sm-9" id="loginEmail" placeholder="Ex. john.smith@gmail.com" name="loginEmail" required>
+                                    <input type="email" class="form-control col-sm-9" placeholder="Ex. john.smith@gmail.com" name="loginEmail" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide an email correctly.
                                     </div>
@@ -33,9 +33,9 @@
                                         Looks good!
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="form-row" id="loginPasword">
                                     <label for="loginPassword" class="col-sm-3 col-form-label">Password</label>
-                                    <input type="password" class="form-control col-sm-9" id="loginEmail" placeholder="Password here..." name="loginPassword" minlength="6" maxlength="12" required>
+                                    <input type="password" class="form-control col-sm-9" placeholder="Password here..." name="loginPassword" minlength="6" maxlength="12" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Password less then 6.
                                     </div>
@@ -52,14 +52,22 @@
 
                         </div>
                     </form>
+                    <div class="row mt-2">
+                        <div class="btn col-sm-6 text-left">
+                            <a onclick="ModalFlow('forgot')" id="forgotPassword" data-toggle="modal" data-target="#exampleModalCenter">
+                                Forgot Password ?
+                            </a>
+                        </div>
+                        <div class="btn col-sm-6 text-right">
+                            <a onclick="ModalFlow('register')" id="register" data-toggle="modal" data-target="#exampleModalCenter">
+                                Click to register
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row text-right mt-2">
-                <div class="col-sm-6 offset-sm-3">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModalCenter">
-                        Click to register
-                    </button>
-                </div>
+            <div class="row mt-2">
+
             </div>
 
         </div>
@@ -78,15 +86,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation modal-validation" novalidate>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
 
                             <div class="card-body">
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerName">
                                     <label for="registerName" class="col-sm-3 col-form-label">Name</label>
-                                    <input type="text" class="form-control col-sm-9" id="registerName" placeholder="Ex. John Smith" name="registerName" required>
+                                    <input type="text" class="form-control col-sm-9" id="name" placeholder="Ex. John Smith" name="registerName" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input your name
                                     </div>
@@ -95,9 +103,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerEmail">
                                     <label for="registerEmail" class="col-sm-3 col-form-label">Email</label>
-                                    <input type="email" class="form-control col-sm-9" id="registerEmail" placeholder="Ex. john.smith@gmail.com" name="registerEmail" required>
+                                    <input type="email" class="form-control col-sm-9" id="email" placeholder="Ex. john.smith@gmail.com" name="registerEmail" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide an email correctly.
                                     </div>
@@ -106,9 +114,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerPassword">
                                     <label for="registerPassword" class="col-sm-3 col-form-label">Password</label>
-                                    <input type="password" class="form-control col-sm-9" id="registerPassword" placeholder="more than 6 | less then 13" name="registerPassword" min="6" max="12" required>
+                                    <input type="password" class="form-control col-sm-9" id="password" placeholder="more than 6 | less then 13" name="registerPassword" min="6" max="12" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         password less then 6
                                     </div>
@@ -117,9 +125,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerDate">
                                     <label for="registerDate" class="col-sm-3 col-form-label">Birthdate</label>
-                                    <input type="date" class="form-control col-sm-9" id="registerDate" name="registerDate" min="1980-01-01" max="2021-12-31" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
+                                    <input type="date" class="form-control col-sm-9" id="date" name="registerDate" min="1980-01-01" max="2021-12-31" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide a date correctly.
                                     </div>
@@ -128,9 +136,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerPhone">
                                     <label for="registerPhone" class="col-sm-3 col-form-label">Phone</label>
-                                    <input type="number" class="form-control col-sm-9" id="registerPhone" name="registerPhone" placeholder="089231283" required>
+                                    <input type="number" class="form-control col-sm-9" id="phone" name="registerPhone" placeholder="input phone number here..." required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide a phone number correctly.
                                     </div>
@@ -139,7 +147,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row">
+                                <div class="form-row" id="registerGender">
                                     <label for="registerGender" class="col-sm-4 col-form-label">Gender</label>
                                     <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px">
                                         <input type="radio" class="custom-control-input" id="genderFemale" name="registerGender" required>
@@ -157,42 +165,104 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal">Register</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-@section Scripts {
-    <script>
-    $(document).ready(function() {
-        //$('#registerDate').datepicker({
-        //    format: 'dd/mm/yyyy',
-        //});
 
-        $(".close").click(() => {
-            $(this).alert("close");
-        })
-    });
-    </script>
+@section Scripts {
+
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+        $(document).ready(function () {
+            $('#exampleModalCenter').on('hidden.bs.modal', function () {
+                ModalClear();
+                //remove validation modal is closed
+                ClearValidation();
+            });
+
+            FormValidation();
+        });
+
+        var ClearValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation modal-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.classList.remove('was-validated');
+            });
+        }
+        var FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }
+
+        // clear modal
+        var ModalClear = () => {
+            $('#name').val("");
+            $('#email').val("");
+            $('#password').val("");
+            $('#phone').val("");
+            $('#date').val("");
+            $('#genderMale').prop("checked", false);
+            $('#genderFemale').prop("checked", false);
+        }
+
+        var ModalFlow = state => {
+            switch (state) {
+                case "forgot":
+                    $('#exampleModalLongTitle').text("Forgot Password");
+                    $('#buttonModal').text("Send Email");
+                    $('#registerName').hide();
+                    $('#registerPassword').hide();
+                    $('#registerPhone').hide();
+                    $('#registerGender').hide();
+                    $('#registerPhone').hide();
+                    $('#registerDate').hide();
+                    break;
+                case "register":
+                    $('#exampleModalLongTitle').text("Register");
+                    $('#buttonModal').text("Register");
+                    $('#registerName').show();
+                    $('#registerPassword').show();
+                    $('#registerPhone').show();
+                    $('#registerGender').show();
+                    $('#registerPhone').show();
+                    $('#registerDate').show();
+                    break;
+                default:
+                // code block
+            }
+        }
+
+
     </script>
+    @*<script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>*@
 }
