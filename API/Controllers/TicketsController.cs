@@ -20,7 +20,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TicketsController : BaseController<Ticket, TicketRepository, int>
+    public class TicketsController : BaseController<Ticket, TicketRepository, string>
     {
         private readonly TicketRepository ticketRepository;
         private readonly IGenericDapper dapper;
