@@ -1,18 +1,25 @@
 CREATE PROCEDURE [dbo].[SP_CreateTicket]
-	@ClientID varchar(50),
-	@Subject varchar(50),
-	@Message text,
-	@Category int
+
+	@Name varchar(200),
+	@Description varchar(1500),
+	@CLientId varchar(100),
+	@CategoriesId as int,
+	@Subject varchar(200),
+	@Message text
+
 AS
-IF NOT EXISTS (SELECT * FROM TB_M_Ticket)
+IF NOT EXISTS (SELECT * FROM TB_T_Ticket)
 BEGIN
-	ALTER SEQUENCE SequenceClient RESTART WITH 1
+	ALTER SEQUENCE SequenceTicket RESTART WITH 1
 END
 BEGIN
-	
-	DECLARE @Nid varchar(50) = 'TK' + FORMAT(NEXT VALUE FOR SequenceTicket,'00')
-	INSERT INTO TB_M_Ticket ([ID], CategoryID, CreatedDate, StatusID) VALUES (@Nid, @Category, GETDATE(), 3)
-	INSERT INTO TB_M_ClientMessage ([ID],[Subject], [Message]) VALUES (@Nid, @Subject, @Message)
-	
+	DECLARE @TicketId varchar(50) = 'TID' + FORMAT(NEXT VALUE FOR SequenceTicket,'00')
+
+	INSERT INTO TB_T_Ticket([ID], [Name], CreatedDate, [Description], CategoriesId, EmployeeId) 
+	VALUES (@TicketId, @Name, GETDATE(), @Description, @CategoriesId, @CLientId)
+
+	INSERT INTO TB_T_TicketStatus (TicketId, StatusId, StatusDate)VALUES (@TicketId, 1, GETDATE())
+
+	INSERT INTO TB_T_TicketMessage (TicketId,[Subject], [Message], MessageDate)
+	VALUES (@TicketId, @Subject, @Message, GETDATE())
 END
-RETURN 0
