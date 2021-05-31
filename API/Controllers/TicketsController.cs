@@ -63,7 +63,7 @@ namespace API.Controllers
         [Route("Response-Ticket")]
         public ActionResult ResponseTicket([FromBody] TicketResponseVM ResponseVM)
         {
-            var dbparams = new DynamicParameters();
+            var dbparams =  new DynamicParameters();
 
             dbparams.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
@@ -106,23 +106,23 @@ namespace API.Controllers
         }
         
         //Rarely Used
-        [AllowAnonymous]
-        [HttpPost("TIcket-Newest-Updates")]
-        public IEnumerable<dynamic> TicketUpdates()
-        {
-            var dbparams = new DynamicParameters(); 
-            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_NewestTicketUpdate]", dbparams, commandType: CommandType.StoredProcedure);
-        }
+        //[AllowAnonymous]
+        //[HttpPost("TIcket-Newest-Updates")]
+        //public IEnumerable<dynamic> TicketUpdates()
+        //{
+        //    var dbparams = new DynamicParameters(); 
+        //    using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+        //    return db.Query<dynamic>("[dbo].[SP_NewestTicketUpdate]", dbparams, commandType: CommandType.StoredProcedure);
+        //}
         
-        [AllowAnonymous]
-        [HttpPost("GetALL-Ticket-Newest-Updates")]
-        public IEnumerable<dynamic> GetAllNewTIcketUpdates()
-        {
-            var dbparams = new DynamicParameters(); 
-            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_GetAllNewestTicket]", dbparams, commandType: CommandType.StoredProcedure);
-        }
+        //[AllowAnonymous]
+        //[HttpPost("GetALL-Ticket-Newest-Updates")]
+        //public IEnumerable<dynamic> GetAllNewTIcketUpdates()
+        //{
+        //    var dbparams = new DynamicParameters(); 
+        //    using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+        //    return db.Query<dynamic>("[dbo].[SP_GetAllNewestTicket]", dbparams, commandType: CommandType.StoredProcedure);
+        //}
 
         [HttpPost]
         [Route("Update-Status-Ticket")]

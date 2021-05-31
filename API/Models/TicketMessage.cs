@@ -7,19 +7,11 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-<<<<<<< HEAD:API/Models/TicketMessage.cs
     [Table("TB_T_TicketMessage")]
     public class TicketMessage
     {
         [Key]
         public int Id { get; set; }
-=======
-    [Table("TB_M_ClientMessage")]
-    public class ClientMessage
-    {
-        [Key]
-        public string ID { get; set; }
->>>>>>> FrotnEnd/Fahmi:API/Models/ClientMessage.cs
         public string Subject { get; set; }
         public string Message { get; set; }
         public DateTime MessageDate { get; set; }
