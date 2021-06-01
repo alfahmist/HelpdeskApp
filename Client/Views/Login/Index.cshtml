@@ -216,6 +216,74 @@
             $('#genderFemale').prop("checked", false);
         }
 
+        function Login() {
+        var Login = new Object();
+        Login.Email = $("#emailLogin").val();
+        Login.Password = $("#passwordLogin").val();
+        console.log(Login);
+            $.ajax({
+                type: 'POST',
+                url: '/Authentication/Login',
+                data: Login
+            }).done((result) => {
+                console.log("ok");
+                //console.log(result);
+                if (result == 200) {
+                    alert("Successed to Login");
+
+                    window.location.href = "https://localhost:44346/Home/";
+                }
+                else {
+                    alert("Cannot Login");
+                }
+            }).fail((result) => {
+                //console.log(result);
+                if (result != 200) {
+                    alert("Failed to Login");
+                }
+            })
+        }
+
+
+                function Submit() {
+                var User = new Object();
+                User.Nik = $("#nik").val();
+                User.Firstname = $("#firstname").val();
+                User.Lastname = $("#lastname").val();
+                User.BirthDate = $("#birthdate").val();
+                User.Gender = $("#gender").val();
+                User.MarriedStatus = $("#marriedstatus").val();
+                User.Position = $("#position").val();
+                User.Address = $("#address").val();
+                User.Quota = $("#quota").val();
+                User.PhoneNumber = $("#phonenumber").val();
+                User.Email = $("#email").val();
+                $.ajax({
+                    type: 'post',
+                    url: '/authentication/register',
+                    data: User
+                }).done((result) => {
+                    console.log(result);
+                    if (result == 200) {
+                        alert("Successed to Add Data!");
+                        $('#Register').modal('hide');
+                        $("#firstname").val(null);
+                        $("#lastname").val(null);
+                        $("#birthdate").val(null);
+                        $("#gender").val(null);
+                        $("#marriedstatus").val(null);
+                        $("#position").val(null);
+                        $("#address").val(null);
+                        $("#quota").val(null);
+                        $("#phonenumber").val(null);
+                        $("#email").val(null);
+                    }
+                }).fail((result) => {
+                    console.log(result);
+                    alert("Failed to Add Data!");
+                })
+            }
+
         //var ModalFlow = state => {
         //    switch (state) {
         //        case "forgot":
