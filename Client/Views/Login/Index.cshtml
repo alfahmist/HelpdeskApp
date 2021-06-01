@@ -46,7 +46,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info float-right">Sign in</button>
+                                <button type="submit" class="btn btn-info float-right" onclick="Login()">Sign in</button>
                             </div>
                             <!-- /.card-footer -->
 
@@ -165,7 +165,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal">Register</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal" onclick="Register()" >Register</button>
                 </div>
             </form>
         </div>
@@ -245,44 +245,35 @@
         }
 
 
-                function Submit() {
-                var User = new Object();
-                User.Nik = $("#nik").val();
-                User.Firstname = $("#firstname").val();
-                User.Lastname = $("#lastname").val();
-                User.BirthDate = $("#birthdate").val();
-                User.Gender = $("#gender").val();
-                User.MarriedStatus = $("#marriedstatus").val();
-                User.Position = $("#position").val();
-                User.Address = $("#address").val();
-                User.Quota = $("#quota").val();
-                User.PhoneNumber = $("#phonenumber").val();
-                User.Email = $("#email").val();
-                $.ajax({
-                    type: 'post',
-                    url: '/authentication/register',
-                    data: User
-                }).done((result) => {
-                    console.log(result);
-                    if (result == 200) {
-                        alert("Successed to Add Data!");
-                        $('#Register').modal('hide');
-                        $("#firstname").val(null);
-                        $("#lastname").val(null);
-                        $("#birthdate").val(null);
-                        $("#gender").val(null);
-                        $("#marriedstatus").val(null);
-                        $("#position").val(null);
-                        $("#address").val(null);
-                        $("#quota").val(null);
-                        $("#phonenumber").val(null);
-                        $("#email").val(null);
-                    }
-                }).fail((result) => {
-                    console.log(result);
-                    alert("Failed to Add Data!");
-                })
-            }
+        function Register() {
+        var User = new Object();
+        User.Email = $("#email").val();
+        User.Name = $("#name").val();
+        User.Password = $("#password").val();
+        User.BirthDate = $("#registerDate").val();
+        User.Gender = $("#registerGender").val();
+        User.Phone = $("#registerPhone").val();
+        $.ajax({
+            type: 'post',
+            url: '/authentication/register',
+            data: User
+            }).done((result) => {
+                console.log(result);
+                if (result == 200) {
+                    alert("Successed to Add Data!");
+                    $('#Register').modal('hide');
+                    $("#email").val();
+                    $("#name").val();
+                    $("#password").val();
+                    $("#registerDate").val();
+                    $("#registerGender").val();
+                    $("#registerPhone").val();
+                }
+            }).fail((result) => {
+                console.log(result);
+                alert("Failed to Add Data!");
+            })
+        }
 
         //var ModalFlow = state => {
         //    switch (state) {
