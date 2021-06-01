@@ -26,7 +26,7 @@ namespace Client
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromSeconds(5);//You can set Time   
+               
             });
         }
 

@@ -142,11 +142,12 @@ namespace API.Controllers
 
             if (BCrypt.Net.BCrypt.Verify(loginVM.Password, result.Password))
             {
+    
                 var jwt = new JwtService(Configuration);
                 var token = jwt.LoginToken(result.Email, result.Name);
-                return Ok(new { token });
+                return Ok(token);
             }
-            return BadRequest("Wrong Password");
+            return NotFound();
         }
 
         [HttpPost("ChangePassword")]

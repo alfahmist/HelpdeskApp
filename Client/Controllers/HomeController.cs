@@ -14,8 +14,7 @@ namespace Client.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         const string SessionName = "_Name";
-        const string SessionAge = "_Age";
-
+        const string SessionToken = "_Token";
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -24,8 +23,7 @@ namespace Client.Controllers
         public IActionResult Index()
         {
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
-            ViewBag.Age = HttpContext.Session.GetInt32(SessionAge);
-            if(HttpContext.Session.GetString(SessionName) == null)
+            if(ViewBag.Name == null)
             {
                 return RedirectToAction("Index", "Login");
             }

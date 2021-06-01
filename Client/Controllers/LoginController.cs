@@ -15,7 +15,8 @@ namespace Client.Controllers
     public class LoginController : Controller
     {
         const string SessionName = "_Name";
-        const string SessionAge = "_Age";
+
+        const string SessionToken = "_Token";
 
         public IActionResult Index()
         {
@@ -26,16 +27,26 @@ namespace Client.Controllers
         public IActionResult Login(string loginEmail)
         {
             HttpContext.Session.SetString(SessionName, loginEmail);
-            HttpContext.Session.SetInt32(SessionAge, 24);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public HttpStatusCode Login(LoginVM loginVM)
+        public HttpStatusCode AuthLogin(LoginVM loginVM)
         {
             var httpclient = new HttpClient();
+            
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-            var result = httpclient.PostAsync("https://localhost:44387/api/Account/Login/", stringContent).Result;
+            var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+           
+            if((int)result.StatusCode == 200)
+            {
+                var responseBody = result.Content.ReadAsStringAsync().Result;
+                //HttpContext.Session.SetString("token", responseBody.Result.ToString());
+                httpclient.DefaultRequestHeaders.Add("Authorization", "Bearer " + responseBody);
+                HttpContext.Session.SetString(SessionName, loginVM.Email);
+       
+                HttpContext.Session.SetString(SessionToken, responseBody);
+            }
             return result.StatusCode;
         }
     }
