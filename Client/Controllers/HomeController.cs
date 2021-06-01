@@ -1,4 +1,5 @@
 ﻿using Client.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +13,8 @@ namespace Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        const string SessionName = "_Name";
+        const string SessionAge = "_Age";
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -20,12 +23,24 @@ namespace Client.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.Age = HttpContext.Session.GetInt32(SessionAge);
+            if(HttpContext.Session.GetString(SessionName) == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             return View();
         }
 
         public IActionResult Account()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove(SessionName);
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult Privacy()
