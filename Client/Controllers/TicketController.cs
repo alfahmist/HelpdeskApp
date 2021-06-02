@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Client.Controllers
 {
     public class TicketController : Controller
     {
+
         private MyContext myContext = new MyContext();
         HttpClientHandler clientHandler = new HttpClientHandler();
 
@@ -63,5 +65,16 @@ namespace Client.Controllers
             }
             return closedTickets;
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult InProgressTicket()
+        {
+            return View();
+        }
     }
 }
+

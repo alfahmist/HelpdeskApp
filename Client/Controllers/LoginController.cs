@@ -1,18 +1,53 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
     public class LoginController : Controller
     {
+        const string SessionName = "_Name";
+
+        const string SessionToken = "_Token";
+
         public IActionResult Index()
         {
-            //HttpContext.Session.SetString("text","session value");
+          
             return View("Views/Login/index.cshtml");
+        }
+
+        public IActionResult Login(string loginEmail)
+        {
+            HttpContext.Session.SetString(SessionName, loginEmail);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public HttpStatusCode AuthLogin(LoginVM loginVM)
+        {
+            var httpclient = new HttpClient();
+            
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
+            var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+           
+            if((int)result.StatusCode == 200)
+            {
+                var responseBody = result.Content.ReadAsStringAsync().Result;
+                //HttpContext.Session.SetString("token", responseBody.Result.ToString());
+                httpclient.DefaultRequestHeaders.Add("Authorization", "Bearer " + responseBody);
+                HttpContext.Session.SetString(SessionName, loginVM.Email);
+       
+                HttpContext.Session.SetString(SessionToken, responseBody);
+            }
+            return result.StatusCode;
         }
     }
 }
