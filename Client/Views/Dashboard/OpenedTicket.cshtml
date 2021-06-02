@@ -1,9 +1,10 @@
 ﻿
 @{
     Layout = "/Views/Shared/_LayoutDashboard.cshtml";
-    ViewData["Title"] = "ClosedTicket";
+    ViewData["Title"] = "OpenedTicket";
     //Layout = "~/Views/Dashboard/Index.cshtml";
 }
+
 
 <div class="container-fluid">
     <div class="row">
@@ -33,7 +34,7 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -48,7 +49,7 @@
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="InProgressTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -63,7 +64,7 @@
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -71,7 +72,7 @@
     <br />
     <div style="width:90%; margin:50px auto;">
         <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <table id="closedTicketDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+        <table id="openTicketDatatables" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <td scope="col">TicketID</td>
@@ -106,17 +107,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script>
         $(document).ready(function LoadTable() {
-            table = $('#closedTicketDatatable').DataTable({
+            table = $('#openTicketDatatables').DataTable({
                 ajax: {
-                    url: "/Ticket/GetClosedTicket",
+                    url: "/Ticket/GetOpenedTicket",
                     type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
                     dataSrc: ""
                 },
                 columns: [
                     { "data": "ticketID" },
                     { "data": "ticketName" },
+                    //{ "data": "Category"},
                     { "data": "requestorName" },
                     {
                         "data": "ticketDate",
@@ -134,13 +134,7 @@
                         }
                     }
                 ]
-                //"order": [[1, 'asc']]
-            });
-            //table.on('order.dt search.dt', function () {
-            //    table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            //        cell.innerHTML = i + 1;
-            //    });
-            //}).draw();
+            })
 
         });
 

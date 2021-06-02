@@ -38,13 +38,12 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("Create-Ticket")]
+        [Route("CreateTicket")]
         public ActionResult CreateTicket([FromBody] CreateTicketVM ticketVM)
         {
             var dbparams = new DynamicParameters();
 
             dbparams.Add("Name", ticketVM.TicketName, DbType.String);
-            dbparams.Add("Description", ticketVM.Description, DbType.String);
             dbparams.Add("CLientId", ticketVM.ClientId, DbType.String);
             dbparams.Add("CategoriesId", ticketVM.CategoriesId, DbType.Int32);
             dbparams.Add("Subject", ticketVM.Subject, DbType.String);
@@ -60,7 +59,7 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        [Route("Response-Ticket")]
+        [Route("ResponseTicket")]
         public ActionResult ResponseTicket([FromBody] TicketResponseVM ResponseVM)
         {
             var dbparams =  new DynamicParameters();
@@ -97,8 +96,8 @@ namespace API.Controllers
         }
         
         [AllowAnonymous]
-        [HttpPost("Inprogress-Ticket")]
-        public IEnumerable<dynamic> GetProgressTickets()
+        [HttpGet("GetInprogressTickets")]
+        public IEnumerable<dynamic> GetInprogressTickets()
         {
             var dbparams = new DynamicParameters();
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
@@ -125,7 +124,7 @@ namespace API.Controllers
         //}
 
         [HttpPost]
-        [Route("Update-Status-Ticket")]
+        [Route("UpdateStatusTicket")]
         public ActionResult UpdateTicketStatus([FromBody] InputTicketStatusVM inputTicketStatusVM)
         {
             var dbparams = new DynamicParameters();

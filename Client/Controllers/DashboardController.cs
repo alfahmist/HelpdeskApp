@@ -12,5 +12,19 @@ namespace Client.Controllers
         {
             return View("Views/Dashboard/Index.cshtml");
         }
+
+        public IActionResult OpenedTicket()
+        {
+            return View();
+        }
+
+        public IActionResult ClosedTicket()
+        {
+            return View();
+        }
+        public IActionResult InProgressTicket()
+        {
+            return View();
+        }
     }
 }

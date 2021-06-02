@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     Layout = "/Views/Shared/_LayoutDashboard.cshtml";
-    ViewData["Title"] = "ClosedTicket";
-    //Layout = "~/Views/Dashboard/Index.cshtml";
+    ViewBag.Title = "InProgress Ticket";
 }
 
 <div class="container-fluid">
@@ -33,7 +31,7 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -48,7 +46,7 @@
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="InProgressTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -63,7 +61,7 @@
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -71,7 +69,7 @@
     <br />
     <div style="width:90%; margin:50px auto;">
         <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <table id="closedTicketDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+        <table id="inprogressDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <td scope="col">TicketID</td>
@@ -96,27 +94,27 @@
     </div>
 </div>
 
-@section Scripts
-{
+
+@section Scripts {
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
     <script>
         $(document).ready(function LoadTable() {
-            table = $('#closedTicketDatatable').DataTable({
+            table = $('#inprogressDatatable').DataTable({
                 ajax: {
-                    url: "/Ticket/GetClosedTicket",
+                    url: "/Ticket/GetInprogressTicket",
                     type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
                     dataSrc: ""
                 },
                 columns: [
                     { "data": "ticketID" },
                     { "data": "ticketName" },
+                    //{ "data": "Category"},
                     { "data": "requestorName" },
                     {
                         "data": "ticketDate",
@@ -134,14 +132,7 @@
                         }
                     }
                 ]
-                //"order": [[1, 'asc']]
             });
-            //table.on('order.dt search.dt', function () {
-            //    table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            //        cell.innerHTML = i + 1;
-            //    });
-            //}).draw();
-
         });
 
     </script>
