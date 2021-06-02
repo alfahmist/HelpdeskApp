@@ -78,8 +78,8 @@ namespace API.Controllers
             });
         }
 
-        [AllowAnonymous]
-        [HttpPost("Opened-Ticket")]
+        //[AllowAnonymous]
+        [HttpGet("GetOpenTickets")]
         public IEnumerable<dynamic> GetOpenTickets()
         {
             var dbparams = new DynamicParameters();
@@ -88,12 +88,12 @@ namespace API.Controllers
         }
         
         [AllowAnonymous]
-        [HttpPost("Responsed-Ticket")]
+        [HttpGet("GetResponsedTickets")]
         public IEnumerable<dynamic> GetResponsedTickets()
         {
             var dbparams = new DynamicParameters();
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_ResponsedTicket]", dbparams, commandType: CommandType.StoredProcedure);
+            return db.Query<dynamic>("[dbo].[SP_ClosedTicket]", dbparams, commandType: CommandType.StoredProcedure);
         }
         
         [AllowAnonymous]

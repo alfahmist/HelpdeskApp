@@ -262,12 +262,12 @@
                 if (result == 200) {
                     alert("Successed to Add Data!");
                     $('#Register').modal('hide');
-                    $("#email").val();
-                    $("#name").val();
-                    $("#password").val();
-                    $("#registerDate").val();
-                    $("#registerGender").val();
-                    $("#registerPhone").val();
+                    $("#email").val("");
+                    $("#name").val("");
+                    $("#password").val("");
+                    $("#registerDate").val("");
+                    $("#registerGender").val("");
+                    $("#registerPhone").val("");
                 }
             }).fail((result) => {
                 console.log(result);
