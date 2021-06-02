@@ -25,9 +25,7 @@ namespace Client
         {
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
-            //services.AddSession(options => {
-               
-            //});
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +48,7 @@ namespace Client
             app.UseRouting();
 
             app.UseAuthorization();
-            //app.UseSession();
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -58,5 +56,5 @@ namespace Client
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-    }
+    }   
 }
