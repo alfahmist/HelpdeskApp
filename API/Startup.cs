@@ -36,8 +36,8 @@ namespace API
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44397")
-                        .AllowAnyOrigin().AllowAnyMethod();
+                        builder.WithOrigins("https://localhost:44326")
+                        .AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });
 
@@ -94,10 +94,10 @@ namespace API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseCors();
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,7 +92,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_M_ClientAccount",
+                name: "TB_M_Account",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -100,9 +100,9 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_M_ClientAccount", x => x.Id);
+                    table.PrimaryKey("PK_TB_M_Account", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TB_M_ClientAccount_TB_M_Employee_Id",
+                        name: "FK_TB_M_Account_TB_M_Employee_Id",
                         column: x => x.Id,
                         principalTable: "TB_M_Employee",
                         principalColumn: "Id",
@@ -138,7 +138,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Table_T_TicketMessage",
+                name: "TB_T_TicketMessage",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -150,9 +150,9 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Table_T_TicketMessage", x => x.Id);
+                    table.PrimaryKey("PK_TB_T_TicketMessage", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Table_T_TicketMessage_TB_T_Ticket_TicketId",
+                        name: "FK_TB_T_TicketMessage_TB_T_Ticket_TicketId",
                         column: x => x.TicketId,
                         principalTable: "TB_T_Ticket",
                         principalColumn: "Id",
@@ -215,14 +215,16 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Table_T_TicketMessage_TicketId",
-                table: "Table_T_TicketMessage",
-                column: "TicketId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TB_M_Employee_DepartmentId",
                 table: "TB_M_Employee",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_M_Employee_Email",
+                table: "TB_M_Employee",
+                column: "Email",
+                unique: true,
+                filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_M_Employee_RoleId",
@@ -238,6 +240,11 @@ namespace API.Migrations
                 name: "IX_TB_T_Ticket_EmployeeId",
                 table: "TB_T_Ticket",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_T_TicketMessage_TicketId",
+                table: "TB_T_TicketMessage",
+                column: "TicketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_T_TicketResponse_EmployeeId",
@@ -263,10 +270,10 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Table_T_TicketMessage");
+                name: "TB_M_Account");
 
             migrationBuilder.DropTable(
-                name: "TB_M_ClientAccount");
+                name: "TB_T_TicketMessage");
 
             migrationBuilder.DropTable(
                 name: "TB_T_TicketResponse");
