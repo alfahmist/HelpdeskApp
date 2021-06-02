@@ -1,0 +1,144 @@
+﻿
+@{
+    Layout = "/Views/Shared/_LayoutDashboard.cshtml";
+    ViewData["Title"] = "OpenedTicket";
+    //Layout = "~/Views/Dashboard/Index.cshtml";
+}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>150</h3>
+
+                        <p>New Ticket</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                        <p>Open</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>44</h3>
+
+                        <p>In Progress</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>65</h3>
+
+                        <p>Closed</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <br />
+        <div style="width:90%; margin:50px auto;">
+            <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <table id="employeeDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td scope="col">TicketID</td>
+                        <td scope="col">TicketName</td>
+                        <td scope="col">Requestor</td>
+                        <td scope="col">OpenDate</td>
+                        <td scope="col">Description</td>
+                        <td scope="col">TicketSubject</td>
+                        <td scope="col">TicketMessage</td>
+                        <td scope="col">TicketStatus</td>
+                        <td scope="col">StatusDate</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+@section Scripts
+{
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function LoadTable() {
+            table = $('#employeeDatatable').DataTable({
+                "ajax": {
+
+                    "processing": true,
+                    "serverSide": false,
+                    "filter": true,
+                    url: "/Ticket/GetOpenedTicket",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    dataSrc: ""
+                },
+                "columns": [
+                    { "data": "ticketID" },
+                    { "data": "ticketName" },
+                    {
+                        "data": "requestor",
+                    },
+                    {
+                        "data": "openDate",
+                        render: function (data, type, row) {
+                            let date = moment(row.openDate).format('DD MMMM YYYY')
+                            return date
+                        }
+                    },
+                    { "data": "description" },
+                    { "data": "ticketSubject" },
+                    { "data": "ticketMessage" },
+                    { "data": "ticketStatus" },
+                    {
+                        "data": "statusDate",
+                        render: function (data, type, row) {
+                            let dates = moment(row.statusDate).format('DD MMMM YYYY')
+                            return dates
+                        }
+                    }
+                ]
+            })
+
+        });
+
+    </script>
+}

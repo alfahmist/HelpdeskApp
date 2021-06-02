@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "/Views/Shared/_LoginLayout.cshtml";
     ViewBag.Title = "Login";
 }
@@ -48,6 +48,7 @@
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-info float-right" onclick="Login()">Sign in</button>
                                 @*<button type="submit" class="btn btn-info float-right" asp-controller="login" asp-action="login" onclick="Login()">Sign in</button>*@
+
                             </div>
                             <!-- /.card-footer -->
 
@@ -166,7 +167,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal">Register</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal" onclick="Register()" >Register</button>
                 </div>
             </form>
         </div>
@@ -250,6 +251,91 @@
             $('#genderMale').prop("checked", false);
             $('#genderFemale').prop("checked", false);
         }
+        function Login() {
+        var Login = new Object();
+        Login.Email = $("#emailLogin").val();
+        Login.Password = $("#passwordLogin").val();
+        console.log(Login);
+            $.ajax({
+                type: 'POST',
+                url: '/Authentication/Login',
+                data: Login
+            }).done((result) => {
+                console.log("ok");
+                //console.log(result);
+                if (result == 200) {
+                    alert("Successed to Login");
+
+                    window.location.href = "https://localhost:44346/Home/";
+                }
+                else {
+                    alert("Cannot Login");
+                }
+            }).fail((result) => {
+                //console.log(result);
+                if (result != 200) {
+                    alert("Failed to Login");
+                }
+            })
+        }
+
+
+        function Register() {
+        var User = new Object();
+        User.Email = $("#email").val();
+        User.Name = $("#name").val();
+        User.Password = $("#password").val();
+        User.BirthDate = $("#registerDate").val();
+        User.Gender = $("#registerGender").val();
+        User.Phone = $("#registerPhone").val();
+        $.ajax({
+            type: 'post',
+            url: '/authentication/register',
+            data: User
+            }).done((result) => {
+                console.log(result);
+                if (result == 200) {
+                    alert("Successed to Add Data!");
+                    $('#Register').modal('hide');
+                    $("#email").val("");
+                    $("#name").val("");
+                    $("#password").val("");
+                    $("#registerDate").val("");
+                    $("#registerGender").val("");
+                    $("#registerPhone").val("");
+                }
+            }).fail((result) => {
+                console.log(result);
+                alert("Failed to Add Data!");
+            })
+        }
+
+        //var ModalFlow = state => {
+        //    switch (state) {
+        //        case "forgot":
+        //            $('#exampleModalLongTitle').text("Forgot Password");
+        //            $('#buttonModal').text("Send Email");
+        //            $('#registerName').hide();
+        //            $('#registerPassword').hide();
+        //            $('#registerPhone').hide();
+        //            $('#registerGender').hide();
+        //            $('#registerPhone').hide();
+        //            $('#registerDate').hide();
+        //            break;
+        //        case "register":
+        //            $('#exampleModalLongTitle').text("Register");
+        //            $('#buttonModal').text("Register");
+        //            $('#registerName').show();
+        //            $('#registerPassword').show();
+        //            $('#registerPhone').show();
+        //            $('#registerGender').show();
+        //            $('#registerPhone').show();
+        //            $('#registerDate').show();
+        //            break;
+        //        default:
+        //        // code block
+        //    }
+        //}
 
 
     </script>
