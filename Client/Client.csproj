@@ -5,157 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\dist\**" />
     <Compile Remove="wwwroot\plugins\**" />
+    <Content Remove="wwwroot\dist\**" />
     <Content Remove="wwwroot\plugins\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
     <EmbeddedResource Remove="wwwroot\plugins\**" />
+    <None Remove="wwwroot\dist\**" />
     <None Remove="wwwroot\plugins\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\dist\css\adminlte.css" />
-    <Content Remove="wwwroot\dist\css\adminlte.css.map" />
-    <Content Remove="wwwroot\dist\css\adminlte.min.css" />
-    <Content Remove="wwwroot\dist\css\adminlte.min.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.components.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.components.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.components.min.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.components.min.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.core.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.core.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.core.min.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.core.min.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.extra-components.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.extra-components.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.extra-components.min.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.extra-components.min.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.pages.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.pages.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.pages.min.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.pages.min.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.plugins.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.plugins.css.map" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.plugins.min.css" />
-    <Content Remove="wwwroot\dist\css\alt\adminlte.plugins.min.css.map" />
-    <Content Remove="wwwroot\dist\img\AdminLTELogo.png" />
-    <Content Remove="wwwroot\dist\img\avatar.png" />
-    <Content Remove="wwwroot\dist\img\avatar2.png" />
-    <Content Remove="wwwroot\dist\img\avatar3.png" />
-    <Content Remove="wwwroot\dist\img\avatar4.png" />
-    <Content Remove="wwwroot\dist\img\avatar5.png" />
-    <Content Remove="wwwroot\dist\img\boxed-bg.jpg" />
-    <Content Remove="wwwroot\dist\img\boxed-bg.png" />
-    <Content Remove="wwwroot\dist\img\credit\american-express.png" />
-    <Content Remove="wwwroot\dist\img\credit\cirrus.png" />
-    <Content Remove="wwwroot\dist\img\credit\mastercard.png" />
-    <Content Remove="wwwroot\dist\img\credit\paypal.png" />
-    <Content Remove="wwwroot\dist\img\credit\paypal2.png" />
-    <Content Remove="wwwroot\dist\img\credit\visa.png" />
-    <Content Remove="wwwroot\dist\img\default-150x150.png" />
-    <Content Remove="wwwroot\dist\img\icons.png" />
-    <Content Remove="wwwroot\dist\img\photo1.png" />
-    <Content Remove="wwwroot\dist\img\photo2.png" />
-    <Content Remove="wwwroot\dist\img\photo3.jpg" />
-    <Content Remove="wwwroot\dist\img\photo4.jpg" />
-    <Content Remove="wwwroot\dist\img\prod-1.jpg" />
-    <Content Remove="wwwroot\dist\img\prod-2.jpg" />
-    <Content Remove="wwwroot\dist\img\prod-3.jpg" />
-    <Content Remove="wwwroot\dist\img\prod-4.jpg" />
-    <Content Remove="wwwroot\dist\img\prod-5.jpg" />
-    <Content Remove="wwwroot\dist\img\user1-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user2-160x160.jpg" />
-    <Content Remove="wwwroot\dist\img\user3-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user4-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user5-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user6-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user7-128x128.jpg" />
-    <Content Remove="wwwroot\dist\img\user8-128x128.jpg" />
-    <Content Remove="wwwroot\dist\js\adminlte.js" />
-    <Content Remove="wwwroot\dist\js\adminlte.js.map" />
-    <Content Remove="wwwroot\dist\js\adminlte.min.js" />
-    <Content Remove="wwwroot\dist\js\adminlte.min.js.map" />
-    <Content Remove="wwwroot\dist\js\demo.js" />
-    <Content Remove="wwwroot\dist\js\pages\dashboard.js" />
-    <Content Remove="wwwroot\dist\js\pages\dashboard2.js" />
-    <Content Remove="wwwroot\dist\js\pages\dashboard3.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\dist\css\adminlte.css" />
-    <None Include="wwwroot\dist\css\adminlte.css.map" />
-    <None Include="wwwroot\dist\css\adminlte.min.css" />
-    <None Include="wwwroot\dist\css\adminlte.min.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.components.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.components.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.components.min.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.components.min.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.core.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.core.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.core.min.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.core.min.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.extra-components.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.extra-components.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.extra-components.min.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.extra-components.min.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.pages.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.pages.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.pages.min.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.pages.min.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.plugins.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.plugins.css.map" />
-    <None Include="wwwroot\dist\css\alt\adminlte.plugins.min.css" />
-    <None Include="wwwroot\dist\css\alt\adminlte.plugins.min.css.map" />
-    <None Include="wwwroot\dist\img\AdminLTELogo.png" />
-    <None Include="wwwroot\dist\img\avatar.png" />
-    <None Include="wwwroot\dist\img\avatar2.png" />
-    <None Include="wwwroot\dist\img\avatar3.png" />
-    <None Include="wwwroot\dist\img\avatar4.png" />
-    <None Include="wwwroot\dist\img\avatar5.png" />
-    <None Include="wwwroot\dist\img\boxed-bg.jpg" />
-    <None Include="wwwroot\dist\img\boxed-bg.png" />
-    <None Include="wwwroot\dist\img\credit\american-express.png" />
-    <None Include="wwwroot\dist\img\credit\cirrus.png" />
-    <None Include="wwwroot\dist\img\credit\mastercard.png" />
-    <None Include="wwwroot\dist\img\credit\paypal.png" />
-    <None Include="wwwroot\dist\img\credit\paypal2.png" />
-    <None Include="wwwroot\dist\img\credit\visa.png" />
-    <None Include="wwwroot\dist\img\default-150x150.png" />
-    <None Include="wwwroot\dist\img\icons.png" />
-    <None Include="wwwroot\dist\img\photo1.png" />
-    <None Include="wwwroot\dist\img\photo2.png" />
-    <None Include="wwwroot\dist\img\photo3.jpg" />
-    <None Include="wwwroot\dist\img\photo4.jpg" />
-    <None Include="wwwroot\dist\img\prod-1.jpg" />
-    <None Include="wwwroot\dist\img\prod-2.jpg" />
-    <None Include="wwwroot\dist\img\prod-3.jpg" />
-    <None Include="wwwroot\dist\img\prod-4.jpg" />
-    <None Include="wwwroot\dist\img\prod-5.jpg" />
-    <None Include="wwwroot\dist\img\user1-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user2-160x160.jpg" />
-    <None Include="wwwroot\dist\img\user3-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user4-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user5-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user6-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user7-128x128.jpg" />
-    <None Include="wwwroot\dist\img\user8-128x128.jpg" />
-    <None Include="wwwroot\dist\js\adminlte.js" />
-    <None Include="wwwroot\dist\js\adminlte.js.map" />
-    <None Include="wwwroot\dist\js\adminlte.min.js" />
-    <None Include="wwwroot\dist\js\adminlte.min.js.map" />
-    <None Include="wwwroot\dist\js\demo.js" />
-    <None Include="wwwroot\dist\js\pages\dashboard.js" />
-    <None Include="wwwroot\dist\js\pages\dashboard2.js" />
-    <None Include="wwwroot\dist\js\pages\dashboard3.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\dist\js\.eslintrc.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\API\API.csproj" />
   </ItemGroup>
 
 </Project>

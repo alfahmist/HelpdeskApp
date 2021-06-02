@@ -1,4 +1,5 @@
-﻿using Client.Models;
+﻿using API.Models;
+using Client.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Client.Controllers
@@ -14,7 +16,11 @@ namespace Client.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         const string SessionName = "_Name";
-        const string SessionAge = "_Age";
+        const string SessionToken = "_Token";
+        readonly HttpClient client = new HttpClient
+        {
+            BaseAddress = new Uri("https://localhost:44397/API/")
+        };
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,9 +29,9 @@ namespace Client.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
-            ViewBag.Age = HttpContext.Session.GetInt32(SessionAge);
-            if(HttpContext.Session.GetString(SessionName) == null)
+            //ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            ViewBag.name = "Hello";
+            if(ViewBag.Name == null)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -40,7 +46,23 @@ namespace Client.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove(SessionName);
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public JsonResult GetTicketID(int id)
+        {
+           
+            var responseTask = client.GetAsync($"Tickets/{id}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var tickets = readTask.Result;
+                return Json(tickets);
+            }
+            return Json(null);
         }
 
         public IActionResult Privacy()
