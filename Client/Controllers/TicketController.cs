@@ -39,6 +39,7 @@ namespace Client.Controllers
         {
             return View();
         }
+        
         //public TicketController()
         //{
         //    clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -73,6 +74,8 @@ namespace Client.Controllers
             }
             return closedTickets;
         }
+
+        
     }
 }
 

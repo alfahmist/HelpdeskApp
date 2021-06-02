@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "/Views/Shared/_LoginLayout.cshtml";
     ViewBag.Title = "Login";
 }
@@ -46,9 +46,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info float-right" onclick="Login()">Sign in</button>
-
-                                @*<button type="submit" class="btn btn-info float-right" asp-controller="login" asp-action="login" onclick="Login()">Sign in</button>*@
+                                <button type="submit" class="btn btn-info float-right" asp-controller="login" asp-action="login" onclick="Login()">Sign in</button>
 
                             </div>
                             <!-- /.card-footer -->
@@ -253,7 +251,6 @@
             $('#genderFemale').prop("checked", false);
         }
 
-
         function Login() {
         var Login = new Object();
         Login.Email = $("#emailLogin").val();
@@ -339,8 +336,6 @@
         //        // code block
         //    }
         //}
-
-
 
     </script>
     @*<script>
