@@ -12,6 +12,7 @@ namespace Client.Controllers
 {
     public class TicketController : Controller
     {
+
         private MyContext myContext = new MyContext();
         HttpClientHandler clientHandler = new HttpClientHandler();
 
@@ -26,6 +27,15 @@ namespace Client.Controllers
         }
         
         public IActionResult ClosedTicket()
+        {
+            return View();
+        }
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult InProgressTicket()
         {
             return View();
         }
@@ -65,3 +75,4 @@ namespace Client.Controllers
         }
     }
 }
+

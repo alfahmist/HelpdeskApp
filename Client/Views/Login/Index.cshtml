@@ -25,7 +25,7 @@
                             <div class="card-body">
                                 <div class="form-row mb-3" id="loginEmail">
                                     <label for="loginEmail" class="col-sm-3 col-form-label">Email</label>
-                                    <input type="email" class="form-control col-sm-9" placeholder="Ex. john.smith@gmail.com" name="loginEmail" required>
+                                    <input id="emailLogin" type="email" class="form-control col-sm-9" placeholder="Ex. john.smith@gmail.com" name="loginEmail" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide an email correctly.
                                     </div>
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-row" id="loginPasword">
                                     <label for="loginPassword" class="col-sm-3 col-form-label">Password</label>
-                                    <input type="password" class="form-control col-sm-9" placeholder="Password here..." name="loginPassword" minlength="6" maxlength="12" required>
+                                    <input id="passwordLogin" type="password" class="form-control col-sm-9" placeholder="Password here..." name="loginPassword" minlength="6" maxlength="12" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Password less then 6.
                                     </div>
@@ -47,6 +47,9 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-info float-right" onclick="Login()">Sign in</button>
+
+                                @*<button type="submit" class="btn btn-info float-right" asp-controller="login" asp-action="login" onclick="Login()">Sign in</button>*@
+
                             </div>
                             <!-- /.card-footer -->
 
@@ -174,7 +177,16 @@
 
 @section Scripts {
 
+
     <script>
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+            }, false);
+        });
         $(document).ready(function () {
             $('#exampleModalCenter').on('hidden.bs.modal', function () {
                 ModalClear();
@@ -184,7 +196,32 @@
 
             FormValidation();
         });
+        function Login() {
+            var data = new Object();
+            data.Email = $("#emailLogin").val();
+            data.Password = $("#passwordLogin").val();
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/Login/AuthLogin',
+                data: data
+            }).done((result) => {
+                alert(result);
+                if (result == 200) {
+                    alert("Successed to Login");
 
+                    window.location.href = "https://localhost:44326";
+                }
+                else {
+                    alert("Cannot Login");
+                }
+            }).fail((result) => {
+                //console.log(result);
+                if (result != 200) {
+                    alert("Failed to Login");
+                }
+            })
+        }
         var ClearValidation = () => {
             var forms = document.getElementsByClassName('needs-validation modal-validation');
             Array.prototype.filter.call(forms, function (form) {
@@ -215,6 +252,7 @@
             $('#genderMale').prop("checked", false);
             $('#genderFemale').prop("checked", false);
         }
+
 
         function Login() {
         var Login = new Object();
@@ -301,6 +339,7 @@
         //        // code block
         //    }
         //}
+
 
 
     </script>

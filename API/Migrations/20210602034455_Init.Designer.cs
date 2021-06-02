@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210529140817_UniqueEmail")]
-    partial class UniqueEmail
+    [Migration("20210602034455_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,7 +136,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TB_T_Status");
+                    b.ToTable("TB_M_Status");
                 });
 
             modelBuilder.Entity("API.Models.Ticket", b =>
@@ -191,7 +191,7 @@ namespace API.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("Table_T_TicketMessage");
+                    b.ToTable("TB_T_TicketMessage");
                 });
 
             modelBuilder.Entity("API.Models.TicketResponse", b =>
