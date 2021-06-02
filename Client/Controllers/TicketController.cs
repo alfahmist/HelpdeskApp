@@ -29,10 +29,10 @@ namespace Client.Controllers
         {
             return View();
         }
-        public TicketController()
-        {
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-        }
+        //public TicketController()
+        //{
+        //    clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+        //}
 
         [HttpGet]
         public async Task<List<OpenedTicketVM>> GetOpenedTicket()
