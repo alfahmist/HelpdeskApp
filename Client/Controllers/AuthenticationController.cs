@@ -1,5 +1,6 @@
 ﻿using API.Context;
 using API.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -16,6 +17,7 @@ namespace Client.Controllers
     public class AuthenticationController : Controller
     {
         private MyContext myContext = new MyContext();
+        const string SessionToken = "_Token";
         public IActionResult Index()
         {
             return View("Views/Authentication/Index.cshtml");
@@ -25,8 +27,18 @@ namespace Client.Controllers
         public HttpStatusCode Login(LoginVM loginVM)
         {
             var httpclient = new HttpClient();
+
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-            var result = httpclient.PostAsync("https://localhost:44387/api/Account/Login/", stringContent).Result;
+            var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+
+            if ((int)result.StatusCode == 200)
+            {
+                var responseBody = result.Content.ReadAsStringAsync().Result;
+                //HttpContext.Session.SetString("token", responseBody.Result.ToString());
+                httpclient.DefaultRequestHeaders.Add("Authorization", "Bearer " + responseBody);
+
+                HttpContext.Session.SetString(SessionToken, responseBody);
+            }
             return result.StatusCode;
         }
 
