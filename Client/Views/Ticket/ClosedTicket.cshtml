@@ -5,106 +5,98 @@
     //Layout = "~/Views/Dashboard/Index.cshtml";
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>150</h3>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>150</h3>
 
-                    <p>New Ticket</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <p>New Ticket</p>
             </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Open</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
             </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>44</h3>
-
-                    <p>In Progress</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Closed</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
     </div>
-    <br />
-    <div style="width:90%; margin:50px auto;">
-        <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <table id="closedTicketDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <td scope="col">TicketID</td>
-                    <td scope="col">Description</td>
-                    <td scope="col">TicketSubject</td>
-                    <td scope="col">TicketMessage</td>
-                    <td scope="col">OpenDate</td>
-                    <td scope="col">RequestorID</td>
-                    <td scope="col">RequestorName</td>
-                    <td scope="col">Status</td>
-                    <td scope="col">StatusDate</td>
-                    <td scope="col">Solution</td>
-                    <td scope="col">SolutionDate</td>
-                    <td scope="col">RespondanceName</td>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <td scope="col">TicketID</td>
-                    <td scope="col">Description</td>
-                    <td scope="col">TicketSubject</td>
-                    <td scope="col">TicketMessage</td>
-                    <td scope="col">OpenDate</td>
-                    <td scope="col">RequestorID</td>
-                    <td scope="col">RequestorName</td>
-                    <td scope="col">Status</td>
-                    <td scope="col">StatusDate</td>
-                    <td scope="col">Solution</td>
-                    <td scope="col">SolutionDate</td>
-                    <td scope="col">RespondanceName</td>
-                </tr>
-            </tfoot>
-        </table>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>Open</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>44</h3>
+
+                <p>In Progress</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>65</h3>
+
+                <p>Closed</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Open Ticket</h3>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-body">
+                <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <table id="closedTicketDatatable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td scope="col">No</td>
+                            <td scope="col">TicketID</td>
+                            <td scope="col">Description</td>
+                            <td scope="col">TicketSubject</td>
+                            <td scope="col">TicketMessage</td>
+                            <td scope="col">OpenDate</td>
+                            <td scope="col">RequestorID</td>
+                            <td scope="col">RequestorName</td>
+                            <td scope="col">Status</td>
+                            <td scope="col">StatusDate</td>
+                            <td scope="col">Solution</td>
+                            <td scope="col">SolutionDate</td>
+                            <td scope="col">RespondanceName</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -118,9 +110,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script>
         $(document).ready(function LoadTable() {
+
             table = $('#closedTicketDatatable').DataTable({
                 "ajax": {
-
                     //"processing": false,
                     //"serverSide": false,
                     //"filter": false,
@@ -128,7 +120,8 @@
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    dataSrc: ""
+                    dataSrc: "",
+                    responsive: true, "lengthChange": false, "autoWidth": false,
                 },
                 "columns": [
                     {
@@ -162,7 +155,8 @@
                         }
                     },
                     { "data": "solution" },
-                    { "data": "solutionDate",
+                    {
+                        "data": "solutionDate",
                         render: function (data, type, row) {
                             let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
                             return dates
