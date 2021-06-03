@@ -26,6 +26,11 @@ namespace Client.Controllers
             
             return View();
         }
+        public IActionResult Login()
+        {
+            HttpContext.Session.GetString("JWToken");
+            return RedirectToAction("Index", "Home");
+        }
 
         public string LoginEmployee(LoginVM login)
         {
@@ -60,11 +65,6 @@ namespace Client.Controllers
             }
         }
 
-        public IActionResult Login()
-        {
-            HttpContext.Session.GetString("JWToken");
-            return RedirectToAction("Index", "Home");
-        }
 
         [HttpPost]
         public HttpStatusCode AuthLogin(LoginVM loginVM)
