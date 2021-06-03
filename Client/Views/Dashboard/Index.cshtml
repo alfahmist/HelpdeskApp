@@ -78,15 +78,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Ticket ID</th>
-                            <th>Ticket Status</th>
-                            <th>Ticket SUbject</th>
-                            <th>Ticket Name</th>
-                            <th>Ticket Message</th>
-                            <th>Status Date</th>
-                            <th>Requestor</th>
-                            <th>Open Date</th>
-                            <th>Description</th>
+                            <th scope="col">Ticket ID</th>
+                            <th scope="col">Ticket Name</th>
+                            <th scope="col">Requestor Name</th>
+                            <th scope="col">Ticket Date</th>
+                            <th scope="col">Ticket Status</th>
+                            <th scope="col">Status Date</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -104,45 +101,58 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: "/Ticket/GetInprogressTicket",
-                type: "GET",
-            }).done(result => {
-                console.log(result);
-            }).fail(result => {
-                console.log("Gagal");
-            })
+            //$.ajax({
+            //    url: "/Ticket/GetInprogressTicket",
+            //    type: "GET",
+            //}).done(result => {
+            //    console.log(result);
+            //}).fail(result => {
+            //    console.log("Gagal");
+            //})
         
 
-            $(function () {
+            //$(function LoadTable() {
                 $('#example2').DataTable({
                     ajax: {
                         url: "/Ticket/GetInprogressTicket",
                         type: "GET",
                         dataSrc: ""
                     },
-                    columns: [
-                        {
-                            data: null,
-                            render: (data, type, row, meta) => {
-                                return meta.row + meta.settings._iDisplayStart + 1;
+                    columns:
+                        [
+                            {
+                                data: null,
+                                render: (data, type, row, meta) => {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }
+                            },
+                            { "data": "ticketID" },
+                            { "data": "ticketName" },
+                            //{ "data": "Category"},
+                            { "data": "requestorName" },
+                            {
+                                "data": "ticketDate",
+                                render: function (data, type, row) {
+                                    let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
+                                    return date
+                                }
+                            },
+                            { "data": "ticketStatus" },
+                            {
+                                "data": "statusDate",
+                                render: function (data, type, row) {
+                                    let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                                    return dates
+                                }
                             }
-                        },
-                        { data: "TicketID" },
-                        { data: "Ticket Status" },
-                        { data: "Ticket SUbject" },
-                        { data: "Ticket Name" },
-                        { data: "Ticket Message" },
-                        { data: "Status Date" },
-                        { data: "Requestor" },
-                        { data: "Open Date" },
-                        { data: "Description" },
-                    ]
-                });
-            });
+                        ]
+                            
+                })
+            //});
         });
 
     </script>
