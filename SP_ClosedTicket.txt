@@ -1,0 +1,36 @@
+CREATE PROCEDURE [dbo].[SP_ClosedTicket]
+AS
+BEGIN
+		SELECT DISTINCT tic.Id AS 'TicketID',
+			tic.[Name] AS 'TicketName', 
+			--cat.[Name] AS 'Category',
+			emp.[Name] AS 'RequestorName', 
+			tic.CreatedDate 'TicketDate',
+			 st.[Name] AS 'TicketStatus', 
+			 ts.StatusDate AS 'StatusDate'
+		FROM TB_T_Ticket as tic
+		JOIN TB_M_Categories AS cat ON cat.Id = tic.CategoriesId
+		JOIN TB_M_Employee AS emp ON tic.EmployeeId = emp.Id
+		JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
+		JOIN TB_M_Status AS st ON ts.StatusId = st.Id
+		WHERE ts.StatusId = 3
+	--SELECT	tic.Id AS 'TicketId',
+	--			--tic.[Description] AS 'Description', 
+	--			TMessage.[Subject] AS 'TicketSubject', TMessage.[Message] AS 'TicketMessage',
+	--			tic.CreatedDate AS 'OpenDate', 
+	--			tic.EmployeeId AS 'RequestorID',
+	--			emp.[Name] AS 'RequestorName',
+	--			st.[Name] AS 'Status',
+	--			ts.StatusDate AS 'StatusDate',
+	--			tr.Solution AS 'Solution',
+	--			tr.ResponDate AS 'SolutionDate',
+	--			response.[Name] AS 'RespondanceName'
+	--		FROM TB_T_Ticket as tic 
+	--		JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id 
+	--		JOIN TB_M_Status AS st ON ts.StatusId = st.Id
+	--		JOIN TB_M_Employee as emp ON emp.Id = tic.EmployeeId
+	--		JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
+	--		JOIN TB_T_TicketResponse AS tr ON tic.Id = tr.TicketId
+	--		JOIN TB_M_Employee AS response ON tr.EmployeeId = response.Id
+	--		WHERE ts.StatusId = 3;
+END

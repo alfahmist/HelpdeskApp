@@ -2,21 +2,33 @@ CREATE PROCEDURE [dbo].[SP_GetOpenedTicket]
 
 AS
 BEGIN
-
-	SELECT tic.Id AS 'TicketID',tic.[Name] AS 'Ticket Name', tic.EmployeeId AS 'Requestor', tic.CreatedDate AS 'Open Date', tic.[Description] AS 'Description', TMessage.[Subject] AS 'Ticket SUbject', TMessage.[Message] AS 'Ticket Message', st.[Name] AS 'Ticket Status', ts.StatusDate AS 'Status Date'
-						
+	SELECT DISTINCT tic.Id AS 'TicketID',
+		tic.[Name] AS 'TicketName', 
+		--cat.[Name] AS 'Category',
+		emp.[Name] AS 'RequestorName', 
+		tic.CreatedDate 'TicketDate',
+		 st.[Name] AS 'TicketStatus', 
+		 ts.StatusDate AS 'StatusDate'
 	FROM TB_T_Ticket as tic
-	JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
+	JOIN TB_M_Categories AS cat ON cat.Id = tic.CategoriesId
+	JOIN TB_M_Employee AS emp ON tic.EmployeeId = emp.Id
 	JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
 	JOIN TB_M_Status AS st ON ts.StatusId = st.Id
 	WHERE ts.StatusId = 1
-	AND NOT EXISTS 
-	(
-		SELECT tic.Id AS 'TicketID',tic.[Name] AS 'Ticket Name', tic.EmployeeId AS 'Requestor', tic.CreatedDate AS 'Open Date', tic.[Description] AS 'Description', TMessage.[Subject] AS 'Ticket SUbject', TMessage.[Message] AS 'Ticket Message', st.[Name] AS 'Ticket Status', ts.StatusDate AS 'Status Date'
-		FROM TB_T_Ticket as tic
-		JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
-		JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
-		JOIN TB_M_Status AS st ON ts.StatusId = st.Id
-		WHERE ts.StatusId = 3 AND ts.StatusId = 2
-	)
+	--SELECT tic.Id AS 'TicketID',tic.[Name] AS 'TicketName', tic.EmployeeId AS 'Requestor', tic.CreatedDate AS 'OpenDate', tic.[Description] AS 'Description', TMessage.[Subject] AS 'TicketSubject', TMessage.[Message] AS 'TicketMessage', st.[Name] AS 'TicketStatus', ts.StatusDate AS 'StatusDate'
+						
+	--FROM TB_T_Ticket as tic
+	--JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
+	--JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
+	--JOIN TB_M_Status AS st ON ts.StatusId = st.Id
+	--WHERE ts.StatusId = 1
+	--AND NOT EXISTS 
+	--(
+	--	SELECT tic.Id AS 'TicketID',tic.[Name] AS 'TicketName', tic.EmployeeId AS 'Requestor', tic.CreatedDate AS 'OpenDate', tic.[Description] AS 'Description', TMessage.[Subject] AS 'TicketSUbject', TMessage.[Message] AS 'TicketMessage', st.[Name] AS 'TicketStatus', ts.StatusDate AS 'StatusDate'
+	--	FROM TB_T_Ticket as tic
+	--	JOIN TB_T_TicketMessage AS TMessage ON TMessage.TicketId = tic.Id
+	--	JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
+	--	JOIN TB_M_Status AS st ON ts.StatusId = st.Id
+	--	WHERE ts.StatusId = 3 AND ts.StatusId = 2
+	--)
 END
