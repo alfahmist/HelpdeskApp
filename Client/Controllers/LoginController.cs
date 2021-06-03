@@ -19,12 +19,17 @@ namespace Client.Controllers
         const string SessionName = "_Name";
 
         const string SessionToken = "_Token";
-        
+        private MyContext myContext = new MyContext();
 
         public IActionResult Index()
         {
             
             return View();
+        }
+        public IActionResult Login()
+        {
+            HttpContext.Session.GetString("JWToken");
+            return RedirectToAction("Index", "Home");
         }
 
         public string LoginEmployee(LoginVM login)
@@ -46,10 +51,13 @@ namespace Client.Controllers
 
                 if (role == "Client")
                 {
+                    //ForClient
+
                     return Url.Action("Index", "Home");
                 }
                 else
                 {
+                    //For non-Client
                     return Url.Action("Index", "Dashboard");
                 }
             }
@@ -58,12 +66,6 @@ namespace Client.Controllers
                 return "Error";
                 //return BadRequest(new { result });
             }
-        }
-
-        public IActionResult Login()
-        {
-            HttpContext.Session.GetString("JWToken");
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -84,6 +86,31 @@ namespace Client.Controllers
        
                 HttpContext.Session.SetString(SessionToken, responseBody);
             }
+            return result.StatusCode;
+        }
+
+        [HttpPost]
+        public HttpStatusCode Register(RegisterVM registerVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
+            return result.StatusCode;
+        }
+        [HttpPut]
+        public HttpStatusCode ForgotPassword(RegisterVM registerVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/reset/", content).Result;
+            return result.StatusCode;
+        }
+        [HttpPut]
+        public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordViewModels)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordViewModels), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/ChangePassword/", content).Result;
             return result.StatusCode;
         }
     }

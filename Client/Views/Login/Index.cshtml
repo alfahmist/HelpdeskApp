@@ -326,19 +326,20 @@
         }
 
         function Register() {
-            var User = new Object();
-            User.Email = $("#email").val();
-            User.Name = $("#name").val();
-            User.Password = $("#password").val();
-            User.BirthDate = $("#registerDate").val();
-            User.Gender = $("input[type='radio'][name='gender']:checked").val();
-            User.Phone = $("#registerPhone").val();
-            User.DepartmentId = $("#departmentId").val();
-            User.RoleId = $("#roleId").val();
-            $.ajax({
-                type: 'POST',
-                url: '/Authentication/Register',
-                data: User
+
+        var User = new Object();
+        User.Email = $("#email").val();
+        User.Name = $("#name").val();
+        User.Password = $("#password").val();
+        User.BirthDate = $("#registerDate").val();
+        User.Gender = $("input[type='radio'][name='gender']:checked").val();
+        User.Phone = $("#registerPhone").val();
+        User.DepartmentId = $("#departmentId").val();
+        User.RoleId = $("#roleId").val();
+        $.ajax({
+            type: 'POST',
+            url: '/Login/Register',
+            data: User
             }).done((result) => {
                 console.log(User);
                 console.log(result);
