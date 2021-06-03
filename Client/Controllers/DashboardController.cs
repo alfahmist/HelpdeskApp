@@ -11,7 +11,7 @@ namespace Client.Controllers
 {
     public class DashboardController : Controller
     {
-        private MyContext myContext = new MyContext();
+        private readonly MyContext myContext = new MyContext();
         public DashboardController(MyContext myContext)
         {
             this.myContext = myContext;

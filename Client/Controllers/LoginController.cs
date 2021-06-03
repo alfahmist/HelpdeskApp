@@ -52,6 +52,7 @@ namespace Client.Controllers
                 if (role == "Client")
                 {
                     //ForClient
+
                     return Url.Action("Index", "Home");
                 }
                 else
@@ -66,7 +67,6 @@ namespace Client.Controllers
                 //return BadRequest(new { result });
             }
         }
-
 
         [HttpPost]
         public HttpStatusCode AuthLogin(LoginVM loginVM)

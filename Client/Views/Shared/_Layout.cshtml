@@ -65,7 +65,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link pl-3">
-                <span class="brand-text font-weight-light">@ViewBag.Name</span>
+                <span class="brand-text font-weight-light">@ViewData["name"]</span>
             </a>
 
             <!-- Sidebar -->
@@ -73,7 +73,8 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block">@ViewBag.Name</a>
+                        <a href="#" class="d-block">@ViewData["name"]</a>
+                        <a href="#" class="d-block">@ViewData["empId"]</a>
                     </div>
                 </div>
 

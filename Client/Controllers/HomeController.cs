@@ -31,14 +31,15 @@ namespace Client.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             //ViewBag.Name = HttpContext.Session.GetString(SessionName);
-            ViewBag.name = "Hello";
-            if(ViewBag.Name == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            //ViewBag.name = "Hello";
+            //if(ViewBag.Name == null)
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
             return View();
         }
 
