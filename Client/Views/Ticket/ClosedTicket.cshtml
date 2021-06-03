@@ -1,4 +1,3 @@
-﻿
 @{
     Layout = "/Views/Shared/_LayoutDashboard.cshtml";
     ViewData["Title"] = "ClosedTicket";
@@ -65,38 +64,31 @@
             <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-    <!-- ./col -->
-</div>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Open Ticket</h3>
-            </div>
-            <!-- /.card-body -->
-            <div class="card-body">
-                <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <table id="closedTicketDatatable" class="table table-bordered table-hover" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <td scope="col">No</td>
-                            <td scope="col">TicketID</td>
-                            <td scope="col">Description</td>
-                            <td scope="col">TicketSubject</td>
-                            <td scope="col">TicketMessage</td>
-                            <td scope="col">OpenDate</td>
-                            <td scope="col">RequestorID</td>
-                            <td scope="col">RequestorName</td>
-                            <td scope="col">Status</td>
-                            <td scope="col">StatusDate</td>
-                            <td scope="col">Solution</td>
-                            <td scope="col">SolutionDate</td>
-                            <td scope="col">RespondanceName</td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
+    <br />
+    <div style="width:90%; margin:50px auto;">
+        <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table id="closedTicketDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <td scope="col">TicketID</td>
+                    <td scope="col">TicketName</td>
+                    <td scope="col">RequestorName</td>
+                    <td scope="col">TicketDate</td>
+                    <td scope="col">TicketStatus</td>
+                    <td scope="col">StatusDate</td>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td scope="col">TicketID</td>
+                    <td scope="col">TicketName</td>
+                    <td scope="col">RequestorName</td>
+                    <td scope="col">TicketDate</td>
+                    <td scope="col">TicketStatus</td>
+                    <td scope="col">StatusDate</td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 
@@ -112,10 +104,8 @@
         $(document).ready(function LoadTable() {
 
             table = $('#closedTicketDatatable').DataTable({
-                "ajax": {
-                    //"processing": false,
-                    //"serverSide": false,
-                    //"filter": false,
+
+                ajax: {
                     url: "/Ticket/GetClosedTicket",
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
@@ -123,30 +113,18 @@
                     dataSrc: "",
                     responsive: true, "lengthChange": false, "autoWidth": false,
                 },
-                "columns": [
-                    {
-                        "data": null,
-                        "render": function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        },
-                        "orderMulti": true
-                    },
+                columns: [
                     { "data": "ticketID" },
-                    { "data": "description" },
-                    { "data": "ticketSubject" },
-                    { "data": "ticketMessage" },
+                    { "data": "ticketName" },
+                    { "data": "requestorName" },
                     {
-                        "data": "openDate",
+                        "data": "ticketDate",
                         render: function (data, type, row) {
                             let date = moment(row.openDate).format('DD MMMM YYYY HH:mm:ss')
                             return date
                         }
                     },
-                    {
-                        "data": "requestorID",
-                    },
-                    { "data": "requestorName" },
-                    { "data": "status" },
+                    { "data": "ticketStatus" },
                     {
                         "data": "statusDate",
                         render: function (data, type, row) {
@@ -165,12 +143,13 @@
                     { "data": "respondanceName" },
                 ],
                 "order": [[1, 'asc']]
+
             });
-            table.on('order.dt search.dt', function () {
-                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            }).draw();
+            //table.on('order.dt search.dt', function () {
+            //    table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            //        cell.innerHTML = i + 1;
+            //    });
+            //}).draw();
 
         });
 

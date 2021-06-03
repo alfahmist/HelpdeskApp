@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +27,5 @@
 
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\API\API.csproj" />
-  </ItemGroup>
 
 </Project>

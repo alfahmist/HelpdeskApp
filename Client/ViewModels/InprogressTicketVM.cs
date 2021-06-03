@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Client.ViewModels
 {
-    public class OpenedTicketVM
+    public class InprogressTicketVM
     {
         public string TicketID { get; set; }
         public string TicketName { get; set; }

@@ -30,7 +30,7 @@
             <div class="icon">
                 <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -60,7 +60,7 @@
             <div class="icon">
                 <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer" asp-area="" asp-controller="Ticket" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -77,16 +77,13 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Ticket ID</th>
-                            <th>Ticket Status</th>
-                            <th>Ticket SUbject</th>
-                            <th>Ticket Name</th>
-                            <th>Ticket Message</th>
-                            <th>Status Date</th>
-                            <th>Requestor</th>
-                            <th>Open Date</th>
-                            <th>Description</th>
+                            <td scope="col">TicketID</td>
+                            <td scope="col">TicketName</td>
+                            @* <td scope="col">Category</td>*@
+                            <td scope="col">RequestorName</td>
+                            <td scope="col">TicketDate</td>
+                            <td scope="col">TicketStatus</td>
+                            <td scope="col">StatusDate</td>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -106,41 +103,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: "https://localhost:44397/api/Tickets/Inprogress-Ticket",
-                type: "POST",
-            }).done(result => {
-                console.log(result);
-            }).fail(result => {
-                console.log("Gagal");
-            })
-
-
-            $(function () {
-                $('#example2').DataTable({
-                    ajax: {
-                        url: "https://localhost:44397/api/Tickets/Inprogress-Ticket",
-                        type: "POST",
-                        dataSrc: ""
-                    },
+         $(document).ready(function LoadTable() {
+            table = $('#employeeDatatable').DataTable({
+                ajax: {
+                    url: "/Ticket/GetInprogressTicket",
+                    type: "GET",
+                    dataSrc: ""
+                },
                     columns: [
-                        {
-                            data: null,
-                            render: (data, type, row, meta) => {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }
-                        },
-                        { data: "TicketID" },
-                        { data: "Ticket Status" },
-                        { data: "Ticket SUbject" },
-                        { data: "Ticket Name" },
-                        { data: "Ticket Message" },
-                        { data: "Status Date" },
-                        { data: "Requestor" },
-                        { data: "Open Date" },
-                        { data: "Description" },
-                    ]
+                    { "data": "ticketID" },
+                    { "data": "ticketName" },
+                    //{ "data": "Category"},
+                    { "data": "requestorName" },
+                    {
+                        "data": "ticketDate",
+                        render: function (data, type, row) {
+                            let date = moment(row.openDate).format('DD MMMM YYYY HH:mm:ss')
+                            return date
+                        }
+                    },
+                    { "data": "ticketStatus" },
+                    {
+                        "data": "statusDate",
+                        render: function (data, type, row) {
+                            let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                            return dates
+                        }
+                    }
+                ]
                 });
             });
         });

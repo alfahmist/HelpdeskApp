@@ -8,7 +8,6 @@ namespace API.ViewModel
     public class CreateTicketVM
     {
         public string TicketName { get; set; }
-        public string Description { get; set; }
         public string ClientId { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
