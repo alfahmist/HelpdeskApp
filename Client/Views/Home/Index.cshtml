@@ -165,8 +165,9 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Browser</th>
- 
+                            <th>TicketId</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -226,6 +227,8 @@
                                 return meta.row + meta.settings._iDisplayStart + 1;
                             }
                         },
+                        { data: "id" },
+                        { data: "id" },
                         { data: "id" },
                     ]
                 });
