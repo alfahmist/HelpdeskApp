@@ -9,6 +9,7 @@
             $('#registerGender').hide();
             $('#registerPhone').hide();
             $('#registerDate').hide();
+            $('#registerDepartment').hide();
             break;
         case "register":
             $('#exampleModalLongTitle').text("Register");
@@ -19,6 +20,7 @@
             $('#registerGender').show();
             $('#registerPhone').show();
             $('#registerDate').show();
+            $('#registerDepartment').show();
             break;
       
         default:

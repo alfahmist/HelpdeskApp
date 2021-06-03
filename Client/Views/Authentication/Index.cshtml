@@ -161,6 +161,16 @@
                                     </div>
                                     <div class="invalid-feedback">Choose a gender</div>
                                 </div>
+                               @*Department*@
+
+                                <div class="form-row" id="registerDepartment">
+                                    <label for="department" class="col-sm-3 col-form-label">Department</label>
+                                    <select class="form-control col-sm-9" id="department">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -202,7 +212,7 @@
             console.log(data);
             $.ajax({
                 type: 'POST',
-                url: '/Login/AuthLogin',
+                url: '/Authentication/Login',
                 data: data
             }).done((result) => {
                 alert(result);
@@ -248,6 +258,7 @@
             $('#password').val("");
             $('#phone').val("");
             $('#date').val("");
+            $('#department').val("");
             $('#genderMale').prop("checked", false);
             $('#genderFemale').prop("checked", false);
         }
@@ -284,12 +295,13 @@
         User.Email = $("#email").val();
         User.Name = $("#name").val();
         User.Password = $("#password").val();
-        User.BirthDate = $("#registerDate").val();
+        User.BirthDate = $("#date").val();
         User.Gender = $("#registerGender").val();
-        User.Phone = $("#registerPhone").val();
+            User.Phone = $("#registerPhone").val();
+            console.log(User);
         $.ajax({
             type: 'post',
-            url: '/authentication/register',
+            url: '/Authentication/Register',
             data: User
             }).done((result) => {
                 console.log(result);
