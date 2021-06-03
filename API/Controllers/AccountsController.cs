@@ -144,7 +144,7 @@ namespace API.Controllers
             {
     
                 var jwt = new JwtService(Configuration);
-                var token = jwt.LoginToken(result.Email, result.Name);
+                var token = jwt.LoginToken(result.Email, result.Name, result.Role);
                 return Ok(token);
             }
             return NotFound();

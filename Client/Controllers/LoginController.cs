@@ -1,9 +1,11 @@
-﻿using API.ViewModel;
+﻿using API.Context;
+using API.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,11 +19,45 @@ namespace Client.Controllers
         const string SessionName = "_Name";
 
         const string SessionToken = "_Token";
+        
 
         public IActionResult Index()
         {
-          
-            return View("Views/Login/index.cshtml");
+            
+            return View();
+        }
+
+        public string LoginEmployee(LoginVM login)
+        {
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+            var token = result.Content.ReadAsStringAsync().Result;
+
+            HttpContext.Session.SetString("JWToken", token);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
+               
+
+                if (role == "Client")
+                {
+                    return Url.Action("Index", "Dashboard");
+                }
+                else
+                {
+                    return Url.Action("Index", "Dashboard");
+                }
+            }
+            else
+            {
+                return "Error";
+                //return BadRequest(new { result });
+            }
         }
 
         public IActionResult Login(string loginEmail)
@@ -37,6 +73,7 @@ namespace Client.Controllers
             
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
             var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+
            
             if((int)result.StatusCode == 200)
             {

@@ -26,7 +26,7 @@ namespace Client.Controllers
         {
             var httpclient = new HttpClient();
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-            var result = httpclient.PostAsync("https://localhost:44387/api/Account/Login/", stringContent).Result;
+            var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login/", stringContent).Result;
             return result.StatusCode;
         }
 
@@ -35,7 +35,7 @@ namespace Client.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync("https://localhost:44387/api/Account/Register/", content).Result;
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
             return result.StatusCode;
         }
         [HttpPut]
@@ -43,7 +43,7 @@ namespace Client.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync("https://localhost:44387/api/Account/reset/", content).Result;
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/reset/", content).Result;
             return result.StatusCode;
         }
         [HttpPut]
@@ -51,7 +51,7 @@ namespace Client.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordViewModels), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync("https://localhost:44387/api/Account/ChangePassword/", content).Result;
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/ChangePassword/", content).Result;
             return result.StatusCode;
         }
     }
