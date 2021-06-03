@@ -51,10 +51,12 @@ namespace Client.Controllers
 
                 if (role == "Client")
                 {
-                    return Url.Action("Index", "Dashboard");
+                    //ForClient
+                    return Url.Action("Index", "Home");
                 }
                 else
                 {
+                    //For non-Client
                     return Url.Action("Index", "Dashboard");
                 }
             }
