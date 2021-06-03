@@ -14,7 +14,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 offset-sm-3">
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" id="formLogin" validate>
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Login</h3>
@@ -26,27 +26,27 @@
                                 <div class="form-row mb-3" id="loginEmail">
                                     <label for="loginEmail" class="col-sm-3 col-form-label">Email</label>
                                     <input id="emailLogin" type="email" class="form-control col-sm-9" placeholder="Ex. john.smith@gmail.com" name="loginEmail" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                    @*<div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide an email correctly.
                                     </div>
                                     <div class="valid-feedback col-sm-9 offset-3">
                                         Looks good!
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="form-row" id="loginPasword">
                                     <label for="loginPassword" class="col-sm-3 col-form-label">Password</label>
                                     <input id="passwordLogin" type="password" class="form-control col-sm-9" placeholder="Password here..." name="loginPassword" minlength="6" maxlength="12" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                    @*<div class="invalid-feedback col-sm-9 offset-3">
                                         Password less then 6.
                                     </div>
                                     <div class="valid-feedback col-sm-9 offset-3">
                                         Looks good!
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info float-right" onclick="Login()">Sign in</button>
+                                <button type="submit" class="btn btn-info float-right" id="btnLogin">Sign in</button>
 
                             </div>
                             <!-- /.card-footer -->
@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerDateForm">
                                     <label for="registerDate" class="col-sm-3 col-form-label">Birthdate</label>
                                     <input type="date" class="form-control col-sm-9" id="registerDate" name="registerDate" min="1980-01-01" max="2021-12-31" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
@@ -137,7 +137,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row mb-3">
+                                <div class="form-row mb-3" id="registerPhoneForm">
                                     <label for="registerPhone" class="col-sm-3 col-form-label">Phone</label>
                                     <input type="number" class="form-control col-sm-9" id="registerPhone" name="registerPhone" placeholder="input phone number here..." required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
@@ -148,40 +148,51 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group ">
-                                    <label for="gender" class="col-form-label">Gender</label>
-                                    <div class="col-md-12">
-                                        <input class="form-check-input" type="radio" name="gender" id="female" value="Female" required>
-                                        <label class="form-check-label" for="female"> Female </label><br />
-                                        <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
-                                        <label class="form-check-label" for="male">Male </label><br />
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Looks bad!
-                                        </div>
+                                <div class="form-row " id="registerGenderForm">
+                                    <label for="registerGenderForm" class="col-sm-4 col-form-label">Gender</label>
+                                    <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px ;margin-right:5px">
+                                        <input type="radio" class="custom-control-input" name="gender" id="female" value="Female" required>
+                                        <label class="custom-control-label" for="female" value="Female"> Female </label>
+                                    </div>
+                                    <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px">
+                                        <input type="radio" class="custom-control-input" name="gender" id="male" value="Male" required>
+                                        <label class="custom-control-label" for="male" value="Male">Male </label>
+                                    </div>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Looks bad!
                                     </div>
                                 </div>
-                                @*<div class="form-row" id="registerGender">
-            <label for="registerGender" class="col-sm-4 col-form-label">Gender</label>
-            <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px">
-                <input type="radio" class="custom-control-input" id="genderFemale" name="registerGender" required>
-                <label class="custom-control-label" value="male" for="genderFemale">Male</label>
-            </div>
-            <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px">
-                <input type="radio" class="custom-control-input" id="genderMale" name="registerGender" required>
-                <label class="custom-control-label" value="female" for="genderMale">Female</label>
-            </div>
-            <div class="invalid-feedback">Choose a gender</div>
-        </div>*@
+                                <div class="form-row mb-6" id="departmentForm">
+                                    <label for="departmentId" class="col-sm-6 col-form-label">Select Your Department</label>
+                                    <select class="col-sm-6 form-select form-select-sm" id="departmentId" aria-label="Default select example" style="margin:1px 1px">
+                                        <option selected>Department</option>
+                                        <option value="1">Customer Support</option>
+                                        <option value="2">HelpDesk</option>
+                                        <option value="3">Human Resource</option>
+                                        <option value="4">Developer</option>
+                                        <option value="5">Accounting</option>
+                                    </select>
+                                </div>
+                                <div class="form-row mb-6" id="roleForm">
+                                    <label for="roleId" class="col-sm-6 col-form-label">Select Your Role</label>
+                                    <select class="col-sm-6 form-select form-select-sm" id="roleId" aria-label="Default select example" style="margin:1px 1px">
+                                        <option selected>Role</option>
+                                        <option value="1">Customer Support</option>
+                                        <option value="2">Tehnical Support</option>
+                                        <option value="3">Advanced Support</option>
+                                        <option value="4">Client</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal" onclick="Register()" >Register</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal" onclick="Register()">Register</button>
                 </div>
             </form>
         </div>
@@ -189,15 +200,16 @@
 </div>
 
 @section Scripts {
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
     <script>
         var forms = document.getElementsByClassName('needs-validation');
         // Loop over them and prevent submission
         Array.prototype.filter.call(forms, function (form) {
             form.addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
             }, false);
         });
         $(document).ready(function () {
@@ -209,7 +221,7 @@
 
             FormValidation();
         });
-        
+
         var ClearValidation = () => {
             var forms = document.getElementsByClassName('needs-validation modal-validation');
             Array.prototype.filter.call(forms, function (form) {
@@ -237,16 +249,57 @@
             $('#password').val("");
             $('#phone').val("");
             $('#date').val("");
-            $('#genderMale').prop("checked", false);
-            $('#genderFemale').prop("checked", false);
+            $('#female').prop("checked", false);
+            $('#male').prop("checked", false);
+            $("#departmentId").val("");
+            $("#roleId").val("");
         }
+        $("#btnLogin").click(function () {
+            $('#formLogin').submit()
+        })
+        $('#formLogin').validate({
+            rules: {
+                emailLogin: {
+                    required: true,
+                },
+                passwordLogin: {
+                    required: true,
+                }
+            },
+            message: {
+                name: "Invalid email",
+                birthdate: "Invalid password",
+            },
+            submitHandler: function (form) {
+                var Login = new Object();
+            Login.Email = $("#emailLogin").val();
+            Login.Password = $("#passwordLogin").val();
+            console.log(Login);
+            if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
+                $.ajax({
+                type: 'POST',
+                url: '/Login/LoginEmployee',
+                data: Login
+                }).done((result) => {
+                    if (result != "Error") {
+                     window.location.href = result;
+                    }
 
+            }).fail((result) => {
+                if (result != 200) {
+                    alert("Failed to Login");
+                }
+            })
+            }
+            }
+        });
         function Login() {
-        var Login = new Object();
-        Login.Email = $("#emailLogin").val();
-        Login.Password = $("#passwordLogin").val();
-        console.log(Login);
-            $.ajax({
+            var Login = new Object();
+            Login.Email = $("#emailLogin").val();
+            Login.Password = $("#passwordLogin").val();
+            console.log(Login);
+            if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
+                $.ajax({
                 type: 'POST',
                 url: '/Login/LoginEmployee',
                 data: Login
@@ -257,7 +310,7 @@
                 //if (result == 200) {
                 //    alert("Successed to Login");
 
-                //    
+                //
                 //}
                 //else {
                 //    alert("Cannot Login");
@@ -268,35 +321,43 @@
                     alert("Failed to Login");
                 }
             })
+            }
+            
         }
 
-
         function Register() {
-        var User = new Object();
-        User.Email = $("#email").val();
-        User.Name = $("#name").val();
-        User.Password = $("#password").val();
-        User.BirthDate = $("#registerDate").val();
-        User.Gender = $("input[type='radio'][name='gender']:checked").val();
-        User.Phone = $("#registerPhone").val();
-            User.DepartmentId = 3;
-            User.RoleId = 4;
-        $.ajax({
-            type: 'POST',
-            url: '/Authentication/Register',
-            data: User
+            var User = new Object();
+            User.Email = $("#email").val();
+            User.Name = $("#name").val();
+            User.Password = $("#password").val();
+            User.BirthDate = $("#registerDate").val();
+            User.Gender = $("input[type='radio'][name='gender']:checked").val();
+            User.Phone = $("#registerPhone").val();
+            User.DepartmentId = $("#departmentId").val();
+            User.RoleId = $("#roleId").val();
+            $.ajax({
+                type: 'POST',
+                url: '/Authentication/Register',
+                data: User
             }).done((result) => {
                 console.log(User);
                 console.log(result);
                 if (result == 200) {
-                    alert("Successed to Add Data!");
-                    $('#Register').modal('hide');
+                    //alert("Successed to Add Data!");
+                    $('#Register').modal("hide");
                     $("#email").val("");
                     $("#name").val("");
                     $("#password").val("");
                     $("#registerDate").val("");
-                    $("#registerGender").val("");
-                    $("#registerPhone").val("");
+                    $("#departmentId").val("");
+                    $("#roleId").val("");
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Your Account Created Succesfully !",
+                            icon: "success"
+                        }
+                    );
                 }
             }).fail((result) => {
                 console.log(result);
@@ -304,32 +365,36 @@
             })
         }
 
-        //var ModalFlow = state => {
-        //    switch (state) {
-        //        case "forgot":
-        //            $('#exampleModalLongTitle').text("Forgot Password");
-        //            $('#buttonModal').text("Send Email");
-        //            $('#registerName').hide();
-        //            $('#registerPassword').hide();
-        //            $('#registerPhone').hide();
-        //            $('#registerGender').hide();
-        //            $('#registerPhone').hide();
-        //            $('#registerDate').hide();
-        //            break;
-        //        case "register":
-        //            $('#exampleModalLongTitle').text("Register");
-        //            $('#buttonModal').text("Register");
-        //            $('#registerName').show();
-        //            $('#registerPassword').show();
-        //            $('#registerPhone').show();
-        //            $('#registerGender').show();
-        //            $('#registerPhone').show();
-        //            $('#registerDate').show();
-        //            break;
-        //        default:
-        //        // code block
-        //    }
-        //}
+        var ModalFlow = state => {
+            switch (state) {
+                case "forgot":
+                    $('#exampleModalLongTitle').text("Forgot Password");
+                    $('#buttonModal').text("Send Email");
+                    $('#registerName').hide();
+                    $('#registerPassword').hide();
+                    $('#registerPhone').hide();
+                    $('#registerGenderForm').hide();
+                    $('#registerPhoneForm').hide();
+                    $('#registerDateForm').hide();
+                    $("#roleForm").hide();
+                    $("#departmentForm").hide();
+                    break;
+                case "register":
+                    $('#exampleModalLongTitle').text("Register");
+                    $('#buttonModal').text("Register");
+                    $('#registerName').show();
+                    $('#registerPassword').show();
+                    $('#registerPhone').show();
+                    $('#registerGenderForm').show();
+                    $('#registerPhoneForm').show();
+                    $('#registerDateForm').show();
+                    $("#roleForm").show();
+                    $("#departmentForm").show();
+                    break;
+                default:
+                // code block
+            }
+        }
 
     </script>
     @*<script>

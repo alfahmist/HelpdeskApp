@@ -60,9 +60,9 @@ namespace Client.Controllers
             }
         }
 
-        public IActionResult Login(string loginEmail)
+        public IActionResult Login()
         {
-            HttpContext.Session.SetString(SessionName, loginEmail);
+            HttpContext.Session.GetString("JWToken");
             return RedirectToAction("Index", "Home");
         }
 
