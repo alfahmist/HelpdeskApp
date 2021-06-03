@@ -72,22 +72,22 @@
         <table id="inprogressDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <td scope="col">TicketID</td>
-                    <td scope="col">TicketName</td>
-                    <td scope="col">RequestorName</td>
-                    <td scope="col">TicketDate</td>
-                    <td scope="col">TicketStatus</td>
-                    <td scope="col">StatusDate</td>
+                    <th scope="col">Ticket ID</th>
+                    <th scope="col">Ticket Name</th>
+                    <th scope="col">Requestor Name</th>
+                    <th scope="col">Ticket Date</th>
+                    <th scope="col">Ticket Status</th>
+                    <th scope="col">Status Date</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td scope="col">TicketID</td>
-                    <td scope="col">TicketName</td>
-                    <td scope="col">RequestorName</td>
-                    <td scope="col">TicketDate</td>
-                    <td scope="col">TicketStatus</td>
-                    <td scope="col">StatusDate</td>
+                    <th scope="col">Ticket ID</th>
+                    <th scope="col">Ticket Name</th>
+                    <th scope="col">Requestor Name</th>
+                    <th scope="col">Ticket Date</th>
+                    <th scope="col">Ticket Status</th>
+                    <th scope="col">Status Date</th>
                 </tr>
             </tfoot>
         </table>
@@ -119,7 +119,7 @@
                     {
                         "data": "ticketDate",
                         render: function (data, type, row) {
-                            let date = moment(row.openDate).format('DD MMMM YYYY HH:mm:ss')
+                            let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
                             return date
                         }
                     },

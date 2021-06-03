@@ -1,13 +1,17 @@
 ﻿using API.Models;
+using API.ViewModel;
 using Client.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Controllers
@@ -45,8 +49,8 @@ namespace Client.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove(SessionName);
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.Remove("JWToken");
+            return RedirectToAction("Index", "Login");
         }
 
         public JsonResult GetTicketID(int id)
@@ -63,6 +67,24 @@ namespace Client.Controllers
                 return Json(tickets);
             }
             return Json(null);
+        }
+
+        [HttpPost]
+        public HttpStatusCode CreateTicket(CreateTicketVM model)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/CreateTicket", content).Result;
+            return result.StatusCode;
+        }
+        
+        [HttpPost]
+        public HttpStatusCode TicketSolution(TicketResponseVM model)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/ResponseTicket", content).Result;
+            return result.StatusCode;
         }
 
         public IActionResult Privacy()

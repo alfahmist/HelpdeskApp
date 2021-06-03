@@ -7,15 +7,11 @@ namespace Client.ViewModels
 {
     public class ClosedTicketVM
     {
-		public string TicketID { get; set; }
-		public string TicketName { get; set; }
-		public string Category { get; set; }
-		public string StatusDate { get; set; }
-		public string RequestorName { get; set; }
-		public string TicketDate { get; set; }
-		public string TicketStatus { get; set; }
-		//public string Solution { get; set; }
-		//public string SolutionDate { get; set; }
-		//public string RespondanceName { get; set; }
+        public string TicketID { get; set; }
+        public string TicketName { get; set; }
+        public string RequestorName { get; set; }
+        public string TicketDate { get; set; }
+        public string TicketStatus { get; set; }
+        public string StatusDate { get; set; }
     }
 }
