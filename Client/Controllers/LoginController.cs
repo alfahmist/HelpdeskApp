@@ -19,7 +19,7 @@ namespace Client.Controllers
         const string SessionName = "_Name";
 
         const string SessionToken = "_Token";
-        
+        private MyContext myContext = new MyContext();
 
         public IActionResult Index()
         {
@@ -60,9 +60,9 @@ namespace Client.Controllers
             }
         }
 
-        public IActionResult Login(string loginEmail)
+        public IActionResult Login()
         {
-            HttpContext.Session.SetString(SessionName, loginEmail);
+            HttpContext.Session.GetString("JWToken");
             return RedirectToAction("Index", "Home");
         }
 
@@ -84,6 +84,31 @@ namespace Client.Controllers
        
                 HttpContext.Session.SetString(SessionToken, responseBody);
             }
+            return result.StatusCode;
+        }
+
+        [HttpPost]
+        public HttpStatusCode Register(RegisterVM registerVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
+            return result.StatusCode;
+        }
+        [HttpPut]
+        public HttpStatusCode ForgotPassword(RegisterVM registerVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/reset/", content).Result;
+            return result.StatusCode;
+        }
+        [HttpPut]
+        public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordViewModels)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordViewModels), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/ChangePassword/", content).Result;
             return result.StatusCode;
         }
     }
