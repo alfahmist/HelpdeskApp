@@ -15,7 +15,6 @@ namespace Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        const string SessionName = "_Name";
         const string SessionToken = "_Token";
         readonly HttpClient client = new HttpClient
         {
@@ -29,11 +28,10 @@ namespace Client.Controllers
 
         public IActionResult Index()
         {
-            //ViewBag.Name = HttpContext.Session.GetString(SessionName);
-            ViewBag.name = "Hello";
-            if(ViewBag.Name == null)
+            var session = HttpContext.Session.GetString(SessionToken);
+            if(session == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Authentication");
             }
             return View();
         }
@@ -45,7 +43,7 @@ namespace Client.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove(SessionName);
+            HttpContext.Session.Remove(SessionToken);
             return RedirectToAction("Index", "Home");
         }
 
