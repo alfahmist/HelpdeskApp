@@ -46,7 +46,7 @@ namespace Client.Controllers
 
                 if (role == "Client")
                 {
-                    return Url.Action("Index", "Dashboard");
+                    return Url.Action("Index", "Home");
                 }
                 else
                 {
