@@ -41,7 +41,7 @@ namespace API.Services
             return tokenHandler.WriteToken(token);
 
         }
-        public string LoginToken(string email, string Name)
+        public string LoginToken(string email, string Name, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
@@ -51,7 +51,8 @@ namespace API.Services
                 {
                     //tambahkan data yang dibutuhkan
                     new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Name, Name)
+                    new Claim(ClaimTypes.Name, Name),
+                    new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -30,7 +30,7 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" data-slide="true" href="#" role="button">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">
                         Log out
                         <i class="fas fa-sign-out-alt ml-2"></i>
                     </a>
@@ -50,7 +50,8 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">@ViewData["name"]</a>
+                        <a href="#" class="d-block">@ViewData["empId"]</a>
                     </div>
                 </div>
 

@@ -35,7 +35,7 @@ namespace Client.Controllers
             tickets = new List<OpenedTicketVM>();
             using (var httpClient = new HttpClient(clientHandler))
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetOpenTickets/"))
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetOpenTickets"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     tickets = JsonConvert.DeserializeObject<List<OpenedTicketVM>>(apiResponse);

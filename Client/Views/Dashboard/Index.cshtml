@@ -108,8 +108,8 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: "https://localhost:44397/api/Tickets/Inprogress-Ticket",
-                type: "POST",
+                url: "/Ticket/GetInprogressTicket",
+                type: "GET",
             }).done(result => {
                 console.log(result);
             }).fail(result => {
@@ -120,8 +120,8 @@
             $(function () {
                 $('#example2').DataTable({
                     ajax: {
-                        url: "https://localhost:44397/api/Tickets/Inprogress-Ticket",
-                        type: "POST",
+                        url: "/Ticket/GetInprogressTicket",
+                        type: "GET",
                         dataSrc: ""
                     },
                     columns: [
