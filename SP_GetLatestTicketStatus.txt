@@ -1,0 +1,22 @@
+CREATE PROCEDURE [dbo].[SP_GetLatestTicketStatus]
+@ClientId varchar(100)
+AS
+BEGIN
+	SELECT Rankstatus.TicketID, Rankstatus.TicketName, Rankstatus.RequestorName,Rankstatus.TicketDate, Rankstatus.TicketStatus, Rankstatus.StatusDate
+	FROM(
+		SELECT DENSE_RANK() OVER (PARTITION BY tic.Id ORDER BY ts.StatusDate DESC) AS [Rank], tic.Id AS 'TicketID',
+		tic.[Name] AS 'TicketName', 
+		--cat.[Name] AS 'Category',
+		emp.[Name] AS 'RequestorName', 
+		tic.CreatedDate 'TicketDate',
+		st.[Name] AS 'TicketStatus', 
+		ts.StatusDate AS 'StatusDate', tic.EmployeeId 
+		FROM TB_T_Ticket as tic
+		JOIN TB_M_Categories AS cat ON cat.Id = tic.CategoriesId
+		JOIN TB_M_Employee AS emp ON tic.EmployeeId = emp.Id
+		JOIN TB_T_TicketStatus AS ts ON ts.TicketId = tic.Id
+		JOIN TB_M_Status AS st ON ts.StatusId = st.Id
+	) As Rankstatus
+	WHERE Rankstatus.[Rank] = 1 AND Rankstatus.EmployeeId = @ClientId;
+
+END

@@ -276,7 +276,7 @@
             Login.Email = $("#emailLogin").val();
             Login.Password = $("#passwordLogin").val();
             console.log(Login);
-            if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
+                if (Login.Email != "" && Login.Password != "") {
                 $.ajax({
                 type: 'POST',
                 url: '/Login/LoginEmployee',
@@ -367,7 +367,7 @@
                 console.log(result);
                 if (result == 200) {
                     //alert("Successed to Add Data!");
-                    $('#Register').modal("hide");
+                    $('#exampleModalCenter').modal("hide");
                     $("#email").val("");
                     $("#name").val("");
                     $("#password").val("");

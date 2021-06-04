@@ -1,9 +1,10 @@
 CREATE PROCEDURE [dbo].[SP_Login]
-	@email varchar(200)
+	@Email varchar(200)
 AS
 BEGIN
-			Select cl.[Name] as 'Name', cl.Email as 'Email', acc.[Password] as 'Password'
+			Select cl.[Name] as 'Name', cl.Email as 'Email', acc.[Password] as 'Password', r.[Name] As 'Role'
 			FROM dbo.TB_M_Employee  AS cl
-			JOIN dbo.TB_M_Account AS acc ON cl.ID = acc.ID
-			WHERE cl.Email = @email
+			JOIN dbo.TB_M_Account AS acc ON cl.Id = acc.Id
+			JOIN dbo.TB_M_Role AS r ON cl.RoleId = r.Id
+			WHERE cl.Email = @Email
 END;

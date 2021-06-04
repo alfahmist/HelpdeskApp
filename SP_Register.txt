@@ -4,7 +4,7 @@ CREATE PROCEDURE [dbo].[SP_Register]
 	@Email varchar(200),
 	@BirthDate Date,
 	@Gender varchar(50),
-	@Password varchar(50),
+	@Password varchar(100),
 	@RoleId as int,
 	@DepartmentId as int,
 	@Phone varchar(50)
@@ -17,8 +17,8 @@ END
 BEGIN
 	DECLARE @Nid varchar(50) = 'EMP' + FORMAT(NEXT VALUE FOR SequenceEmployee,'00')
 
-	INSERT INTO TB_M_Employee([ID], [Name],Email, BirthDate, Gender, DepartmentId, Phone, RoleId) 
-	VALUES (@Nid, @Name, @Email, @Birthdate, @Gender, @DepartmentId,@Phone, @RoleId)
+	INSERT INTO TB_M_Employee([ID], [Name],Email, BirthDate, Gender,  Phone, RoleId,DepartmentId) 
+	VALUES (@Nid, @Name, @Email, @Birthdate, @Gender, @Phone, @RoleId, @DepartmentId)
 
 	INSERT INTO TB_M_Account VALUES (@Nid, @Password)
 END
