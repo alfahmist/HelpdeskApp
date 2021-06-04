@@ -1,5 +1,251 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detail";
+    var clientId = @ViewData["empId"] as string;
+}
+<div class="form-row my-3">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-header">
+                Ticket Information
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <h5>Created Time</h5>
+                    <p>11-04-19 05:15 PM</p>
+                </li>
+                <li class="list-group-item">
+                    <h5>Status</h5>
+                    <p>Open</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-header">
+                Ticket Detail
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <p>Created - 11-04-19 05:15 PM</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p> By - demo customer</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <h5>John : </h5>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-12">
+
+                                        <p>Maecenas bibendum lorem sit amet nulla mollis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean placerat arcu orci, a tempor lorem tempor tempor.</p>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <h5>Customer Service : </h5>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-12">
+
+                                        <p>Duis vitae turpis eleifend, volutpat est consequat, efficitur tortor. Nunc commodo eleifend ultricies.</p>
+
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+
+    <script>
+
+        var clientID = `@ViewData["empId"]`;
+        $(document).ready(function () {
+
+                var clientID = `@ViewData["empId"]`;
+                $('#example2').DataTable({
+                    ajax: {
+
+                        url: '/Ticket/LatestStatusByClientId/',
+                        type: "Get",
+                        data: { "clientID": clientID },
+                        dataSrc: ""
+                    },
+                    columns: [
+                        { "data": "ticketID" },
+                        { "data": "ticketName" },
+                        { "data": "requestorName" },
+                        {
+                            "data": "ticketDate",
+                            render: function (data, type, row) {
+                                let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
+                                return date
+                            }
+                        },
+                        { "data": "ticketStatus" },
+                        {
+                            "data": "statusDate",
+                            render: function (data, type, row) {
+                                let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                                return dates
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function (row) {
+                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+            });
+
+
+
+        function GetTicket(id) {
+            console.log(id);
+            $.ajax({
+                type: 'GET',
+                url: `Home/GetTicketID/${id}`,
+            }).done((result) => {
+                $("#ticketId").val(result.ticketID)
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+
+        $("#buttonCloseTicket").click(function () {
+            CloseTicket();
+            $("#closeTicketModal").hide();
+        });
+
+
+
+        let CloseTicket = (ticketId) => {
+            swal({
+                title: "Are you sure?",
+                text: "Once closed, you will not be able to make the status to close!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willCloseTicket) => {
+                if (willCloseTicket) {
+                    $.ajax({
+                        url: `/Ticket/UpdateStatusTicket`,
+                        type: "POST",
+                        data: { "ticketId": ticketId },
+                        success: (data) => {
+                            console.log(data);
+                            if (data == 200) {
+                                //$("#modalDelete").modal('hide');
+                                swal("Poof! you already closed the ticket!", {
+                                    icon: "success",
+                                }).then(() => { location.reload() })
+
+                            }
+                            else {
+                                swal({
+                                    title: "Error",
+                                    text: "Can't update ticket status",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true
+                                }).then(() => {
+                                    $('#closeTicketModal').clear();
+                                    $('#closeTicketModal').ajax.reload();
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        $("#buttonCloseTicket").click(function () {
+            AddTicket();
+            $("#closeTicketModal").hide();
+        });
+
+
+        $("#buttonModal").click(function () {
+            AddTicket();
+            $("#exampleModalCenter").hide();
+        });
+
+        function AddTicket() {
+            var Ticket = new Object();
+            Ticket.TicketName = $("#ticketName").val();
+            Ticket.ClientId = $("#clientId").val();
+            Ticket.CategoriesId = $("#CategoriesId").val();
+            Ticket.Subject = $("#Subject").val();
+            Ticket.Message = $("#Message").val();
+            $.ajax({
+                url: 'Home/CreateTicket',
+                type: 'POST',
+                data: Ticket,
+            }).done((result) => {
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Data added to Database !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+                alert("Failed to Insert");
+            })
+        }
+
+        function TicketSolution() {
+            var Ticket = new Object();
+            Ticket.TicketId = $("#TicketId").val();
+            Ticket.EmployeeId = $("#EmployeeId").val();
+            Ticket.Solution = $("#Solution").val();
+            $.ajax({
+                url: 'Home/TicketSolution',
+                type: 'POST',
+                data: Ticket,
+            }).done((result) => {
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Data added to Database !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+                alert("Failed to Insert");
+            })
+        }
+
+
+    </script>
 }
