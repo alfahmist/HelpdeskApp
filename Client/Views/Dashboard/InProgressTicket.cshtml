@@ -16,6 +16,7 @@
                     <table id="inprogressDatatable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th scope="col">No</th>
                                 <th scope="col">Ticket ID</th>
                                 <th scope="col">Ticket Name</th>
                                 <th scope="col">Requestor Name</th>
@@ -26,6 +27,7 @@
                         </thead>
                         <tfoot>
                             <tr>
+                                <th scope="col">No</th>
                                 <th scope="col">Ticket ID</th>
                                 <th scope="col">Ticket Name</th>
                                 <th scope="col">Requestor Name</th>
@@ -61,13 +63,19 @@
 
     <script>
         $(document).ready(function LoadTable() {
-            table = $('#inprogressDatatable').DataTable({
+         let table = $('#inprogressDatatable').DataTable({
                 ajax: {
                     url: "/Dashboard/GetInprogressTicket",
                     type: "GET",
                     dataSrc: ""
                 },
                 columns: [
+                    {
+                        data: null,
+                        render: (data, type, row, meta) => {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
                     { "data": "ticketID" },
                     { "data": "ticketName" },
                     //{ "data": "Category"},
@@ -87,8 +95,14 @@
                             return dates
                         }
                     }
-                ]
-            });
+                ],
+                "order": [[1, 'asc']]
+            })
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         });
 
     </script>

@@ -3,10 +3,7 @@
     ViewData["Title"] = "Home Page";
     var clientId = @ViewData["empId"] as string;
 }
-<div class="form-row mb-3">
-    <label for="empId">Ticket Name</label>
-    <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
-</div>
+<br />
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -44,23 +41,14 @@
                                     </div>
                                 </div>
 
-
-                                <div class="form-row mb-3">
-                                    <label for="CategoriesId">Category</label>
-                                    @*<select class="form-control" id="exampleFormControlSelect1" required>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>*@
-                                    <input type="text" class="form-control" id="CategoriesId" aria-describedby="emailHelp" placeholder="Enter Category From Number 1 to 3" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please provide categories correctly.
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
+                                <div class="form-row mb-3" id="CategoryForm">
+                                    <label for="CategoriesId" class="col-sm-6 col-form-label">Ticket's Category</label>
+                                    <select class="col-sm-6 form-select form-select-sm" id="CategoriesId" aria-label="Default select example" style="margin:1px 1px" required>
+                                        <option value="">Category</option>
+                                        <option value="1">Bug Error</option>
+                                        <option value="2">Inquery</option>
+                                        <option value="3">Microsoft Problem</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-row mb-3">
@@ -166,7 +154,7 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            @*<th>No</th>*@
+                            <th scope="col">No</th>
                             <th scope="col">TicketID</th>
                             <th scope="col">TicketName</th>
                             <th scope="col">RequestorName</th>
@@ -205,46 +193,25 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        // masalah datanya bukan string
-        var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
 
-            //var clientId = $("#clientId").val();
-            @*var clientsId = @ViewData["empId"].ToString();
-            console.log(clientsId);*@
-            $(function () {
-                //$("#example2").DataTable({
-                //    "responsive": true, "lengthChange": false, "autoWidth": false,
-                  
-                //}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                //$('#example2').DataTable({
-                //    "paging": true,
-                //    "lengthChange": false,
-                //    "searching": false,
-                //    "ordering": true,
-                //    "info": true,
-                //    "autoWidth": false,
-                //    "responsive": true,
-                //});
-                //var clientId = @clientId.ToString();
-                //var clientId = $("#clientId").val();
                 var clientID = `@ViewData["empId"]`;
-                $('#example2').DataTable({
+          let table = $('#example2').DataTable({
                     ajax: {
-                        url:  '/Ticket/LatestStatusByClientId/' + clientId ,
+                        url:  '/Home/LatestStatusByClientId/' + clientId ,
                         type: "Get",
                         data: { "clientID": clientID },
                         dataSrc: ""
                     },
                     columns: [
-                        //{
-                        //    data: null,
-                        //    render: (data, type, row, meta) => {
-                        //        return meta.row + meta.settings._iDisplayStart + 1;
-                        //    }
-                        //},
+                        {
+                            data: null,
+                            render: (data, type, row, meta) => {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
                         { "data": "ticketID" },
                         { "data": "ticketName" },
                         //{ "data": "Category"},
@@ -267,17 +234,22 @@
                         {
                             "data": null,
                             "render": function (data, type, row) {
-                                    '<button id="closeTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')" ><i class="fa fa-close" style="font-size:36px"></i></button>';
+                                return    '<button id="buttonCloseTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')" ><i class="fa fa-close" style="font-size:36px"></i></button>';
                             },
                         "orderable": false,
                         "searchable": false
                         },
-                    ]
-                });
+                    ],
+                "order": [[1, 'asc']]
             });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         });
-        
-        
+
+
         function GetTicket(id) {
             console.log(id);
             $.ajax({
@@ -295,7 +267,6 @@
             $("#closeTicketModal").hide();
         });
 
-        
 
         let CloseTicket = (ticketId) => {
             swal({
@@ -309,6 +280,7 @@
                     $.ajax({
                         url: `/Home/UpdateStatusTicket/${ticketId}`,
                         type: "POST",
+                        data: { "ticketId": ticketId },
                         success: (data) => {
                             console.log(data);
                             if (data == 200) {
@@ -336,62 +308,9 @@
             })
         }
 
-        $("#buttonCloseTicket").click(function () {
-            AddTicket();
-            $("#closeTicketModal").hide();
-        });
-       
-            $.ajax({
-                    url:  '/Home/LatestStatusByClientId/' + clientId ,
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-            }).done((result) => {
-                console.log(result);
-            }).fail((error) => {
-                console.log(error);
-                alert("Cannot load data");
-            })
-        
-
-
-
-
-            $('#example2').DataTable({
-                ajax: {
-                    // masalah passing clientID ke kontroller
-                    url: '/Ticket/LatestStatusByClientId/',
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-                },
-                columns: [
-                    { "data": "ticketID" },
-                    { "data": "ticketName" },
-                    { "data": "requestorName" },
-                    {
-                        "data": "ticketDate",
-                        render: function (data, type, row) {
-                            let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                            return date
-                        }
-                    },
-                    { "data": "ticketStatus" },
-                    {
-                        "data": "statusDate",
-                        render: function (data, type, row) {
-                            let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                            return dates
-                        }
-                    }
-                ]
-            });
-        });
-
 
         $.ajax({
-             // masalah passing clientID ke kontroller
-            url: '/Ticket/LatestStatusByClientId/',
+            url: '/Home/LatestStatusByClientId/' + clientId,
             type: "Get",
             data: { "clientID": clientID },
             dataSrc: ""
@@ -400,14 +319,15 @@
         }).fail((error) => {
             console.log(error);
             alert("Cannot load data");
-        })
+        });
+
 
 
         $("#buttonModal").click(function () {
             AddTicket();
             $("#exampleModalCenter").hide();
         });
-        
+
         function AddTicket() {
             var Ticket = new Object();
             Ticket.TicketName = $("#ticketName").val();
@@ -433,31 +353,6 @@
                 alert("Failed to Insert");
             })
         }
-
-        function TicketSolution() {
-            var Ticket = new Object();
-            Ticket.TicketId = $("#TicketId").val();
-            Ticket.EmployeeId = $("#EmployeeId").val();
-            Ticket.Solution = $("#Solution").val();
-            $.ajax({
-                url: 'Home/TicketSolution',
-                type: 'POST',
-                data: Ticket,
-            }).done((result) => {
-                if (result == 200) {
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Data added to Database !",
-                            icon: "success"
-                        }).then(() => { location.reload() })
-                }
-            }).fail((error) => {
-                console.log(error);
-                alert("Failed to Insert");
-            })
-        }
-
 
     </script>
 }
