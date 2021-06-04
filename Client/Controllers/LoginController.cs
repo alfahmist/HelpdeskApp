@@ -63,7 +63,6 @@ namespace Client.Controllers
                 if (role == "Client")
                 {
                     //ForClient
-
                     return Url.Action("Index", "Home");
                 }
                 else
