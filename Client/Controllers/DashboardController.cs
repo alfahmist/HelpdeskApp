@@ -6,12 +6,27 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using API.ViewModel;
+using Client.ViewModels;
+using Newtonsoft.Json;
 
 namespace Client.Controllers
 {
     public class DashboardController : Controller
     {
         private readonly MyContext myContext = new MyContext();
+        HttpClientHandler clientHandler = new HttpClientHandler();
+
+        OpenedTicketVM ticket = new OpenedTicketVM();
+        ClosedTicketVM closedTicket = new ClosedTicketVM();
+        InprogressTicketVM inprogress = new InprogressTicketVM();
+
+        List<OpenedTicketVM> tickets = new List<OpenedTicketVM>();
+        List<ClosedTicketVM> closedTickets = new List<ClosedTicketVM>();
+        List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
         public DashboardController(MyContext myContext)
         {
             this.myContext = myContext;
@@ -53,6 +68,66 @@ namespace Client.Controllers
         public IActionResult InProgressTicket()
         {
             return View();
+        }
+        [HttpGet]
+        public async Task<List<ClosedTicketVM>> GetClosedTicket()
+        {
+            closedTickets = new List<ClosedTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetResponsedTickets"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    closedTickets = JsonConvert.DeserializeObject<List<ClosedTicketVM>>(apiResponse);
+                }
+            }
+            return closedTickets;
+        }
+        
+
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            return progressTicket;
+        }
+
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> GetInprogressTicket()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetInprogressTickets"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            return progressTicket;
+        }
+
+        [HttpGet]
+        public async Task<List<OpenedTicketVM>> GetOpenedTicket()
+        {
+            tickets = new List<OpenedTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetOpenTickets"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    tickets = JsonConvert.DeserializeObject<List<OpenedTicketVM>>(apiResponse);
+                }
+            }
+            return tickets;
         }
     }
 }

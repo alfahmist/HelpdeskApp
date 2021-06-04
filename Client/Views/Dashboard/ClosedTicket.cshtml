@@ -46,7 +46,7 @@
         $(document).ready(function LoadTable() {
             table = $('#closedTicketDatatable').DataTable({
                 ajax: {
-                    url: "/Ticket/GetClosedTicket",
+                    url: "/Dashboard/GetClosedTicket",
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",

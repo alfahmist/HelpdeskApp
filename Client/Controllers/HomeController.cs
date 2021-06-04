@@ -2,6 +2,7 @@
 using API.Models;
 using API.ViewModel;
 using Client.Models;
+using Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,9 +22,13 @@ namespace Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        HttpClientHandler clientHandler = new HttpClientHandler();
+
         const string SessionName = "_Name";
         const string SessionToken = "_Token";
         private readonly MyContext myContext = new MyContext();
+
+        List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
         public HomeController(MyContext myContext, ILogger<HomeController> logger)
         {
             this.myContext = myContext;
@@ -119,5 +124,30 @@ namespace Client.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> LatestStatusByClientId(string clientID)
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            //StringContent stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/Latest-Ticket-Status/" + clientID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            return progressTicket;
+        }
+        [HttpPost]
+        public HttpStatusCode UpdateStatusTicket(InputTicketStatusVM status)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(status), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/UpdateStatusTicket", content).Result;
+            return result.StatusCode;
+        }
+
     }
 }

@@ -82,8 +82,9 @@ namespace API.Controllers
         public IEnumerable<dynamic> GetOpenTickets()
         {
             var dbparams = new DynamicParameters();
+            dbparams.Add("statusId", 1, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_GetOpenedTicket]", dbparams, commandType: CommandType.StoredProcedure);
+            return db.Query<dynamic>("[dbo].[SP_GetStatusByID]", dbparams, commandType: CommandType.StoredProcedure);
         }
         
         [AllowAnonymous]
@@ -91,8 +92,9 @@ namespace API.Controllers
         public IEnumerable<dynamic> GetResponsedTickets()
         {
             var dbparams = new DynamicParameters();
+            dbparams.Add("statusId", 3, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_ClosedTicket]", dbparams, commandType: CommandType.StoredProcedure);
+            return db.Query<dynamic>("[dbo].[SP_GetStatusByID]", dbparams, commandType: CommandType.StoredProcedure);
         }
         
         [AllowAnonymous]
@@ -100,8 +102,9 @@ namespace API.Controllers
         public IEnumerable<dynamic> GetInprogressTickets()
         {
             var dbparams = new DynamicParameters();
+            dbparams.Add("statusId", 2, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            return db.Query<dynamic>("[dbo].[SP_InProgressTicket]", dbparams, commandType: CommandType.StoredProcedure);
+            return db.Query<dynamic>("[dbo].[SP_GetStatusByID]", dbparams, commandType: CommandType.StoredProcedure);
         }
         
         [HttpGet("GetAllTicketUpdates")]

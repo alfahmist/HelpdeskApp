@@ -307,7 +307,7 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Ticket/UpdateStatusTicket/${ticketId}`,
+                        url: `/Home/UpdateStatusTicket/${ticketId}`,
                         type: "POST",
                         success: (data) => {
                             console.log(data);
@@ -342,7 +342,7 @@
         });
        
             $.ajax({
-                    url:  '/Ticket/LatestStatusByClientId/' + clientId ,
+                    url:  '/Home/LatestStatusByClientId/' + clientId ,
                     type: "Get",
                     data: { "clientID": clientID },
                     dataSrc: ""
