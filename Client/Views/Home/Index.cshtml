@@ -383,7 +383,15 @@
                             let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
                             return dates
                         }
-                    }
+                    },
+                    {
+                        data: null,
+                        render: function (row) {
+                            return '<button id="detailTicket" class="btn btn-info" style="margin-left : 5px;" onclick="detailTicket(' + row['id'] + ')" data-target="#modalDelete" data-placement="top" title="Close"><i class="fas fa-eye"></i></button>';
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
                 ]
             });
 
