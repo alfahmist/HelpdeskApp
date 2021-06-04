@@ -49,13 +49,13 @@ namespace API.Controllers
             this.myContext = myContext;
         }
 
-        [HttpPost("forgot-password")]
-        public ActionResult ForgotPassword(string email)
+        [HttpPost("ForgotPassword")]
+        public ActionResult ForgotPassword(ForgotVM forgotVM)
         {
 
             string sender = "aninsabrina17@gmail.com";
             string pwd = "yulisulasta";
-            string url = "https://localhost:44397/";
+            
             //sender
             var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
@@ -66,8 +66,9 @@ namespace API.Controllers
             };
 
             var jwt = new JwtService(Configuration);
-            string token = jwt.ForgotToken(email);
-            MailHandler mailHandler = new MailHandler(sender, email, url, token);
+            string token = jwt.ForgotToken(forgotVM.Email);
+            string url = "https://localhost:44326/Login/ResetPassword?token=" + token;
+            MailHandler mailHandler = new MailHandler(sender, forgotVM.Email, url, token);
 
 
             user.Send(mailHandler.Message());
@@ -76,13 +77,13 @@ namespace API.Controllers
         }
 
         [HttpPost("reset-password/{token}")]
-        public ActionResult ResetPassword(string newPassword, string token)
+        public ActionResult ResetPassword(ResetVM model)
         {
             var jwt = new JwtSecurityTokenHandler();
             // read jwt baca isi token
             try
             {
-                var jwtRead = jwt.ReadJwtToken(token);
+                var jwtRead = jwt.ReadJwtToken(model.Token);
                 // new password
                 var email = jwtRead.Claims.First(claim => claim.Type == "email").Value;
                 var client = myContext.Accounts.FirstOrDefault(x => x.Employee.Email == email);
@@ -92,7 +93,7 @@ namespace API.Controllers
                 }
 
                 // Bcrypt
-                client.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                client.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
                 // Update
                 var result = accountRepository.Put(client) > 0 ? (ActionResult)Ok("Password has been updated") : BadRequest("Data can't be updated.");
                 return result;
