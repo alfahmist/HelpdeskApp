@@ -69,6 +69,10 @@ namespace Client.Controllers
             return View();
         }
 
+        public IActionResult Detail()
+        {
+            return View("Detail");
+        }
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("JWToken");

@@ -199,55 +199,25 @@
 <!-- /.row -->
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        // masalah datanya bukan string
+
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
 
-            //var clientId = $("#clientId").val();
-            @*var clientsId = @ViewData["empId"].ToString();
-            console.log(clientsId);*@
-            $(function () {
-                //$("#example2").DataTable({
-                //    "responsive": true, "lengthChange": false, "autoWidth": false,
-                  
-                //}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                //$('#example2').DataTable({
-                //    "paging": true,
-                //    "lengthChange": false,
-                //    "searching": false,
-                //    "ordering": true,
-                //    "info": true,
-                //    "autoWidth": false,
-                //    "responsive": true,
-                //});
-                //var clientId = @clientId.ToString();
-                //var clientId = $("#clientId").val();
                 var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
-                        url:  '/Ticket/LatestStatusByClientId/' + clientId ,
+                    
+                        url: '/Ticket/LatestStatusByClientId/',
                         type: "Get",
                         data: { "clientID": clientID },
                         dataSrc: ""
                     },
                     columns: [
-                        //{
-                        //    data: null,
-                        //    render: (data, type, row, meta) => {
-                        //        return meta.row + meta.settings._iDisplayStart + 1;
-                        //    }
-                        //},
                         { "data": "ticketID" },
                         { "data": "ticketName" },
-                        //{ "data": "Category"},
                         { "data": "requestorName" },
                         {
                             "data": "ticketDate",
@@ -265,17 +235,17 @@
                             }
                         },
                         {
-                            "data": null,
-                            "render": function (data, type, row) {
-                                    '<button id="closeTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')" ><i class="fa fa-close" style="font-size:36px"></i></button>';
+                            data: null,
+                            render: function (row) {
+                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
                             },
-                        "orderable": false,
-                        "searchable": false
+                            orderable: false,
+                            searchable: false
                         },
                     ]
                 });
             });
-        });
+    
         
         
         function GetTicket(id) {
@@ -307,8 +277,9 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Ticket/UpdateStatusTicket/${ticketId}`,
+                        url: `/Ticket/UpdateStatusTicket`,
                         type: "POST",
+                        data: { "ticketId": ticketId },
                         success: (data) => {
                             console.log(data);
                             if (data == 200) {
@@ -340,67 +311,6 @@
             AddTicket();
             $("#closeTicketModal").hide();
         });
-       
-            $.ajax({
-                    url:  '/Ticket/LatestStatusByClientId/' + clientId ,
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-            }).done((result) => {
-                console.log(result);
-            }).fail((error) => {
-                console.log(error);
-                alert("Cannot load data");
-            })
-        
-
-
-
-
-            $('#example2').DataTable({
-                ajax: {
-                    // masalah passing clientID ke kontroller
-                    url: '/Ticket/LatestStatusByClientId/',
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-                },
-                columns: [
-                    { "data": "ticketID" },
-                    { "data": "ticketName" },
-                    { "data": "requestorName" },
-                    {
-                        "data": "ticketDate",
-                        render: function (data, type, row) {
-                            let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                            return date
-                        }
-                    },
-                    { "data": "ticketStatus" },
-                    {
-                        "data": "statusDate",
-                        render: function (data, type, row) {
-                            let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                            return dates
-                        }
-                    }
-                ]
-            });
-        });
-
-
-        $.ajax({
-             // masalah passing clientID ke kontroller
-            url: '/Ticket/LatestStatusByClientId/',
-            type: "Get",
-            data: { "clientID": clientID },
-            dataSrc: ""
-        }).done((result) => {
-            console.log(result);
-        }).fail((error) => {
-            console.log(error);
-            alert("Cannot load data");
-        })
 
 
         $("#buttonModal").click(function () {
