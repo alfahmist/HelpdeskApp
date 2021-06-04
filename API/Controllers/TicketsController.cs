@@ -15,6 +15,9 @@ using Dapper;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
+using API.Handler;
 
 namespace API.Controllers
 {
@@ -44,13 +47,34 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
 
             dbparams.Add("Name", ticketVM.TicketName, DbType.String);
-            dbparams.Add("CLientId", ticketVM.ClientId, DbType.String);
+            dbparams.Add("ClientId", ticketVM.ClientId, DbType.String);
             dbparams.Add("CategoriesId", ticketVM.CategoriesId, DbType.Int32);
             dbparams.Add("Subject", ticketVM.Subject, DbType.String);
             dbparams.Add("Message", ticketVM.Message, DbType.String);
 
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_CreateTicket]", dbparams, commandType: CommandType.StoredProcedure));
 
+
+            var client = myContext.Employees.FirstOrDefault(x => x.Id == ticketVM.ClientId);
+            var email = client.Email;
+            var subject = ticketVM.Subject;
+            var ticketName = ticketVM.TicketName;
+            var message = ticketVM.Message;
+
+            string sender = "aninsabrina17@gmail.com";
+            string pwd = "yulisulasta";
+
+            //sender
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
+            {
+                UseDefaultCredentials = true,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(sender, pwd),
+            };
+
+            CreateTicketEmailHandler mailHandler = new CreateTicketEmailHandler(sender, email, subject, ticketName, message);
+            user.Send(mailHandler.Message());
             return Ok(new Response
             {
                 Status = "Success",
@@ -69,6 +93,32 @@ namespace API.Controllers
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
 
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
+
+            var parm = new DynamicParameters();
+            parm.Add("clientTicketId", ResponseVM.TicketId, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            dynamic Receiver = db.Query<dynamic>("[dbo].[SP_RetrieveEmail]", parm, commandType: CommandType.StoredProcedure);
+
+            var client = myContext.Tickets.FirstOrDefault(x => x.Id == ResponseVM.TicketId);
+            var ticketSubject = client.Name;
+            var ticketId = ResponseVM.TicketId;
+            var solution = ResponseVM.Solution;
+
+            string sender = "aninsabrina17@gmail.com";
+            string pwd = "yulisulasta";
+
+            //sender
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
+            {
+                UseDefaultCredentials = true,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(sender, pwd),
+            };
+
+            CreateSolutionEmailHandler mailHandler = new CreateSolutionEmailHandler(sender, Receiver.Email, ticketId, ticketSubject, solution);
+            user.Send(mailHandler.Message());
+
 
             return Ok(new Response
             {
