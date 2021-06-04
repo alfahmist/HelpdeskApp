@@ -12,7 +12,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : BaseController<Employee, EmployeeRepository, int>
+    public class EmployeeController : BaseController<Employee, EmployeeRepository, string>
     {
         private readonly EmployeeRepository clientRepository;
         public EmployeeController(EmployeeRepository clientRepository) : base(clientRepository)
