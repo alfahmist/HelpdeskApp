@@ -65,6 +65,8 @@ namespace Client.Controllers
             //}
         }
 
+
+        [Route("Account")]
         public IActionResult Account()
         {
             var token = HttpContext.Session.GetString("JWToken");
@@ -143,5 +145,22 @@ namespace Client.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public JsonResult GetEmployeeById(string id)
+        {
+
+            var responseTask = client.GetAsync($"Employee/{id}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var data = readTask.Result;
+                return Json(data);
+            }
+            return Json(null);
+        }
+
     }
 }
