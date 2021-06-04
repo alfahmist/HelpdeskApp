@@ -1,8 +1,12 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
+    @ViewData["empId"];
 }
-
+    <div class="form-row mb-3">
+        <label for="empId">Ticket Name</label>
+        <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
+    </div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -31,7 +35,7 @@
                                 
                                 <div class="form-row mb-3"  >
                                     <label for="clientId">Client ID</label>
-                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value="@ViewData["name"]" required>
+                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value="@ViewData["empId "]" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input valid ID
                                     </div>
@@ -165,10 +169,13 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>TicketId</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            @*<th>No</th>*@
+                            <th scope="col">TicketID</th>
+                            <th scope="col">TicketName</th>
+                            <th scope="col">RequestorName</th>
+                            <th scope="col">TicketDate</th>
+                            <th scope="col">TicketStatus</th>
+                            <th scope="col">StatusDate</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -201,6 +208,9 @@
 
     <script>
         $(document).ready(function () {
+            //var clientId = $("#empId").val();
+            @*var clientsId = @ViewData["empId"].ToString();
+            console.log(clientsId);*@
             $(function () {
                 //$("#example2").DataTable({
                 //    "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -215,26 +225,55 @@
                 //    "autoWidth": false,
                 //    "responsive": true,
                 //});
+                var clientId = "EMP04".toString;
                 $('#example2').DataTable({
                     ajax: {
-                        url: "https://localhost:44397/api/Tickets",
-                        type: "GET",
+                        url:  '/Ticket/LatestStatusByClientId' ,
+                        type: "Get",
                         dataSrc: ""
                     },
                     columns: [
+                        //{
+                        //    data: null,
+                        //    render: (data, type, row, meta) => {
+                        //        return meta.row + meta.settings._iDisplayStart + 1;
+                        //    }
+                        //},
+                        { "data": "ticketID" },
+                        { "data": "ticketName" },
+                        //{ "data": "Category"},
+                        { "data": "requestorName" },
                         {
-                            data: null,
-                            render: (data, type, row, meta) => {
-                                return meta.row + meta.settings._iDisplayStart + 1;
+                            "data": "ticketDate",
+                            render: function (data, type, row) {
+                                let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
+                                return date
                             }
                         },
-                        { data: "id" },
-                        { data: "id" },
-                        { data: "id" },
+                        { "data": "ticketStatus" },
+                        {
+                            "data": "statusDate",
+                            render: function (data, type, row) {
+                                let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                                return dates
+                            }
+                        }
                     ]
                 });
             });
         });
+       
+            $.ajax({
+                    url: '/Ticket/LatestStatusByClientId/EMP04',
+                    type: "Get",
+                    dataSrc: ""
+            }).done((result) => {
+                console.log(result);
+            }).fail((error) => {
+                console.log(error);
+                alert("Cannot load data");
+            })
+        
         $("#buttonModal").click(function () {
             AddTicket();
             $("#exampleModalCenter").hide();
