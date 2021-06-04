@@ -2,41 +2,59 @@
 @{
     Layout = "/Views/Shared/_LayoutDashboard.cshtml";
     ViewData["Title"] = "OpenedTicket";
-    //Layout = "~/Views/Dashboard/Index.cshtml";
+    //ViewBag.Title = "Dashboard";
 }
 
 
 
     <br />
-    <div style="width:90%; margin:50px auto;">
-        <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <table id="openTicketdatatables" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th scope="col">TicketID</th>
-                    <th scope="col">TicketName</th>
-                    <th scope="col">RequestorName</th>
-                    <th scope="col">TicketDate</th>
-                    <th scope="col">TicketStatus</th>
-                    <th scope="col">StatusDate</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th scope="col">TicketID</th>
-                    <th scope="col">TicketName</th>
-                    <th scope="col">RequestorName</th>
-                    <th scope="col">TicketDate</th>
-                    <th scope="col">TicketStatus</th>
-                    <th scope="col">StatusDate</th>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="openTicketdatatables" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">TicketID</th>
+                                <th scope="col">TicketName</th>
+                                <th scope="col">RequestorName</th>
+                                <th scope="col">TicketDate</th>
+                                <th scope="col">TicketStatus</th>
+                                <th scope="col">Opened Date</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">TicketID</th>
+                                <th scope="col">TicketName</th>
+                                <th scope="col">RequestorName</th>
+                                <th scope="col">TicketDate</th>
+                                <th scope="col">TicketStatus</th>
+                                <th scope="col">Opened Date</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
     </div>
+    @*<div style="width:90%; margin:50px auto;">
+        <table id="openTicketdatatables" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            
+        </table>
+    </div>*@
 
 
 @section Scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>

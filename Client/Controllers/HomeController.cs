@@ -105,14 +105,7 @@ namespace Client.Controllers
             return result.StatusCode;
         }
         
-        [HttpPost]
-        public HttpStatusCode TicketSolution(TicketResponseVM model)
-        {
-            var httpClient = new HttpClient();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/ResponseTicket", content).Result;
-            return result.StatusCode;
-        }
+        
 
         public IActionResult Privacy()
         {
