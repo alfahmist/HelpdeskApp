@@ -3,10 +3,10 @@
     ViewData["Title"] = "Home Page";
     var clientId = @ViewData["empId"] as string;
 }
-    <div class="form-row mb-3">
-        <label for="empId">Ticket Name</label>
-        <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
-    </div>
+<div class="form-row mb-3">
+    <label for="empId">Ticket Name</label>
+    <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
+</div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -24,7 +24,7 @@
                             <div class="card-body">
                                 <div class="form-row mb-3">
                                     <label for="ticketName">Ticket Name</label>
-                                    <input type="text" class="form-control"  id="ticketName"aria-describedby="emailHelp" placeholder="Ticket Name" required>
+                                    <input type="text" class="form-control" id="ticketName" aria-describedby="emailHelp" placeholder="Ticket Name" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input valid name for your ticket
                                     </div>
@@ -32,10 +32,10 @@
                                         Looks good!
                                     </div>
                                 </div>
-                                
-                                <div class="form-row mb-3"  >
+
+                                <div class="form-row mb-3">
                                     <label for="clientId">Client ID</label>
-                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value="@clientId" required>
+                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value='@ViewData["empId"]' required disabled>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input valid ID
                                     </div>
@@ -48,12 +48,12 @@
                                 <div class="form-row mb-3">
                                     <label for="CategoriesId">Category</label>
                                     @*<select class="form-control" id="exampleFormControlSelect1" required>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>*@
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>*@
                                     <input type="text" class="form-control" id="CategoriesId" aria-describedby="emailHelp" placeholder="Enter Category From Number 1 to 3" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         Please provide categories correctly.
@@ -65,7 +65,7 @@
 
                                 <div class="form-row mb-3">
                                     <label for="Subject">Subject</label>
-                                    <input type="text" class="form-control"  id="Subject" aria-describedby="emailHelp" placeholder="Subject" required>
+                                    <input type="text" class="form-control" id="Subject" aria-describedby="emailHelp" placeholder="Subject" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input valid subject
                                     </div>
@@ -76,7 +76,7 @@
 
 
 
-                                <div class="form-row mb-3" >
+                                <div class="form-row mb-3">
                                     <label for="Message">Message</label>
                                     <textarea class="form-control" id="Message" rows="3" required></textarea>
                                     <div class="invalid-feedback col-sm-9 offset-3">
@@ -109,8 +109,39 @@
 
                             <div class="card-body">
                                 <div class="form-row mb-3">
+
                                     <label for="ticketId">Ticket ID</label>
                                     <input type="text" class="form-control" id="ticketId" aria-describedby="emailHelp" placeholder="Ticket Id" disabled>
+
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid name for your ticket
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="EmployeeId">Employee ID</label>
+                                    <input type="text" class="form-control" id="EmployeeId" aria-describedby="emailHelp" placeholder="Client ID" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid ID
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="Solution">Solution</label>
+                                    <textarea class="form-control" id="Solution" rows="3" required></textarea>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        Please Make your Best solution for them
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -147,21 +178,21 @@
                     </thead>
                     <tbody></tbody>
                     @*<tfoot>
-                        <tr>
-                            <th>Rendering engine</th>
-                            <th>Browser</th>
-                            <th>Platform(s)</th>
-                            <th>Engine version</th>
-                            <th>CSS grade</th>
-                        </tr>
-                    </tfoot>*@
+                            <tr>
+                                <th>Rendering engine</th>
+                                <th>Browser</th>
+                                <th>Platform(s)</th>
+                                <th>Engine version</th>
+                                <th>CSS grade</th>
+                            </tr>
+                        </tfoot>*@
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
 
-     
+
     </div>
     <!-- /.col -->
 </div>
@@ -173,11 +204,13 @@
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        // masalah datanya bukan string
+        var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
+
             //var clientId = $("#clientId").val();
             @*var clientsId = @ViewData["empId"].ToString();
             console.log(clientsId);*@
@@ -320,6 +353,56 @@
                 alert("Cannot load data");
             })
         
+
+
+
+
+            $('#example2').DataTable({
+                ajax: {
+                    // masalah passing clientID ke kontroller
+                    url: '/Ticket/LatestStatusByClientId/',
+                    type: "Get",
+                    data: { "clientID": clientID },
+                    dataSrc: ""
+                },
+                columns: [
+                    { "data": "ticketID" },
+                    { "data": "ticketName" },
+                    { "data": "requestorName" },
+                    {
+                        "data": "ticketDate",
+                        render: function (data, type, row) {
+                            let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
+                            return date
+                        }
+                    },
+                    { "data": "ticketStatus" },
+                    {
+                        "data": "statusDate",
+                        render: function (data, type, row) {
+                            let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                            return dates
+                        }
+                    }
+                ]
+            });
+        });
+
+
+        $.ajax({
+             // masalah passing clientID ke kontroller
+            url: '/Ticket/LatestStatusByClientId/',
+            type: "Get",
+            data: { "clientID": clientID },
+            dataSrc: ""
+        }).done((result) => {
+            console.log(result);
+        }).fail((error) => {
+            console.log(error);
+            alert("Cannot load data");
+        })
+
+
         $("#buttonModal").click(function () {
             AddTicket();
             $("#exampleModalCenter").hide();
@@ -333,25 +416,48 @@
             Ticket.Subject = $("#Subject").val();
             Ticket.Message = $("#Message").val();
             $.ajax({
-                    url: 'Home/CreateTicket',
-                    type: 'POST',
-                    data: Ticket,
-                }).done((result) => {
-                    if (result == 200) {
-                        swal(
-                            {
-                                title: "Success!",
-                                text: "Data added to Database !",
-                                icon: "success"
-                            }).then(() => { location.reload() })
-                    }
-                }).fail((error) => {
-                    console.log(error);
-                    alert("Failed to Insert");
-                })
+                url: 'Home/CreateTicket',
+                type: 'POST',
+                data: Ticket,
+            }).done((result) => {
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Data added to Database !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+                alert("Failed to Insert");
+            })
         }
 
-            
+        function TicketSolution() {
+            var Ticket = new Object();
+            Ticket.TicketId = $("#TicketId").val();
+            Ticket.EmployeeId = $("#EmployeeId").val();
+            Ticket.Solution = $("#Solution").val();
+            $.ajax({
+                url: 'Home/TicketSolution',
+                type: 'POST',
+                data: Ticket,
+            }).done((result) => {
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Data added to Database !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+                alert("Failed to Insert");
+            })
+        }
+
 
     </script>
 }
