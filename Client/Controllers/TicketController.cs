@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,7 +106,17 @@ namespace Client.Controllers
             return progressTicket;
         }
 
-        
+        [HttpPost]
+        public HttpStatusCode UpdateStatusTicket(InputTicketStatusVM status)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(status), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/UpdateStatusTicket", content).Result;
+            return result.StatusCode;
+        }
+
+
+
     }
 }
 
