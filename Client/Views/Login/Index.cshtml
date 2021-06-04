@@ -380,7 +380,8 @@
                             text: "Your Account Created Succesfully !",
                             icon: "success"
                         }
-                    );
+                    ).then(() => { location.reload() });
+                    
                 }
             }).fail((result) => {
                 console.log(result);
