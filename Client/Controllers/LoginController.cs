@@ -60,7 +60,7 @@ namespace Client.Controllers
                 var role = jwt.Claims.First(c => c.Type == "role").Value;
                
 
-                if (role == "Client")
+                if (role.ToString().ToLower() == "client\r\n")
                 {
                     //ForClient
                     return Url.Action("Index", "Home");
