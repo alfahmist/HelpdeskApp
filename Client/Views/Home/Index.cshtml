@@ -7,7 +7,97 @@
     <label for="empId">Ticket Name</label>
     <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
 </div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation modal-validation" novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
 
+                            <div class="card-body">
+                                <div class="form-row mb-3">
+                                    <label for="ticketName">Ticket Name</label>
+                                    <input type="text" class="form-control" id="ticketName" aria-describedby="emailHelp" placeholder="Ticket Name" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid name for your ticket
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="clientId">Client ID</label>
+                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value='@ViewData["empId"]' required disabled>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid ID
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row mb-3">
+                                    <label for="CategoriesId">Category</label>
+                                    @*<select class="form-control" id="exampleFormControlSelect1" required>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>*@
+                                    <input type="text" class="form-control" id="CategoriesId" aria-describedby="emailHelp" placeholder="Enter Category From Number 1 to 3" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        Please provide categories correctly.
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="Subject">Subject</label>
+                                    <input type="text" class="form-control" id="Subject" aria-describedby="emailHelp" placeholder="Subject" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid subject
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-row mb-3">
+                                    <label for="Message">Message</label>
+                                    <textarea class="form-control" id="Message" rows="3" required></textarea>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        password less then 6
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="closeTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,47 +202,22 @@
 
 
     <script>
-        // masalah datanya bukan string
+
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
 
-            //var clientId = $("#clientId").val();
-            @*var clientsId = @ViewData["empId"].ToString();
-            console.log(clientsId);*@
-            $(function () {
-                //$("#example2").DataTable({
-                //    "responsive": true, "lengthChange": false, "autoWidth": false,
-                  
-                //}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                //$('#example2').DataTable({
-                //    "paging": true,
-                //    "lengthChange": false,
-                //    "searching": false,
-                //    "ordering": true,
-                //    "info": true,
-                //    "autoWidth": false,
-                //    "responsive": true,
-                //});
-                //var clientId = @clientId.ToString();
-                //var clientId = $("#clientId").val();
                 var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
-                        url:  '/Ticket/LatestStatusByClientId/' + clientId ,
+                    
+                        url: '/Ticket/LatestStatusByClientId/',
                         type: "Get",
                         data: { "clientID": clientID },
                         dataSrc: ""
                     },
                     columns: [
-                        //{
-                        //    data: null,
-                        //    render: (data, type, row, meta) => {
-                        //        return meta.row + meta.settings._iDisplayStart + 1;
-                        //    }
-                        //},
                         { "data": "ticketID" },
                         { "data": "ticketName" },
-                        //{ "data": "Category"},
                         { "data": "requestorName" },
                         {
                             "data": "ticketDate",
@@ -170,17 +235,17 @@
                             }
                         },
                         {
-                            "data": null,
-                            "render": function (data, type, row) {
-                                '<a id="closeTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')"asp-controller="Home" asp-action="Detail"><i class="fa fa-close" style="font-size:36px"></i></a>';
+                            data: null,
+                            render: function (row) {
+                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
                             },
-                        "orderable": false,
-                        "searchable": false
+                            orderable: false,
+                            searchable: false
                         },
                     ]
                 });
             });
-        });
+    
         
         
         function GetTicket(id) {
@@ -212,8 +277,9 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Ticket/UpdateStatusTicket/${ticketId}`,
+                        url: `/Ticket/UpdateStatusTicket`,
                         type: "POST",
+                        data: { "ticketId": ticketId },
                         success: (data) => {
                             console.log(data);
                             if (data == 200) {
@@ -245,73 +311,6 @@
             AddTicket();
             $("#closeTicketModal").hide();
         });
-       
-            $.ajax({
-                    url:  '/Ticket/LatestStatusByClientId/' + clientId ,
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-            }).done((result) => {
-                console.log(result);
-            }).fail((error) => {
-                console.log(error);
-                alert("Cannot load data");
-            })
-        
-
-
-
-
-            $('#example2').DataTable({
-                ajax: {
-                    // masalah passing clientID ke kontroller
-                    url: '/Ticket/LatestStatusByClientId/',
-                    type: "Get",
-                    data: { "clientID": clientID },
-                    dataSrc: ""
-                },
-                columns: [
-                    { "data": "ticketID" },
-                    { "data": "ticketName" },
-                    { "data": "requestorName" },
-                    {
-                        "data": "ticketDate",
-                        render: function (data, type, row) {
-                            let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                            return date
-                        }
-                    },
-                    { "data": "ticketStatus" },
-                    {
-                        "data": "statusDate",
-                        render: function (data, type, row) {
-                            let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                            return dates
-                        }
-                    },
-                    {
-                        data: null,
-                        render: function (row) {
-                            return '<a id="detailTicket" class="btn btn-info" style="margin-left : 5px;" onclick="detailTicket(' + row['id'] + ')" ><i class="fas fa-eye"></i></a>';
-                        },
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-
-        $.ajax({
-             // masalah passing clientID ke kontroller
-            url: '/Ticket/LatestStatusByClientId/',
-            type: "Get",
-            data: { "clientID": clientID },
-            dataSrc: ""
-        }).done((result) => {
-            console.log(result);
-        }).fail((error) => {
-            console.log(error);
-            alert("Cannot load data");
-        })
 
 
         $("#buttonModal").click(function () {
