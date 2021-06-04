@@ -74,7 +74,7 @@ namespace Client.Controllers
             HttpContext.Session.Remove("JWToken");
             return RedirectToAction("Index", "Login");
         }
-
+        
         public JsonResult GetTicketID(int id)
         {
            

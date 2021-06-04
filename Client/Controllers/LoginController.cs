@@ -85,6 +85,7 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
             return result.StatusCode;
         }
+        
         [HttpPost]
         public HttpStatusCode AuthLogin(LoginVM loginVM)
         {
