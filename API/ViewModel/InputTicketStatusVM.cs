@@ -8,6 +8,6 @@ namespace API.ViewModel
     public class InputTicketStatusVM
     {
         public string TicketId { get; set; }
-        public int StatusId { get; set; }
+        //public int StatusId { get; set; }
     }
 }

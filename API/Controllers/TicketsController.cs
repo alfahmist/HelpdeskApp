@@ -140,9 +140,9 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
 
             dbparams.Add("TicketId", inputTicketStatusVM.TicketId, DbType.String);
-            dbparams.Add("StatusId", inputTicketStatusVM.StatusId, DbType.Int32);
+            //dbparams.Add("StatusId", inputTicketStatusVM.StatusId, DbType.Int32);
 
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertNewTicketStatus]", dbparams, commandType: CommandType.StoredProcedure));
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_CloseTicket]", dbparams, commandType: CommandType.StoredProcedure));
 
             return Ok(new Response
             {
