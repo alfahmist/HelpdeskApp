@@ -90,13 +90,13 @@ namespace Client.Controllers
             return progressTicket;
         }
         [HttpGet]
-        public async Task<List<InprogressTicketVM>> LatestStatusByClientId(string clientId)
+        public async Task<List<InprogressTicketVM>> LatestStatusByClientId(string clientID)
         {
             progressTicket = new List<InprogressTicketVM>();
             //StringContent stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             using (var httpClient = new HttpClient(clientHandler))
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/Latest-Ticket-Status/"+ clientId))
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/Latest-Ticket-Status/"+ clientID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);

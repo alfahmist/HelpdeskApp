@@ -118,7 +118,7 @@ namespace API.Controllers
         public IActionResult TicketUpdates(string clientId)
         {
             var dbparams = new DynamicParameters();
-            dbparams.Add("CLientId", clientId, DbType.String);
+            dbparams.Add("ClientId", clientId, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             dynamic result =  db.Query<dynamic>("[dbo].[SP_GetLatestTicketStatus]", dbparams, commandType: CommandType.StoredProcedure);
             return Ok(result);
