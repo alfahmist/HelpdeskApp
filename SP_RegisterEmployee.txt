@@ -5,7 +5,7 @@ CREATE PROCEDURE [dbo].[SP_RegisterEmployee]
 	@BirthDate Date,
 	@Gender varchar(50),
 	@PhoneNumber varchar(50),
-	@Password varchar(50), 
+	@Password varchar(100), 
 	@RoleId int
 
 AS
