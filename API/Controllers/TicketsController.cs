@@ -118,7 +118,7 @@ namespace API.Controllers
         public IActionResult TicketUpdates(string clientId)
         {
             var dbparams = new DynamicParameters();
-            dbparams.Add("CLientId", clientId, DbType.String);
+            dbparams.Add("ClientId", clientId, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             dynamic result =  db.Query<dynamic>("[dbo].[SP_GetLatestTicketStatus]", dbparams, commandType: CommandType.StoredProcedure);
             return Ok(result);
@@ -140,9 +140,9 @@ namespace API.Controllers
             var dbparams = new DynamicParameters();
 
             dbparams.Add("TicketId", inputTicketStatusVM.TicketId, DbType.String);
-            dbparams.Add("StatusId", inputTicketStatusVM.StatusId, DbType.Int32);
+            //dbparams.Add("StatusId", inputTicketStatusVM.StatusId, DbType.Int32);
 
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertNewTicketStatus]", dbparams, commandType: CommandType.StoredProcedure));
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_CloseTicket]", dbparams, commandType: CommandType.StoredProcedure));
 
             return Ok(new Response
             {

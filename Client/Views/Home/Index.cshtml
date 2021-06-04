@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
-    @ViewData["empId"];
+    var clientId = @ViewData["empId"] as string;
 }
     <div class="form-row mb-3">
         <label for="empId">Ticket Name</label>
@@ -35,7 +35,7 @@
                                 
                                 <div class="form-row mb-3"  >
                                     <label for="clientId">Client ID</label>
-                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value="@ViewData["empId "]" required>
+                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value="@clientId" required>
                                     <div class="invalid-feedback col-sm-9 offset-3">
                                         please input valid ID
                                     </div>
@@ -98,15 +98,10 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modalTicketSolution" tabindex="-1" role="dialog" aria-labelledby="modalTicketSolution" aria-hidden="true">
+
+<div class="modal fade" id="closeTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <form class="needs-validation modal-validation" novalidate>
                 <div class="modal-body">
                     <div class="row">
@@ -114,50 +109,21 @@
 
                             <div class="card-body">
                                 <div class="form-row mb-3">
-                                    <label for="TicketId">Ticket ID</label>
-                                    <input type="text" class="form-control" id="TicketId" aria-describedby="emailHelp" placeholder="Ticket Name" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid name for your ticket
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row mb-3">
-                                    <label for="EmployeeId">Employee ID</label>
-                                    <input type="text" class="form-control" id="EmployeeId" aria-describedby="emailHelp" placeholder="Client ID" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid ID
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="Solution">Solution</label>
-                                    <textarea class="form-control" id="Solution" rows="3" required></textarea>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please Make your Best solution for them
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
+                                    <label for="ticketId">Ticket ID</label>
+                                    <input type="text" class="form-control" id="ticketId" aria-describedby="emailHelp" placeholder="Ticket Id" disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btnSolution">Add</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="buttonCloseTicket">Add</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -176,6 +142,7 @@
                             <th scope="col">TicketDate</th>
                             <th scope="col">TicketStatus</th>
                             <th scope="col">StatusDate</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -206,9 +173,12 @@
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
     <script>
         $(document).ready(function () {
-            //var clientId = $("#empId").val();
+            //var clientId = $("#clientId").val();
             @*var clientsId = @ViewData["empId"].ToString();
             console.log(clientsId);*@
             $(function () {
@@ -225,11 +195,14 @@
                 //    "autoWidth": false,
                 //    "responsive": true,
                 //});
-                var clientId = "EMP04".toString;
+                //var clientId = @clientId.ToString();
+                //var clientId = $("#clientId").val();
+                var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
-                        url:  '/Ticket/LatestStatusByClientId' ,
+                        url:  '/Ticket/LatestStatusByClientId/' + clientId ,
                         type: "Get",
+                        data: { "clientID": clientID },
                         dataSrc: ""
                     },
                     columns: [
@@ -257,15 +230,88 @@
                                 let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
                                 return dates
                             }
-                        }
+                        },
+                        {
+                            "data": null,
+                            "render": function (data, type, row) {
+                                    '<button id="closeTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')" ><i class="fa fa-close" style="font-size:36px"></i></button>';
+                            },
+                        "orderable": false,
+                        "searchable": false
+                        },
                     ]
                 });
             });
         });
+        
+        
+        function GetTicket(id) {
+            console.log(id);
+            $.ajax({
+                type: 'GET',
+                url: `Home/GetTicketID/${id}`,
+            }).done((result) => {
+                $("#ticketId").val(result.ticketID)
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+
+        $("#buttonCloseTicket").click(function () {
+            CloseTicket();
+            $("#closeTicketModal").hide();
+        });
+
+        
+
+        let CloseTicket = (ticketId) => {
+            swal({
+                title: "Are you sure?",
+                text: "Once closed, you will not be able to make the status to close!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willCloseTicket) => {
+                if (willCloseTicket) {
+                    $.ajax({
+                        url: `/Ticket/UpdateStatusTicket/${ticketId}`,
+                        type: "POST",
+                        success: (data) => {
+                            console.log(data);
+                            if (data == 200) {
+                                //$("#modalDelete").modal('hide');
+                                swal("Poof! you already closed the ticket!", {
+                                    icon: "success",
+                                }).then(() => { location.reload() })
+
+                            }
+                            else {
+                                swal({
+                                    title: "Error",
+                                    text: "Can't update ticket status",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true
+                                }).then(() => {
+                                    $('#closeTicketModal').clear();
+                                    $('#closeTicketModal').ajax.reload();
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        $("#buttonCloseTicket").click(function () {
+            AddTicket();
+            $("#closeTicketModal").hide();
+        });
        
             $.ajax({
-                    url: '/Ticket/LatestStatusByClientId/EMP04',
+                    url:  '/Ticket/LatestStatusByClientId/' + clientId ,
                     type: "Get",
+                    data: { "clientID": clientID },
                     dataSrc: ""
             }).done((result) => {
                 console.log(result);
@@ -278,10 +324,7 @@
             AddTicket();
             $("#exampleModalCenter").hide();
         });
-        $("#btnSolution").click(function () {
-            TicketSolution();
-            $("#modalTicketSolution").hide();
-        });
+        
         function AddTicket() {
             var Ticket = new Object();
             Ticket.TicketName = $("#ticketName").val();
@@ -308,29 +351,7 @@
                 })
         }
 
-            function TicketSolution() {
-            var Ticket = new Object();
-            Ticket.TicketId = $("#TicketId").val();
-            Ticket.EmployeeId = $("#EmployeeId").val();
-            Ticket.Solution = $("#Solution").val();
-            $.ajax({
-                    url: 'Home/TicketSolution',
-                    type: 'POST',
-                    data: Ticket,
-                }).done((result) => {
-                    if (result == 200) {
-                        swal(
-                            {
-                                title: "Success!",
-                                text: "Data added to Database !",
-                                icon: "success"
-                            }).then(() => { location.reload() })
-                    }
-                }).fail((error) => {
-                    console.log(error);
-                    alert("Failed to Insert");
-                })
-             }
+            
 
     </script>
 }
