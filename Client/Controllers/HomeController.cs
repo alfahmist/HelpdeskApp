@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Context;
+using API.Models;
 using API.ViewModel;
 using Client.Models;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,26 +23,45 @@ namespace Client.Controllers
         private readonly ILogger<HomeController> _logger;
         const string SessionName = "_Name";
         const string SessionToken = "_Token";
+        private readonly MyContext myContext = new MyContext();
+        public HomeController(MyContext myContext, ILogger<HomeController> logger)
+        {
+            this.myContext = myContext;
+            _logger = logger;
+        }
         readonly HttpClient client = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:44397/API/")
         };
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
 
         public IActionResult Index()
         {
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                return View("Views/Home/Index.cshtml");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
             //ViewBag.Name = HttpContext.Session.GetString(SessionName);
             //ViewBag.name = "Hello";
             //if(ViewBag.Name == null)
             //{
             //    return RedirectToAction("Index", "Login");
             //}
-            return View();
         }
 
         public IActionResult Account()

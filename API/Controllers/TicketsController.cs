@@ -104,16 +104,26 @@ namespace API.Controllers
             return db.Query<dynamic>("[dbo].[SP_InProgressTicket]", dbparams, commandType: CommandType.StoredProcedure);
         }
         
-        //Rarely Used
-        //[AllowAnonymous]
-        //[HttpPost("TIcket-Newest-Updates")]
-        //public IEnumerable<dynamic> TicketUpdates()
-        //{
-        //    var dbparams = new DynamicParameters(); 
-        //    using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-        //    return db.Query<dynamic>("[dbo].[SP_NewestTicketUpdate]", dbparams, commandType: CommandType.StoredProcedure);
-        //}
-        
+        [HttpGet("GetAllTicketUpdates")]
+        public IEnumerable<dynamic> GetAllTicketUpdates()
+        {
+            var dbparams = new DynamicParameters();
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            return db.Query<dynamic>("[dbo].[SP_GetAllLatestTicket]", dbparams, commandType: CommandType.StoredProcedure);
+        }
+
+       
+        [AllowAnonymous]
+        [HttpGet("Latest-Ticket-Status/{clientId}")]
+        public IActionResult TicketUpdates(string clientId)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("ClientId", clientId, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            dynamic result =  db.Query<dynamic>("[dbo].[SP_GetLatestTicketStatus]", dbparams, commandType: CommandType.StoredProcedure);
+            return Ok(result);
+        }
+
         //[AllowAnonymous]
         //[HttpPost("GetALL-Ticket-Newest-Updates")]
         //public IEnumerable<dynamic> GetAllNewTIcketUpdates()

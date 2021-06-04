@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using API.Context;
+using API.ViewModel;
 using Client.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -66,6 +68,35 @@ namespace Client.Controllers
             using (var httpClient = new HttpClient(clientHandler))
             {
                 using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetInprogressTickets"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            return progressTicket;
+        }
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            return progressTicket;
+        }
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> LatestStatusByClientId(string clientID)
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            //StringContent stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/Latest-Ticket-Status/"+ clientID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
