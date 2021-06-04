@@ -208,7 +208,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // masalah datanya bukan string
-        var clientID = @ViewData["empId"];
+        var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
 
 
@@ -216,8 +216,9 @@
             $('#example2').DataTable({
                 ajax: {
                     // masalah passing clientID ke kontroller
-                    url: '/Ticket/LatestStatusByClientId/' + clientID,
+                    url: '/Ticket/LatestStatusByClientId/',
                     type: "Get",
+                    data: { "clientID": clientID },
                     dataSrc: ""
                 },
                 columns: [
@@ -246,9 +247,10 @@
 
         $.ajax({
              // masalah passing clientID ke kontroller
-            url: '/Ticket/LatestStatusByClientId/' + clientID,
+            url: '/Ticket/LatestStatusByClientId/',
             type: "Get",
-
+            data: { "clientID": clientID },
+            dataSrc: ""
         }).done((result) => {
             console.log(result);
         }).fail((error) => {
