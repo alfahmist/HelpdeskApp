@@ -32,6 +32,17 @@ namespace Client.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult ResetPassword()
+        {
+            if (Request.Query.ContainsKey("token"))
+            {
+                var token = Request.Query["token"].ToString();
+                ViewData["token"] = token;
+                return View();
+            }
+            return NotFound();
+        }
+
         public string LoginEmployee(LoginVM login)
         {
             var client = new HttpClient();
@@ -67,7 +78,14 @@ namespace Client.Controllers
                 //return BadRequest(new { result });
             }
         }
-
+        [HttpPost]
+        public HttpStatusCode Register(RegisterVM registerVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
+            return result.StatusCode;
+        }
         [HttpPost]
         public HttpStatusCode AuthLogin(LoginVM loginVM)
         {
@@ -89,21 +107,34 @@ namespace Client.Controllers
             return result.StatusCode;
         }
 
-        [HttpPost]
-        public HttpStatusCode Register(RegisterVM registerVM)
+        public IActionResult ResetPasswords(ResetVM model)
         {
-            var httpClient = new HttpClient();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/Register", content).Result;
-            return result.StatusCode;
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44397/api/Accounts/reset-password/", stringContent).Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return Ok(new { result });
+            }
+            else
+            {
+                return BadRequest(new { result });
+            }
         }
-        [HttpPut]
-        public HttpStatusCode ForgotPassword(RegisterVM registerVM)
+
+        public IActionResult ForgotPassword(ForgotVM forgotVM)
         {
             var httpClient = new HttpClient();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(registerVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync("https://localhost:44397/api/Accounts/reset/", content).Result;
-            return result.StatusCode;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(forgotVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ForgotPassword", content).Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return Ok(new { result });
+            }
+            else
+            {
+                return BadRequest(new { result });
+            }
         }
         [HttpPut]
         public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordViewModels)
