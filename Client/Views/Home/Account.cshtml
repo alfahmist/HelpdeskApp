@@ -11,25 +11,23 @@
         <strong><i class="fas fa-book mr-1"></i>Name </strong>
 
         <p class="text-muted">
-            B.S. in Computer Science from the University of Tennessee at Knoxville
+            <span id="name"></span>
         </p>
 
         <hr>
 
         <strong><i class="fas fa-map-marker-alt mr-1"></i> Birthdate</strong>
 
-        <p class="text-muted">Malibu, California</p>
+        <p class="text-muted">
+            <span id="date"></span>
+        </p>
 
         <hr>
 
         <strong><i class="fas fa-pencil-alt mr-1"></i> Email</strong>
 
         <p class="text-muted">
-            <span class="tag tag-danger">UI Design</span>
-            <span class="tag tag-success">Coding</span>
-            <span class="tag tag-info">Javascript</span>
-            <span class="tag tag-warning">PHP</span>
-            <span class="tag tag-primary">Node.js</span>
+            <span id="email"></span>
         </p>
 
         <hr>
@@ -43,3 +41,29 @@
 
         <button class="btn btn-outline-info">Edit Account</button>
 <!-- /.card -->
+
+@section Scripts {
+
+    <script>
+        var clientID = `@ViewData["empId"]`;
+        $(document).ready(function () {
+            ReadById(clientID);
+        });
+        let ReadById = (Id) => {
+            $.ajax({
+                url: `Home/GetEmployeeById`,
+                type: "GET",
+                data: {"Id" : Id}
+            }).done((result) => {
+                data = JSON.parse(result);
+                $("#name").text(data.name);
+                $("#date").text(data.birthDate);
+                $("#email").text(data.email);
+                console.log(result);
+            }).fail((error) => {
+                //failed
+                alert("request gagal");
+            });
+        }
+    </script>
+}
