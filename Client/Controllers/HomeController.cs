@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -66,7 +67,26 @@ namespace Client.Controllers
 
         public IActionResult Account()
         {
-            return View();
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+          
         }
 
         public IActionResult Detail()
