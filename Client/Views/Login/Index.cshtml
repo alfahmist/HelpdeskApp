@@ -77,7 +77,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal Register-->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -168,7 +168,7 @@
                                 <div class="form-row mb-6" id="departmentForm">
                                     <label for="departmentId" class="col-sm-6 col-form-label">Select Your Department</label>
                                     <select class="col-sm-6 form-select form-select-sm" id="departmentId" aria-label="Default select example" style="margin:1px 1px">
-                                        <option selected>Department</option>
+                                        <option value="">Department</option>
                                         <option value="1">Customer Support</option>
                                         <option value="2">HelpDesk</option>
                                         <option value="3">Human Resource</option>
@@ -179,7 +179,7 @@
                                 <div class="form-row mb-6" id="roleForm">
                                     <label for="roleId" class="col-sm-6 col-form-label">Select Your Role</label>
                                     <select class="col-sm-6 form-select form-select-sm" id="roleId" aria-label="Default select example" style="margin:1px 1px">
-                                        <option selected>Role</option>
+                                        <option value="">Role</option>
                                         <option value="1">Customer Support</option>
                                         <option value="2">Tehnical Support</option>
                                         <option value="3">Advanced Support</option>
@@ -192,7 +192,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal" onclick="Register()">Register</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal" >Register</button>
                 </div>
             </form>
         </div>
@@ -257,6 +257,7 @@
         $("#btnLogin").click(function () {
             $('#formLogin').submit()
         })
+        //validation
         $('#formLogin').validate({
             rules: {
                 emailLogin: {
@@ -293,55 +294,76 @@
             }
             }
         });
-        function Login() {
-            var Login = new Object();
-            Login.Email = $("#emailLogin").val();
-            Login.Password = $("#passwordLogin").val();
-            console.log(Login);
-            if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
-                $.ajax({
-                type: 'POST',
-                url: '/Login/LoginEmployee',
-                data: Login
-            }).done((result) => {
-                window.location.href = result;
-                //console.log("ok");
-                //console.log(result);
-                //if (result == 200) {
-                //    alert("Successed to Login");
 
-                //
-                //}
-                //else {
-                //    alert("Cannot Login");
-                //}
+        //button register form
+        $("#buttonModal").click(function (e) {
+            e.preventDefault();
+            var User = new Object();
+            User.Email = $("#email").val();
+            User.Name = $("#name").val();
+            User.Password = $("#password").val();
+            User.BirthDate = $("#registerDate").val();
+            User.Gender = $("input[type='radio'][name='gender']:checked").val();
+            User.Phone = $("#registerPhone").val();
+            User.DepartmentId = $("#departmentId").val();
+            User.RoleId = $("#roleId").val();
+            if (User.Name == "" && User.Password == "" && User.BirthDate == "" || User.Gender == "" && User.RoleId == "" && User.Phone == "" && User.DepartmentId == "") {
+                Forgot(User.Email);
+            }
+            else {
+                Register(User);
+            }
+        })
+
+        //Function Forgot Password
+        function Forgot(Data) {
+            var Forgot = new Object();
+            Forgot.Email = $("#email").val();
+            $.ajax({
+            type: 'POST',
+            url: '/Login/ForgotPassword',
+            data: Forgot
+            }).done((result) => {
+                console.log(result);
             }).fail((result) => {
-                //console.log(result);
+                console.log(result);
                 if (result != 200) {
-                    alert("Failed to Login");
+                    alert("wrong email");
                 }
             })
-            }
-            
         }
 
-        function Register() {
+        //Function Login
+        //function Login() {
+        //    var Login = new Object();
+        //    Login.Email = $("#emailLogin").val();
+        //    Login.Password = $("#passwordLogin").val();
+        //    console.log(Login);
+        //    if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
+        //        $.ajax({
+        //        type: 'POST',
+        //        url: '/Login/LoginEmployee',
+        //        data: Login
+        //    }).done((result) => {
+        //        window.location.href = result;
+        //    }).fail((result) => {
+        //        if (result != 200) {
+        //            alert("Failed to Login");
+        //        }
+        //    })
+        //    }
+            
+        //}
 
-        var User = new Object();
-        User.Email = $("#email").val();
-        User.Name = $("#name").val();
-        User.Password = $("#password").val();
-        User.BirthDate = $("#registerDate").val();
-        User.Gender = $("input[type='radio'][name='gender']:checked").val();
-        User.Phone = $("#registerPhone").val();
-        User.DepartmentId = $("#departmentId").val();
-        User.RoleId = $("#roleId").val();
+        //Function register
+        function Register(Data) {
+
         $.ajax({
             type: 'POST',
             url: '/Login/Register',
-            data: User
+            data: Data
             }).done((result) => {
-                console.log(User);
+                console.log(Data);
                 console.log(result);
                 if (result == 200) {
                     //alert("Successed to Add Data!");
