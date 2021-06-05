@@ -108,16 +108,7 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
-                    @*<tfoot>
-                            <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                            </tr>
-                        </tfoot>*@
+                   
                 </table>
             </div>
             <!-- /.card-body -->
@@ -217,7 +208,7 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Ticket/UpdateStatusTicket`,
+                        url: `Home/UpdateStatusTicket`,
                         type: "POST",
                         data: { "ticketId": ticketId },
                         success: (data) => {
