@@ -90,7 +90,7 @@ namespace Client.Controllers
             }
           
         }
-
+        [Route("Detail")]
         public IActionResult Detail()
         {
             return View("Detail");
@@ -167,6 +167,15 @@ namespace Client.Controllers
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
             var result = httpClient.PutAsync("https://localhost:44397/api/Employee", content).Result;
+            return result.StatusCode;
+        }
+
+        public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            changePasswordVM.Token = HttpContext.Session.GetString("JWToken");
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ChangePassword", content).Result;
             return result.StatusCode;
         }
     }
