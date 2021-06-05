@@ -162,5 +162,12 @@ namespace Client.Controllers
             return Json(null);
         }
 
+        public HttpStatusCode UpdateEmployee(Employee employee)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Employee", content).Result;
+            return result.StatusCode;
+        }
     }
 }

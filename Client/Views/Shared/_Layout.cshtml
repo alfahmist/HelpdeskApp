@@ -21,6 +21,22 @@
         a {
             cursor: pointer;
         }
+     
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        #register, #forgotPassword {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -44,7 +60,7 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header"> Account</span>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a asp-controller="home" asp-action="account" class="dropdown-item">
                             <i class="fas fa-address-card mr-2"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
