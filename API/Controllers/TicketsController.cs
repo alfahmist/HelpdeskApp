@@ -91,7 +91,7 @@ namespace API.Controllers
             dbparams.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
-
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
             var parm = new DynamicParameters();
             parm.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dynamic dataEmail = dapper.Get<dynamic>(
