@@ -27,7 +27,7 @@ namespace Client.Controllers
         List<OpenedTicketVM> tickets = new List<OpenedTicketVM>();
         List<ClosedTicketVM> closedTickets = new List<ClosedTicketVM>();
         List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
-        public int ticketNumber { get; set; }
+        public int TicketAllCount { get; set; }
         public DashboardController(MyContext myContext)
         {
             this.myContext = myContext;
@@ -64,6 +64,7 @@ namespace Client.Controllers
 
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
+                ViewData["TicketAllCount"] = TicketAllCount;
                 return View("Views/Dashboard/Index.cshtml");
             }
             else
@@ -133,6 +134,7 @@ namespace Client.Controllers
 
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
+         
                 return View("Views/Dashboard/InprogressTicket.cshtml");
             }
             else
@@ -155,9 +157,24 @@ namespace Client.Controllers
             return closedTickets;
         }
         
-
-        
-
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                  
+            
+                }
+            }  
+            TicketAllCount = progressTicket.Count;
+          
+            return progressTicket;
+        }
         [HttpGet]
         public async Task<List<InprogressTicketVM>> GetInprogressTicket()
         {

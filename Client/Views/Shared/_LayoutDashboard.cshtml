@@ -99,8 +99,6 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>@ViewData["ticketNumber"]</h3>
-
                                     <p>All Ticket</p>
                                 </div>
                                 <div class="icon">
@@ -114,7 +112,7 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                    <h3 id="openCount"></h3>
 
                                     <p>Open</p>
                                 </div>
@@ -129,7 +127,7 @@
                             <!-- small box -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>44</h3>
+                                    <h3 id="inProgressCount"></h3>
 
                                     <p>In Progress</p>
                                 </div>
@@ -144,7 +142,7 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>65</h3>
+                                    <h3 id="closeCount"></h3>
 
                                     <p>Closed</p>
                                 </div>
@@ -233,6 +231,86 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            var allTicketCount;
+            var openTicketCount;
+            var inProgressTicketCount;
+            var closeTicketCount;
+
+            //all
+            $.ajax({
+                url: "/Dashboard/AllNewTicketStatus",
+                type: "GET",
+                dataSrc: ""
+            }).done((result) => {
+                allTicketCount = result.length;
+                if (allTicketCount > 0) {
+                    $("#allCount").text(allTicketCount)
+                } else {
+                    $("#allCount").text(0)
+                }
+            }).fail((error) => {
+                //failed
+                console.log("request gagal");
+            });
+
+            //open
+            $.ajax({
+                url: "/Dashboard/GetOpenedTicket",
+                type: "GET",
+                dataSrc: ""
+            }).done((result) => {
+                openTicketCount = result.length;
+                if (openTicketCount > 0) {
+                    $("#openCount").text(openTicketCount)
+                } else {
+                    $("#openCount").text(0)
+                }
+            }).fail((error) => {
+                //failed
+                console.log("request gagal");
+            });
+
+            //in progress
+            $.ajax({
+                url: "/Dashboard/GetInprogressTicket",
+                type: "GET",
+                dataSrc: ""
+            }).done((result) => {
+                inProgressTicketCount = result.length;
+                if (inProgressTicketCount > 0) {
+                    $("#inProgressCount").text(inProgressTicketCount)
+                } else {
+                    $("#inProgressCount").text(0)
+                }
+            }).fail((error) => {
+                //failed
+                console.log("request gagal");
+            });
+
+
+
+            //close
+            $.ajax({
+                url: `/Dashboard/GetClosedTicket`,
+                type: "GET",
+            }).done((result) => {
+                closeTicketCount = result.length;
+                if (closeTicketCount > 0) {
+                    $("#closeCount").text(closeTicketCount)
+                } else {
+                    $("#closeCount").text(0)
+                }
+            }).fail((error) => {
+                //failed
+                console.log("request gagal");
+            });
+
+        });
+
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
