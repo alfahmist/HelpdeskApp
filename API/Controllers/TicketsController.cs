@@ -97,7 +97,7 @@ namespace API.Controllers
             dynamic dataEmail = dapper.Get<dynamic>(
                 "[dbo].[SP_RetrieveEmail]",
                 parm,
-                CommandType.StoredProcedure
+                CommandType.StoredProcedure 
                 );
 
             var client = myContext.Tickets.FirstOrDefault(x => x.Id == ResponseVM.TicketId);
