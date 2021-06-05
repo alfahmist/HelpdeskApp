@@ -45,7 +45,7 @@
                                 <div class="form-row mb-3" id="CategoryForm">
                                     <label for="CategoriesId" class="col-sm-6 col-form-label">Ticket's Category</label>
                                     <select class="col-sm-6 form-select form-select-sm" id="CategoriesId" aria-label="Default select example" style="margin:1px 1px" required>
-                                        <option value="">Category</option>
+                                        <option disabled selected>Category</option>
                                         <option value="1">Bug Error</option>
                                         <option value="2">Inquery</option>
                                         <option value="3">Microsoft Problem</option>
@@ -88,7 +88,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="tableId">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -175,7 +175,7 @@
                         {
                             data: null,
                             render: function (row) {
-                                return '<button onclick="DetailTicket(\'' + row['ticketID'] + '\')" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></button>';
+                                return '<button id="buttonDetail" onclick="DetailTicket(\'' + row['ticketID'] + '\')" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></button>';
 
                             },
                             orderable: false,
@@ -192,9 +192,9 @@
             }).draw();
         });
 
-        let DetailTicket = (param) => {
-            window.location.href  = "https://localhost:44326/detail";
-        }
+        //let DetailTicket = (param) => {
+        //    window.location.href  = "https://localhost:44326/detail";
+        //}
 
         function GetTicket(id) {
             @clientId = id;
@@ -212,6 +212,10 @@
         $("#buttonCloseTicket").click(function () {
             CloseTicket();
             $("#closeTicketModal").hide();
+        });
+        $("#buttonDetail").click(function () {
+            $("#tableId").hide();
+            $("#example2").hide();
         });
 
 

@@ -32,25 +32,10 @@ namespace Client.Controllers
         {
             this.myContext = myContext;
         }
-        [HttpGet]
-        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
-        {
-            progressTicket = new List<InprogressTicketVM>();
-            using (var httpClient = new HttpClient(clientHandler))
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
-                }
-            }
-            ticketNumber = progressTicket.Count;
-
-            return progressTicket;
-        }
+        
         public IActionResult Index()
         {
-            ViewData["ticketNumber"] = ticketNumber;
+            ViewData["ticketNumber"] = TicketAllCount;
             var token = HttpContext.Session.GetString("JWToken");
             if (token != null)
             {
