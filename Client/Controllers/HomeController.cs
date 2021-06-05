@@ -96,21 +96,6 @@ namespace Client.Controllers
 
         }
 
-                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
-                var email = jwt.Claims.First(e => e.Type == "email").Value;
-                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-                var empId = emailDb.Id;
-
-                ViewData["name"] = name;
-                ViewData["empId"] = empId;
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-          
-        }
         [Route("Detail")]
         public IActionResult Detail()
         {
