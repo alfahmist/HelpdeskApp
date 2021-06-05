@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -64,9 +65,30 @@ namespace Client.Controllers
             //}
         }
 
+
+        [Route("Account")]
         public IActionResult Account()
         {
-            return View();
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+          
         }
 
         public IActionResult Detail()
@@ -122,6 +144,30 @@ namespace Client.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public JsonResult GetEmployeeById(string id)
+        {
+
+            var responseTask = client.GetAsync($"Employee/{id}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var data = readTask.Result;
+                return Json(data);
+            }
+            return Json(null);
+        }
+
+        public HttpStatusCode UpdateEmployee(Employee employee)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Employee", content).Result;
+            return result.StatusCode;
         }
     }
 }

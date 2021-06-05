@@ -7,7 +7,7 @@ using API.Models;
 
 namespace API.Repositories.Data
 {
-    public class EmployeeRepository : GeneralRepository<Employee, MyContext, int>
+    public class EmployeeRepository : GeneralRepository<Employee, MyContext, string>
     {
         private readonly MyContext myContext;
 

@@ -7,39 +7,165 @@
         <h3 class="card-title">Account</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body">
-        <strong><i class="fas fa-book mr-1"></i>Name </strong>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Your Profile</h4>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form id="formEdit">
+                        <div class="form-group row">
+                            <label for="username" class="col-4 col-form-label">Name</label>
+                            <div class="col-8">
+                                <input id="name" name="name" class="form-control here" required="required" type="text" disabled>
+                            </div>
+                        </div>
 
-        <p class="text-muted">
-            B.S. in Computer Science from the University of Tennessee at Knoxville
-        </p>
+                        <div class="form-group row">
+                            <label for="email" class="col-4 col-form-label">Email</label>
+                            <div class="col-8">
+                                <input id="email" name="email" class="form-control here" required="required" type="text" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="website" class="col-4 col-form-label">Birth Date</label>
+                            <div class="col-8">
+                                <input id="birthdate" name="birthdate" class="form-control here" type="text" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="website" class="col-4 col-form-label">Phone</label>
+                            <div class="col-8">
+                                <input id="phone" name="phone" class="form-control here" type="number" disabled>
+                            </div>
+                        </div>
 
-        <hr>
+                        <div class="form-group row">
+                            <div class="offset-4 col-8">
+                                <button id="editButton" name="submit" type="submit" class="btn btn-primary" onclick="Edit()">Edit My Profile</button>
+                                <button id="cancelButton" name="cancel" type="button" class="btn btn-danger" onclick="Cancel()" hidden>Edit Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-        <strong><i class="fas fa-map-marker-alt mr-1"></i> Birthdate</strong>
-
-        <p class="text-muted">Malibu, California</p>
-
-        <hr>
-
-        <strong><i class="fas fa-pencil-alt mr-1"></i> Email</strong>
-
-        <p class="text-muted">
-            <span class="tag tag-danger">UI Design</span>
-            <span class="tag tag-success">Coding</span>
-            <span class="tag tag-info">Javascript</span>
-            <span class="tag tag-warning">PHP</span>
-            <span class="tag tag-primary">Node.js</span>
-        </p>
-
-        <hr>
-
-        <strong><i class="far fa-file-alt mr-1"></i> Phone</strong>
-
-        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+        </div>
     </div>
     <!-- /.card-body -->
-</div>
-
-        <button class="btn btn-outline-info">Edit Account</button>
 <!-- /.card -->
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            ReadById(clientID);
+        });
+
+        let buttonEditStatus = false;
+        let inputDateType = false;
+        $('#formEdit').submit(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        var clientID = `@ViewData["empId"]`;
+     
+        let ReadById = (Id) => {
+            $.ajax({
+                url: `Home/GetEmployeeById`,
+                type: "GET",
+                data: {"Id" : Id}
+            }).done((result) => {
+                data = JSON.parse(result);
+                $("#name").val(data.name);
+                if (inputDateType == false) {
+                    $("#birthdate").val(moment(data.birthDate).format('LL'));
+                } else {
+                    $("#birthdate").val(data.birthDate.substring(0, 10));
+                }
+                $("#email").val(data.email);
+                $("#phone").val(data.phone);
+            }).fail((error) => {
+                //failed
+                alert("request gagal");
+            });
+        }
+
+      
+        let Update = () => {
+            let emp = new Object();
+            emp.Id = clientID;
+            emp.Name = $("#name").val();
+            emp.Email = $("#email").val();
+            emp.Phone = $("#phone").val().toString();
+            emp.BirthDate = $("#birthdate").val().substring(0, 10);
+            console.log(emp)
+            $.ajax({
+                url: "Home/UpdateEmployee",
+                type: "PUT",
+                data: emp
+            }).done((result) => {
+          
+                if (result == 200) {
+                    swal("Update Berhasil", {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
+                    Cancel();
+
+                } else {
+                    swal("Update Gagal Harap periksa data", {
+                        icon: "error",
+                        buttons: false,
+                        timer: 2000
+                    });
+                }
+             
+            }).fail((error) => {
+           
+                alert("request gagal");
+            });
+        }
+
+        let Cancel = () => {
+            ReadById(clientID);
+            $("#editButton").text("Edit My Profile")
+            buttonEditStatus = false;
+            inputDateType = false;
+            $("#name").prop("disabled", true);
+            $("#birthdate").prop("disabled", true);
+            $("#birthdate").prop("type", "text");
+            $("#editButton").attr("onclick", "Edit()");
+       
+            $("#phone").prop("disabled", true);
+            $("#cancelButton").prop("hidden", true);
+        }
+
+
+        let Edit = () => {
+            if (buttonEditStatus == false) {
+                ReadById(clientID);
+                $("#editButton").text("Update")
+                $("#name").prop("disabled", false);
+                $("#birthdate").prop("disabled", false);
+                $("#birthdate").prop("type", "date");
+   
+                $("#phone").prop("disabled", false);
+                $("#editButton").attr("onclick", "Update()");
+                $("#cancelButton").prop("hidden", false);
+                buttonEditStatus = true;
+                inputDateType = true;
+            } else {
+                ReadById(clientID);
+                Cancel();
+             
+            }
+        }
+
+    </script>
+}
