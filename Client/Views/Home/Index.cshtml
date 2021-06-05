@@ -234,7 +234,7 @@
                         {
                             "data": null,
                             "render": function (data, type, row) {
-                                return    '<button id="buttonCloseTicket" class="btn btn-danger" style="margin-left : 5px;"  data-toggle="tooltip" data-placement="top" title="Close Ticket" onclick="CloseTicket(\'' + row['ticketID'] + '\')" ><i class="fa fa-close" style="font-size:36px"></i></button>';
+                            return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
                             },
                         "orderable": false,
                         "searchable": false

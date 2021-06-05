@@ -92,12 +92,13 @@ namespace API.Controllers
             dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
 
-            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
-
             var parm = new DynamicParameters();
-            parm.Add("clientTicketId", ResponseVM.TicketId, DbType.String);
-            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-            dynamic Receiver = db.Query<dynamic>("[dbo].[SP_RetrieveEmail]", parm, commandType: CommandType.StoredProcedure);
+            parm.Add("TicketId", ResponseVM.TicketId, DbType.String);
+            dynamic dataEmail = dapper.Get<dynamic>(
+                "[dbo].[SP_RetrieveEmail]",
+                parm,
+                CommandType.StoredProcedure
+                );
 
             var client = myContext.Tickets.FirstOrDefault(x => x.Id == ResponseVM.TicketId);
             var ticketSubject = client.Name;
@@ -116,7 +117,7 @@ namespace API.Controllers
                 Credentials = new NetworkCredential(sender, pwd),
             };
 
-            CreateSolutionEmailHandler mailHandler = new CreateSolutionEmailHandler(sender, Receiver.Email, ticketId, ticketSubject, solution);
+            CreateSolutionEmailHandler mailHandler = new CreateSolutionEmailHandler(sender, dataEmail.Email, ticketId, ticketSubject, solution);
             user.Send(mailHandler.Message());
 
 
