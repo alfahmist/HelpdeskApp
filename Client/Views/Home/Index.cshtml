@@ -2,6 +2,7 @@
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
     var clientId = @ViewData["empId"] as string;
+    
 }
 <br />
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -190,6 +191,7 @@
         });
 
         function GetTicket(id) {
+            @clientId = id;
             console.log(id);
             $.ajax({
                 type: 'GET',
