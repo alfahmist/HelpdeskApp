@@ -203,7 +203,13 @@
 
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
+            $('#exampleModalCenter').on('hidden.bs.modal', function () {
+                ModalClear();
+                //remove validation modal is closed
+                ClearValidation();
+            });
 
+            FormValidation();
                 var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
@@ -313,7 +319,7 @@
 
         $("#buttonModal").click(function () {
             AddTicket();
-            $("#exampleModalCenter").hide();
+
         });
         
         function AddTicket() {
@@ -366,6 +372,24 @@
             })
         }
 
-
+        var ClearValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation modal-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.classList.remove('was-validated');
+            });
+        }
+        var FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }
     </script>
 }
