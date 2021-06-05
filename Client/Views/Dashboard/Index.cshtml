@@ -4,65 +4,6 @@
 }
 
 
-<div class="modal fade" id="modalTicketSolution" tabindex="-1" role="dialog" aria-labelledby="modalTicketSolution" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form class="needs-validation modal-validation" novalidate>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-
-                            <div class="card-body">
-                                <div class="form-row mb-3">
-                                    <label for="TicketId">Ticket ID</label>
-                                    <input type="text" class="form-control" id="TicketId" aria-describedby="emailHelp" placeholder="Ticket Name" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid name for your ticket
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="EmployeeId">Employee ID</label>
-                                    <input type="text" class="form-control" id="EmployeeId" aria-describedby="emailHelp" placeholder="Client ID" value="@ViewData["empId"]" disabled>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid ID
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="Solution">Solution</label>
-                                    <textarea class="form-control" id="Solution" rows="3" required></textarea>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please Make your Best solution for them
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btnSolution">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
@@ -74,7 +15,7 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th scope="col">No</th>
                             <th scope="col">Ticket ID</th>
                             <th scope="col">Ticket Name</th>
                             <th scope="col">Requestor Name</th>
@@ -84,7 +25,6 @@
                             @*<th scope="col">Action</th>*@
                         </tr>
                     </thead>
-                    <tbody></tbody>
                 </table>
             </div>
             <!-- /.card-body -->
@@ -104,20 +44,9 @@
 
     <script>
         $(document).ready(function () {
-            //$.ajax({
-            //    url: "/Ticket/GetInprogressTicket",
-            //    type: "GET",
-            //}).done(result => {
-            //    console.log(result);
-            //}).fail(result => {
-            //    console.log("Gagal");
-            //})
-        
-
-            //$(function LoadTable() {
-                $('#example2').DataTable({
+      let table = $('#example2').DataTable({
                     ajax: {
-                        url: "/Ticket/AllNewTicketStatus",
+                        url: "/Dashboard/AllNewTicketStatus",
                         type: "GET",
                         dataSrc: ""
                     },
@@ -148,19 +77,14 @@
                                     return dates
                                 }
                             }
-                    //        {
-                    //    "data": null,
-                    //    "render": function (data, type, row) {
-                    //        //console.log(row["id"]);
-                    //        return '<button id="editTable" class="btn btn-primary"  style="margin-right : 5px;"data-togle="tooltip" data-placement="top" title="Add new Solution" onclick="TicketSolution(\'' + row['ticketID'] + '\')" data-toggle="modal" data-target="#modalTicketSolution"  ><i class="fa fa-edit"></i></button>'
-                    //    },
-                    //    "orderable": false,
-                    //    "searchable": false
-                    //}
-                        ]
-                            
-                })
-            //});
+                        ],
+                 "order": [[1, 'asc']]
+            });
+                table.on('order.dt search.dt', function () {
+                    table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
         });
         $("#btnSolution").click(function () {
             TicketSolution();
@@ -172,7 +96,7 @@
             Ticket.EmployeeId = $("#EmployeeId").val();
             Ticket.Solution = $("#Solution").val();
             $.ajax({
-                    url: 'Home/TicketSolution',
+                    url: 'Dashboard/TicketSolution',
                     type: 'POST',
                     data: Ticket,
                 }).done((result) => {

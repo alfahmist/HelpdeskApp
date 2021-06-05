@@ -67,7 +67,7 @@ namespace API.Controllers
 
             var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(forgotVM.Email);
-            string url = "https://localhost:44326/Login/ResetPassword?token=" + token;
+            string url = "https://localhost:44326/Login/ResetPasswords?token=" + token;
             MailHandler mailHandler = new MailHandler(sender, forgotVM.Email, url, token);
 
 

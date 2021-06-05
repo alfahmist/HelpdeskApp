@@ -47,7 +47,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link pl-3">
+            <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="brand-link pl-3">
                 <span class="brand-text font-weight-light">@ViewData["name"]</span>
             </a>
 
@@ -159,6 +159,67 @@
                     @RenderBody()
                 </div>
             </section>
+        </div>
+
+        <!-- Modal Add Solution -->
+        <div class="modal fade" id="modalTicketSolution" tabindex="-1" role="dialog" aria-labelledby="modalTicketSolution" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="needs-validation modal-validation" novalidate>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <div class="card-body">
+                                        <div class="form-row mb-3">
+                                            <label for="TicketId">Ticket ID</label>
+                                            <input type="text" class="form-control" id="TicketId" aria-describedby="emailHelp" placeholder="Ticket ID" required>
+                                            <div class="invalid-feedback col-sm-9 offset-3">
+                                                please input valid name for your ticket
+                                            </div>
+                                            <div class="valid-feedback col-sm-9 offset-3">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row mb-3">
+                                            <label for="EmployeeId">Employee ID</label>
+                                            <input type="text" class="form-control" id="EmployeeId" aria-describedby="emailHelp" placeholder="Client ID" value="@ViewData["empId"]" disabled>
+                                            <div class="invalid-feedback col-sm-9 offset-3">
+                                                please input valid ID
+                                            </div>
+                                            <div class="valid-feedback col-sm-9 offset-3">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row mb-3">
+                                            <label for="Solution">Solution</label>
+                                            <textarea class="form-control" id="Solution" rows="3" required></textarea>
+                                            <div class="invalid-feedback col-sm-9 offset-3">
+                                                Please Make your Best solution for them
+                                            </div>
+                                            <div class="valid-feedback col-sm-9 offset-3">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnSolution">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <footer class="main-footer">

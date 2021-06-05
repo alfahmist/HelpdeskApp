@@ -3,48 +3,57 @@
     ViewBag.Title = "InProgress Ticket";
 }
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Opened Tickets</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <br />
-                <div style="width:100%; margin:50px auto;">
-                    <button type="button" id="btnAdd" class="btn btn-success" style="margin:20px auto" data-toggle="modal" data-target="#modalAdd" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                    <table id="inprogressDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="inprogressDatatable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th scope="col">No</th>
                                 <th scope="col">Ticket ID</th>
                                 <th scope="col">Ticket Name</th>
                                 <th scope="col">Requestor Name</th>
                                 <th scope="col">Ticket Date</th>
                                 <th scope="col">Ticket Status</th>
-                                <th scope="col">Status Date</th>
+                                <th scope="col">In-Progress Date</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th scope="col">No</th>
                                 <th scope="col">Ticket ID</th>
                                 <th scope="col">Ticket Name</th>
                                 <th scope="col">Requestor Name</th>
                                 <th scope="col">Ticket Date</th>
                                 <th scope="col">Ticket Status</th>
-                                <th scope="col">Status Date</th>
+                                <th scope="col">In-Progress Date</th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
+            <!-- /.card -->
         </div>
-        <!-- /.card -->
     </div>
-</div>
+    @*<div style="width:90%; margin:50px auto;">
+        <table id="inprogressDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            
+        </table>
+    </div>*@
+
+
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
@@ -54,13 +63,19 @@
 
     <script>
         $(document).ready(function LoadTable() {
-            table = $('#inprogressDatatable').DataTable({
+         let table = $('#inprogressDatatable').DataTable({
                 ajax: {
-                    url: "/Ticket/GetInprogressTicket",
+                    url: "/Dashboard/GetInprogressTicket",
                     type: "GET",
                     dataSrc: ""
                 },
                 columns: [
+                    {
+                        data: null,
+                        render: (data, type, row, meta) => {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
                     { "data": "ticketID" },
                     { "data": "ticketName" },
                     //{ "data": "Category"},
@@ -80,8 +95,14 @@
                             return dates
                         }
                     }
-                ]
-            });
+                ],
+                "order": [[1, 'asc']]
+            })
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         });
 
     </script>

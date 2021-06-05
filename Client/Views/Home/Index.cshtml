@@ -3,10 +3,98 @@
     ViewData["Title"] = "Home Page";
     var clientId = @ViewData["empId"] as string;
 }
-<div class="form-row mb-3">
-    <label for="empId">Ticket Name</label>
-    <input type="hidden" class="form-control" id="empId" aria-describedby="emailHelp" placeholder="empId">
+<br />
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation modal-validation" novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="card-body">
+                                <div class="form-row mb-3">
+                                    <label for="ticketName">Ticket Name</label>
+                                    <input type="text" class="form-control" id="ticketName" aria-describedby="emailHelp" placeholder="Ticket Name" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid name for your ticket
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="clientId">Client ID</label>
+                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value='@ViewData["empId"]' required disabled>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid ID
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-3" id="CategoryForm">
+                                    <label for="CategoriesId" class="col-sm-6 col-form-label">Ticket's Category</label>
+                                    <select class="col-sm-6 form-select form-select-sm" id="CategoriesId" aria-label="Default select example" style="margin:1px 1px" required>
+                                        <option value="">Category</option>
+                                        <option value="1">Bug Error</option>
+                                        <option value="2">Inquery</option>
+                                        <option value="3">Microsoft Problem</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-row mb-3">
+                                    <label for="Subject">Subject</label>
+                                    <input type="text" class="form-control" id="Subject" aria-describedby="emailHelp" placeholder="Subject" required>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        please input valid subject
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-row mb-3">
+                                    <label for="Message">Message</label>
+                                    <textarea class="form-control" id="Message" rows="3" required></textarea>
+                                    <div class="invalid-feedback col-sm-9 offset-3">
+                                        password less then 6
+                                    </div>
+                                    <div class="valid-feedback col-sm-9 offset-3">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="buttonModal">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<div class="modal fade" id="closeTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form class="needs-validation modal-validation" novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
 
 <div class="row">
     <div class="col-12">
@@ -19,7 +107,7 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            @*<th>No</th>*@
+                            <th scope="col">No</th>
                             <th scope="col">TicketID</th>
                             <th scope="col">TicketName</th>
                             <th scope="col">RequestorName</th>
@@ -53,28 +141,26 @@
 
 @section Scripts {
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
-            $('#exampleModalCenter').on('hidden.bs.modal', function () {
-                ModalClear();
-                //remove validation modal is closed
-                ClearValidation();
-            });
-
-            FormValidation();
-                var clientID = `@ViewData["empId"]`;
-                $('#example2').DataTable({
+            var clientID = `@ViewData["empId"]`;
+          let table = $('#example2').DataTable({
                     ajax: {
-                    
-                        url: '/Ticket/LatestStatusByClientId/',
+                        url:  '/Home/LatestStatusByClientId/',
                         type: "Get",
                         data: { "clientID": clientID },
                         dataSrc: ""
                     },
                     columns: [
+                        {
+                            data: null,
+                            render: (data, type, row, meta) => {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
                         { "data": "ticketID" },
                         { "data": "ticketName" },
                         { "data": "requestorName" },
@@ -97,16 +183,21 @@
                             data: null,
                             render: function (row) {
                                 return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
+
                             },
                             orderable: false,
                             searchable: false
                         },
-                    ]
-                });
+                    ],
+                "order": [[1, 'asc']]
             });
-    
-        
-        
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+
         function GetTicket(id) {
             console.log(id);
             $.ajax({
@@ -124,7 +215,6 @@
             $("#closeTicketModal").hide();
         });
 
-        
 
         let CloseTicket = (ticketId) => {
             swal({
@@ -178,11 +268,11 @@
             e.stopPropagation();
 
         });
-        
+
         function AddTicket() {
             var Ticket = new Object();
             Ticket.TicketName = $("#ticketName").val();
-            Ticket.ClientId = $("#clientId").val();
+            Ticket.ClientId = clientID;
             Ticket.CategoriesId = $("#CategoriesId").val();
             Ticket.Subject = $("#Subject").val();
             Ticket.Message = $("#Message").val();
@@ -204,7 +294,6 @@
                 alert("Failed to Insert");
             })
         }
-
         function TicketSolution() {
             var Ticket = new Object();
             Ticket.TicketId = $("#TicketId").val();
