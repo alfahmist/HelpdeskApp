@@ -80,11 +80,14 @@
 
 
     <script>
+
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
+
                 var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
+
                         url: '/Ticket/LatestStatusByClientId/',
                         type: "Get",
                         data: { "clientID": clientID },
@@ -120,6 +123,9 @@
                     ]
                 });
             });
+
+
+
         function GetTicket(id) {
             console.log(id);
             $.ajax({
@@ -131,10 +137,14 @@
                 console.log(error);
             })
         }
+
         $("#buttonCloseTicket").click(function () {
             CloseTicket();
             $("#closeTicketModal").hide();
         });
+
+
+
         let CloseTicket = (ticketId) => {
             swal({
                 title: "Are you sure?",
@@ -155,6 +165,7 @@
                                 swal("Poof! you already closed the ticket!", {
                                     icon: "success",
                                 }).then(() => { location.reload() })
+
                             }
                             else {
                                 swal({
@@ -173,14 +184,18 @@
                 }
             })
         }
+
         $("#buttonCloseTicket").click(function () {
             AddTicket();
             $("#closeTicketModal").hide();
         });
+
+
         $("#buttonModal").click(function () {
             AddTicket();
             $("#exampleModalCenter").hide();
         });
+
         function AddTicket() {
             var Ticket = new Object();
             Ticket.TicketName = $("#ticketName").val();
@@ -206,6 +221,7 @@
                 alert("Failed to Insert");
             })
         }
+
         function TicketSolution() {
             var Ticket = new Object();
             Ticket.TicketId = $("#TicketId").val();
@@ -229,5 +245,7 @@
                 alert("Failed to Insert");
             })
         }
+
+
     </script>
 }

@@ -95,54 +95,7 @@
                     <div class="row">
                         <div class="col-sm-12">
 
-                            <div class="card-body">
-                                <div class="form-row mb-3">
 
-                                    <label for="ticketId">Ticket ID</label>
-                                    <input type="text" class="form-control" id="ticketId" aria-describedby="emailHelp" placeholder="Ticket Id" disabled>
-
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid name for your ticket
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="EmployeeId">Employee ID</label>
-                                    <input type="text" class="form-control" id="EmployeeId" aria-describedby="emailHelp" placeholder="Client ID" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid ID
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="Solution">Solution</label>
-                                    <textarea class="form-control" id="Solution" rows="3" required></textarea>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please Make your Best solution for them
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="buttonCloseTicket">Add</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -187,10 +140,6 @@
 <!-- /.row -->
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -214,7 +163,6 @@
                         },
                         { "data": "ticketID" },
                         { "data": "ticketName" },
-                        //{ "data": "Category"},
                         { "data": "requestorName" },
                         {
                             "data": "ticketDate",
@@ -232,12 +180,13 @@
                             }
                         },
                         {
-                            "data": null,
-                            "render": function (data, type, row) {
-                            return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
+                            data: null,
+                            render: function (row) {
+                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
+
                             },
-                        "orderable": false,
-                        "searchable": false
+                            orderable: false,
+                            searchable: false
                         },
                     ],
                 "order": [[1, 'asc']]
@@ -248,7 +197,6 @@
                 });
             }).draw();
         });
-
 
         function GetTicket(id) {
             console.log(id);
@@ -278,7 +226,7 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Home/UpdateStatusTicket/${ticketId}`,
+                        url: `/Ticket/UpdateStatusTicket`,
                         type: "POST",
                         data: { "ticketId": ticketId },
                         success: (data) => {
@@ -308,24 +256,17 @@
             })
         }
 
-
-        $.ajax({
-            url: '/Home/LatestStatusByClientId/',
-            type: "Get",
-            data: { "clientID": clientID },
-            dataSrc: ""
-        }).done((result) => {
-            console.log(result);
-        }).fail((error) => {
-            console.log(error);
-            alert("Cannot load data");
+        $("#buttonCloseTicket").click(function () {
+            AddTicket();
+            $("#closeTicketModal").hide();
         });
 
 
-
-        $("#buttonModal").click(function () {
+        $("#buttonModal").click(function (e) {
             AddTicket();
-            $("#exampleModalCenter").hide();
+            e.preventDefault();
+            e.stopPropagation();
+
         });
 
         function AddTicket() {
@@ -353,6 +294,48 @@
                 alert("Failed to Insert");
             })
         }
+        function TicketSolution() {
+            var Ticket = new Object();
+            Ticket.TicketId = $("#TicketId").val();
+            Ticket.EmployeeId = $("#EmployeeId").val();
+            Ticket.Solution = $("#Solution").val();
+            $.ajax({
+                url: 'Home/TicketSolution',
+                type: 'POST',
+                data: Ticket,
+            }).done((result) => {
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Data added to Database !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+                alert("Failed to Insert");
+            })
+        }
 
+        var ClearValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation modal-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.classList.remove('was-validated');
+            });
+        }
+        var FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }
     </script>
 }

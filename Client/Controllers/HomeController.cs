@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -78,6 +79,7 @@ namespace Client.Controllers
                 var jwtReader = new JwtSecurityTokenHandler();
                 var jwt = jwtReader.ReadJwtToken(token);
 
+
                 var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
                 var email = jwt.Claims.First(e => e.Type == "email").Value;
                 var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
@@ -94,11 +96,26 @@ namespace Client.Controllers
 
         }
 
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+          
+        }
+        [Route("Detail")]
         public IActionResult Detail()
         {
             return View("Detail");
         }
-        
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("JWToken");
@@ -142,7 +159,6 @@ namespace Client.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
         [HttpGet]
         public async Task<List<InprogressTicketVM>> LatestStatusByClientId(string clientID)
         {
@@ -166,7 +182,6 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/UpdateStatusTicket", content).Result;
             return result.StatusCode;
         }
-
         public JsonResult GetEmployeeById(string id)
         {
 
@@ -181,6 +196,23 @@ namespace Client.Controllers
                 return Json(data);
             }
             return Json(null);
+        }
+
+        public HttpStatusCode UpdateEmployee(Employee employee)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync("https://localhost:44397/api/Employee", content).Result;
+            return result.StatusCode;
+        }
+
+        public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            changePasswordVM.Token = HttpContext.Session.GetString("JWToken");
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ChangePassword", content).Result;
+            return result.StatusCode;
         }
     }
 }

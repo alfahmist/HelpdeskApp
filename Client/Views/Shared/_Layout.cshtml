@@ -21,6 +21,22 @@
         a {
             cursor: pointer;
         }
+     
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        #register, #forgotPassword {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -44,11 +60,11 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header"> Account</span>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a asp-controller="home" asp-action="account" class="dropdown-item">
                             <i class="fas fa-address-card mr-2"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a class="dropdown-item"  data-toggle="modal" data-target="#modalChangePassword">
                             <i class="fas fa-user-lock mr-2"></i> Change Password
                         </a>
 
@@ -105,6 +121,132 @@
             <section class="content">
                 <!-- /.content-header -->
                 <div class="container-fluid">
+                    <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog" aria-labelledby="modalChangePasswordTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalChangePasswordTitle">ChangePassword</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="needs-validation modal-validation changePassword" novalidate>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card-body">
+                                                    <div class="form-row mb-3">
+                                                        <label for="oldPassword">Old Password</label>
+                                                        <input type="text" class="form-control" id="oldPassword" aria-describedby="Old Password" placeholder="oldPassword" minlength="6" required>
+                                                        <div class="invalid-feedback col-sm-9 ">
+                                                            Password less then 6
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row mb-3">
+                                                        <label for="newPassword">New Password</label>
+                                                        <input type="text" class="form-control" id="newPassword" aria-describedby="New Password" placeholder="newPassword" minlength="6" required>
+                                                        <div class="invalid-feedback col-sm-9 ">
+                                                            Password less then 6
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" id="changeButton" onclick="ChangePassword()">Change Password</button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="needs-validation modal-validation" novalidate>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+
+                                                <div class="card-body">
+                                                    <div class="form-row mb-3">
+                                                        <label for="ticketName">Ticket Name</label>
+                                                        <input type="text" class="form-control" id="ticketName" aria-describedby="emailHelp" placeholder="Ticket Name" required>
+                                                        <div class="invalid-feedback col-sm-9">
+                                                            please input valid name for your ticket
+                                                        </div>
+                                                        <div class="valid-feedback col-sm-9">
+                                                            Looks good!
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-row mb-3">
+                                                        <label for="clientId">Client ID</label>
+                                                        <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value='@ViewData["empId"]' required disabled>
+                                                        <div class="invalid-feedback col-sm-9">
+                                                            please input valid ID
+                                                        </div>
+                                                        <div class="valid-feedback col-sm-9">
+                                                            Looks good!
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-row mb-3">
+                                                        <label for="CategoriesId">Category</label>
+                                                        <select class="form-select form-select-sm form-control" id="CategoriesId" aria-label="Default select example" style="margin:1px 1px" required>
+                                                            <option value="">Category</option>
+                                                            <option value="1" >Bug Error</option>
+                                                            <option value="2" >Inquery</option>
+                                                            <option value="3" >Microsoft Problem</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-row mb-3">
+                                                        <label for="Subject">Subject</label>
+                                                        <input type="text" class="form-control" id="Subject" placeholder="Subject" required>
+                                                        <div class="invalid-feedback">
+                                                            please input valid subject
+                                                        </div>
+                                                        <div class="valid-feedback">
+                                                            Looks good!
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-row mb-3">
+                                                        <label for="Message">Message</label>
+                                                        <textarea class="form-control" id="Message" rows="3" required></textarea>
+                                                        <div class="invalid-feedback col-sm-9">
+                                                            password less then 6
+                                                        </div>
+                                                        <div class="valid-feedback col-sm-9">
+                                                            Looks good!
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" id="buttonModal">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
                     @RenderBody()
                 </div>
             </section>
@@ -121,6 +263,48 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        let ChangePassword = () => {
+            var forms = document.getElementsByClassName('changePassword');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }, false);
+            });
+
+            let dataChange = new Object();
+        
+            dataChange.oldPassword = $("#oldPassword").val();
+            dataChange.newPassword = $("#newPassword").val();
+            console.log(dataChange);
+            $.ajax({
+                type: 'POST',
+                url: `Home/ChangePassword`,
+                data: dataChange
+            }).done((result) => {
+                console.log(result);
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Change Password Success !",
+                            icon: "success",
+                            time: 2000
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
