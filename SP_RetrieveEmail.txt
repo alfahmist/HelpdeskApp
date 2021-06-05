@@ -1,0 +1,9 @@
+CREATE PROCEDURE [dbo].SP_RetrieveEmail
+@TicketId varchar(100)
+AS
+BEGIN
+	SELECT DISTINCT emp.Email AS 'Email'
+	FROM TB_T_Ticket t
+	JOIN TB_M_Employee emp ON t.EmployeeId = emp.Id
+	WHERE t.Id = @TicketId
+END;
