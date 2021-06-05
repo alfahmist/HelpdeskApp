@@ -27,13 +27,30 @@ namespace Client.Controllers
         List<OpenedTicketVM> tickets = new List<OpenedTicketVM>();
         List<ClosedTicketVM> closedTickets = new List<ClosedTicketVM>();
         List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
+        public int ticketNumber { get; set; }
         public DashboardController(MyContext myContext)
         {
             this.myContext = myContext;
         }
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                }
+            }
+            ticketNumber = progressTicket.Count;
+
+            return progressTicket;
+        }
         public IActionResult Index()
         {
-            
+            ViewData["ticketNumber"] = ticketNumber;
             var token = HttpContext.Session.GetString("JWToken");
             if (token != null)
             {
@@ -139,20 +156,7 @@ namespace Client.Controllers
         }
         
 
-        [HttpGet]
-        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
-        {
-            progressTicket = new List<InprogressTicketVM>();
-            using (var httpClient = new HttpClient(clientHandler))
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
-                }
-            }
-            return progressTicket;
-        }
+        
 
         [HttpGet]
         public async Task<List<InprogressTicketVM>> GetInprogressTicket()
