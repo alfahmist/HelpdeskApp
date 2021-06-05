@@ -88,9 +88,10 @@
                     });
                 }).draw();
         });
-        $("#btnSolution").click(function () {
+        $("#btnSolution").click(function (e) {
             TicketSolution();
-            $("#modalTicketSolution").hide();
+            e.preventDefault();
+            e.stopPropagation();
         });
         function TicketSolution() {
             var Ticket = new Object();
