@@ -44,12 +44,14 @@
 
     <script>
         $(document).ready(function () {
+
       let table = $('#example2').DataTable({
                     ajax: {
                         url: "/Dashboard/AllNewTicketStatus",
                         type: "GET",
                         dataSrc: ""
                     },
+
                     columns:
                         [
                             {
