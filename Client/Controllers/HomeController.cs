@@ -90,7 +90,7 @@ namespace Client.Controllers
             }
           
         }
-
+        [Route("Detail")]
         public IActionResult Detail()
         {
             return View("Detail");
