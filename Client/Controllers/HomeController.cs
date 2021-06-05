@@ -99,6 +99,8 @@ namespace Client.Controllers
         [Route("Detail")]
         public IActionResult Detail()
         {
+            var id = Request.Query["id"];
+            ViewData["ID"] = id;
             return View("Detail");
         }
         public IActionResult Logout()
