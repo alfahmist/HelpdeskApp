@@ -1,19 +1,18 @@
-﻿@{
+﻿@using Client.ViewModels
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Detail";
-    var clientId = @ViewData["empId"] as string;
+    var ticketID = @ViewData["ticketID"] as string;
+
 }
 <div class="form-row my-3">
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header">
                 Ticket Information
+                @ViewData["ID"]
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <h5>Created Time</h5>
-                    <p>11-04-19 05:15 PM</p>
-                </li>
                 <li class="list-group-item">
                     <h5>Status</h5>
                     <p>Open</p>
@@ -25,7 +24,8 @@
         <div class="card">
             <div class="card-header">
                 Ticket Detail
-            </div>
+              
+                </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row">
@@ -37,41 +37,56 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">
-                    <h5>John : </h5>
-                    <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-sm-12">
+                </ul>
+                <ul class="list-group list-group-flush" id="messageBody">
+                    @*<li class="list-group-item">
+                        <h5 class="name">John : </h5>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-12">
 
-                                        <p>Maecenas bibendum lorem sit amet nulla mollis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean placerat arcu orci, a tempor lorem tempor tempor.</p>
+                                            <p>Maecenas bibendum lorem sit amet nulla mollis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean placerat arcu orci, a tempor lorem tempor tempor.</p>
 
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <h5>Customer Service : </h5>
-                    <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-sm-12">
-
-                                        <p>Duis vitae turpis eleifend, volutpat est consequat, efficitur tortor. Nunc commodo eleifend ultricies.</p>
+                                        </div>
 
                                     </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
             </ul>
+        </div>
+        <div class="row fixed-bottom">
+            <div class="offset-7 col-sm-5">
+                <div class="card ">
+                    <form>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    Message
+                                </div>
+                                <div class="offset-7 col-sm-2">
+                                    <button class="btn btn-danger" id="buttonMinimize">
+                                        <i class="fa fa-window-minimize " aria-hidden="true" ></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="minimized">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="messageContent">
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary" id="buttonSendMessage">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -80,169 +95,86 @@
 
 
     <script>
-
-        var clientID = `@ViewData["empId"]`;
+        var ticketID = `@ViewData["ticketID"]`;
+        var empID = `@ViewData["empId"]`;
         $(document).ready(function () {
-
-                var clientID = `@ViewData["empId"]`;
-                $('#example2').DataTable({
-                    ajax: {
-
-                        url: '/Ticket/LatestStatusByClientId/',
-                        type: "Get",
-                        data: { "clientID": clientID },
-                        dataSrc: ""
-                    },
-                    columns: [
-                        { "data": "ticketID" },
-                        { "data": "ticketName" },
-                        { "data": "requestorName" },
-                        {
-                            "data": "ticketDate",
-                            render: function (data, type, row) {
-                                let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                                return date
-                            }
-                        },
-                        { "data": "ticketStatus" },
-                        {
-                            "data": "statusDate",
-                            render: function (data, type, row) {
-                                let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                                return dates
-                            }
-                        },
-                        {
-                            data: null,
-                            render: function (row) {
-                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
-                            },
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
+            GetMessageByID(ticketID);
+            $("#buttonSendMessage").click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                Send();
+            });
+            $("#buttonMinimize").click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#minimized").toggle();
             });
 
+        });
 
-
-        function GetTicket(id) {
-            console.log(id);
+        let Send = () => {
+            var model = new Object();
+            model.TicketId = ticketID;
+            model.EmployeeId = empID;
+            model.Message = $("#messageContent").val();
+            console.log(model);
             $.ajax({
+                url: "https://localhost:44326/Home/NewTicketMessage",
+                type: 'POST',
+                data: model,
+            }).done((result) => {
+                console.log(result)
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Message has been sent !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log("error");
+            })
+        }
+        let GetMessageByID = (id) => {
+            $.ajax({
+                url: "https://localhost:44326/Home/GetTicketMessage",
                 type: 'GET',
-                url: `Home/GetTicketID/${id}`,
+                data: {id : id}
             }).done((result) => {
-                $("#ticketId").val(result.ticketID)
-            }).fail((error) => {
-                console.log(error);
-            })
-        }
+                //let newData = result.map((data) => {
+                //    data.messageDate = data.messageDate.substr(0, 10);
+                //    return data;
+                //});
+                console.log(result);
+                result.forEach(myFunction);
 
-        $("#buttonCloseTicket").click(function () {
-            CloseTicket();
-            $("#closeTicketModal").hide();
-        });
-
-
-
-        let CloseTicket = (ticketId) => {
-            swal({
-                title: "Are you sure?",
-                text: "Once closed, you will not be able to make the status to close!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willCloseTicket) => {
-                if (willCloseTicket) {
-                    $.ajax({
-                        url: `/Ticket/UpdateStatusTicket`,
-                        type: "POST",
-                        data: { "ticketId": ticketId },
-                        success: (data) => {
-                            console.log(data);
-                            if (data == 200) {
-                                //$("#modalDelete").modal('hide');
-                                swal("Poof! you already closed the ticket!", {
-                                    icon: "success",
-                                }).then(() => { location.reload() })
-
-                            }
-                            else {
-                                swal({
-                                    title: "Error",
-                                    text: "Can't update ticket status",
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: true
-                                }).then(() => {
-                                    $('#closeTicketModal').clear();
-                                    $('#closeTicketModal').ajax.reload();
-                                })
-                            }
-                        }
-                    })
-                }
-            })
-        }
-
-        $("#buttonCloseTicket").click(function () {
-            AddTicket();
-            $("#closeTicketModal").hide();
-        });
-
-
-        $("#buttonModal").click(function () {
-            AddTicket();
-            $("#exampleModalCenter").hide();
-        });
-
-        function AddTicket() {
-            var Ticket = new Object();
-            Ticket.TicketName = $("#ticketName").val();
-            Ticket.ClientId = $("#clientId").val();
-            Ticket.CategoriesId = $("#CategoriesId").val();
-            Ticket.Subject = $("#Subject").val();
-            Ticket.Message = $("#Message").val();
-            $.ajax({
-                url: 'Home/CreateTicket',
-                type: 'POST',
-                data: Ticket,
-            }).done((result) => {
-                if (result == 200) {
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Data added to Database !",
-                            icon: "success"
-                        }).then(() => { location.reload() })
+                function myFunction(item) {
+                    console.log(item);
+                    var name = `<div class="row">
+                                     <div class="col-sm-5">
+                                        <p class="text-muted">Created  : ${moment(item.messageDate).format('LLL')}</p>
+                                     </div>
+                                     <div class="col-sm-7">
+                                        <p class="name text-muted">By - ${item.messageBy} </p>
+                                     </div>
+                                </div>
+                              `
+                    var card = `<div class="card">
+                                    <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                               <p>${item.message}</p>
+                                            </div>
+                                         
+                                        </div>
+                                    </li>
+                                </div>`
+                    $("#messageBody").append(`<li class="list-group-item">${name} ${card}</li>`);
                 }
             }).fail((error) => {
-                console.log(error);
-                alert("Failed to Insert");
-            })
-        }
-
-        function TicketSolution() {
-            var Ticket = new Object();
-            Ticket.TicketId = $("#TicketId").val();
-            Ticket.EmployeeId = $("#EmployeeId").val();
-            Ticket.Solution = $("#Solution").val();
-            $.ajax({
-                url: 'Home/TicketSolution',
-                type: 'POST',
-                data: Ticket,
-            }).done((result) => {
-                if (result == 200) {
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Data added to Database !",
-                            icon: "success"
-                        }).then(() => { location.reload() })
-                }
-            }).fail((error) => {
-                console.log(error);
-                alert("Failed to Insert");
+                console.log("error");
             })
         }
 

@@ -49,7 +49,7 @@ namespace Client.Controllers
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
             var result = client.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
             var token = result.Content.ReadAsStringAsync().Result;
-
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             HttpContext.Session.SetString("JWToken", token);
 
             if (result.IsSuccessStatusCode)

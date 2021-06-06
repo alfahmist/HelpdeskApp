@@ -218,5 +218,28 @@ namespace API.Controllers
                 );
             return Ok(result);
         }
+
+        [HttpGet("GetTicketMessage/{id}")]
+        public ActionResult GetTicketMessage(string id)
+        {
+
+            var dbparams = new DynamicParameters();
+            dbparams.Add("@TicketId", id, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            var result = db.Query<dynamic>("[dbo].[SP_GetTicketMessage]", dbparams, commandType: CommandType.StoredProcedure);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("NewTicketMessage")]
+        public ActionResult NewTicketMessage([FromBody] SendMessageVM messageVM)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", messageVM.TicketId, DbType.String);
+            dbparams.Add("Message", messageVM.Message, DbType.String);
+            dbparams.Add("EmployeeId", messageVM.EmployeeId, DbType.String);
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_SendMessage]", dbparams, commandType: CommandType.StoredProcedure));
+            return Ok(result);
+        }
     }
 }
