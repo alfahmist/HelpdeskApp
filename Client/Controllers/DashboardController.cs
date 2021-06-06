@@ -27,6 +27,7 @@ namespace Client.Controllers
         List<OpenedTicketVM> tickets = new List<OpenedTicketVM>();
         List<ClosedTicketVM> closedTickets = new List<ClosedTicketVM>();
         List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
+        public int ticketNumber { get; set; }
         public int TicketAllCount { get; set; }
         public DashboardController(MyContext myContext)
         {
@@ -46,11 +47,21 @@ namespace Client.Controllers
                 var email = jwt.Claims.First(e => e.Type == "email").Value;
                 var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
                 var empId = emailDb.Id;
-
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
                 ViewData["TicketAllCount"] = TicketAllCount;
-                return View("Views/Dashboard/Index.cshtml");
+                if (role.ToString().ToLower() == "client")
+                {
+                    //ForClient
+                    return RedirectToAction("Index", "Login");
+                }
+                else
+                {
+                    //For non-Client
+                    return View("Views/Dashboard/Index.cshtml");
+                }
+             
             }
             else
             {

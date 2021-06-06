@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.ViewModel
+namespace Client.ViewModels
 {
-    public class SendMessageVM
+    public class TicketMessageVM
     {
-        public string TicketId { get; set; }
-        public string EmployeeId { get; set; }
+        public string MessageBy { get; set; }
+        public DateTime MessageDate { get; set; }
         public string Message { get; set; }
     }
 }

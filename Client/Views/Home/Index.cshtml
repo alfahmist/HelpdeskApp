@@ -175,7 +175,8 @@
                          {
                             data: null,
                             render: function (row) {
-                                return '<a href="/detail?id='+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+                                return '<a href="detail/'+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+
                             },
                             orderable: false,
                             searchable: false
