@@ -110,10 +110,12 @@ namespace Client.Controllers
             return RedirectToAction("Index", "Login");
         }
         
-        public JsonResult GetTicketID(int id)
+        [Route("TicketDetailById/{ticketId}")]
+        public JsonResult TicketDetailById(string ticketId)
         {
-           
-            var responseTask = client.GetAsync($"Tickets/{id}");
+            
+            //var id = Request.Query["ticketId"];
+            var responseTask = client.GetAsync($"Tickets/TicketDetailById/{ticketId}");
             //responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
@@ -185,10 +187,10 @@ namespace Client.Controllers
             }
             return Json(null);
         }
-        public JsonResult GetTicketMessage(string id)
+        public JsonResult GetTicketMessage(string ticketId)
         {
 
-            var responseTask = client.GetAsync($"Tickets/GetTicketMessage");
+            var responseTask = client.GetAsync($"Tickets/GetTicketMessage/" + ticketId);
             //responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
@@ -215,6 +217,15 @@ namespace Client.Controllers
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(changePasswordVM), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ChangePassword", content).Result;
+            return result.StatusCode;
+        }
+
+        [HttpPost]
+        public HttpStatusCode NewTicketMessage(SendMessageVM model)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/NewTicketMessage", content).Result;
             return result.StatusCode;
         }
     }

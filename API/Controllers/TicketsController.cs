@@ -81,7 +81,18 @@ namespace API.Controllers
                 Message = "Ticket created successfully!"
             });
         }
-        
+
+        [HttpPost]
+        [Route("NewTicketMessage")]
+        public ActionResult NewTicketMessage([FromBody] SendMessageVM messageVM)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", messageVM.TicketId, DbType.String);
+            dbparams.Add("Message", messageVM.Message, DbType.String);
+            dbparams.Add("EmployeeId", messageVM.EmployeeId, DbType.String);
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_SendMessage]", dbparams, commandType: CommandType.StoredProcedure));
+            return Ok(result);
+        }
         [HttpPost]
         [Route("ResponseTicket")]
         public ActionResult ResponseTicket([FromBody] TicketResponseVM ResponseVM)
@@ -197,23 +208,24 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("GetTicketById")]
-        public ActionResult GetTicketById([FromBody] TicketById ticketById)
+        [HttpGet("TicketDetailById/{ticketId}")]
+        public ActionResult TicketDetailById(string ticketId)
         {
             var dbparams = new DynamicParameters();
-            dbparams.Add("TicketId", ticketById.TicketId, DbType.String);
+            dbparams.Add("TicketId", ticketId, DbType.String);
             dynamic result = dapper.Get<dynamic>(
-                "[dbo].[SP_TicketDetailById]",
+                "[dbo].[SP_TicketDetailId]",
                 dbparams,
                 CommandType.StoredProcedure
                 );
             return Ok(result);
         }
 
-        [HttpGet("GetTicketMessage")]
-        public IEnumerable<dynamic> GetTicketMessage()
+        [HttpGet("GetTicketMessage/{ticketId}")]
+        public IEnumerable<dynamic> GetTicketMessage(string ticketId)
         {
             var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", ticketId, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             return db.Query<dynamic>("[dbo].[SP_GetTicketMessage]", dbparams, commandType: CommandType.StoredProcedure);
         }

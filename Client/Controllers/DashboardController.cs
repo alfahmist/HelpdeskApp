@@ -197,5 +197,7 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/ResponseTicket", content).Result;
             return result.StatusCode;
         }
+        
+       
     }
 }

@@ -11,12 +11,12 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <h5>Created Time</h5>
-                    <p>11-04-19 05:15 PM</p>
+                    <h5 id="Author"></h5>
+                    <p id="CreatedDate"></p>
                 </li>
                 <li class="list-group-item">
-                    <h5>Status</h5>
-                    <p>Open</p>
+                    <h5 id="Category"></h5>
+                    <p id="TicketStatus"></p>
                 </li>
             </ul>
         </div>
@@ -80,11 +80,14 @@
 
 
     <script>
-
+        var ticketId = `@ViewData["ID"]`;
         var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
-
-                var clientID = `@ViewData["empId"]`;
+            var ticketId = `@ViewData["ID"]`;
+     
+        
+            GetTicket(ticketId);
+                @*var clientID = `@ViewData["empId"]`;
                 $('#example2').DataTable({
                     ajax: {
 
@@ -121,18 +124,26 @@
                             searchable: false
                         },
                     ]
-                });
+                });*@
             });
 
 
-
-        function GetTicket(id) {
-            console.log(id);
+        //var ticketId = `@ViewData["ID"]`;
+     
+        
+        function GetTicket(ticketId) {
+            console.log(ticketId);
             $.ajax({
-                type: 'GET',
-                url: `Home/GetTicketID/${id}`,
+                url: `https://localhost:44397/api/Tickets/TicketDetailById/${ticketId}`,
+                type: 'GET'
+                //data: {"ticketId" : ticketId}
             }).done((result) => {
-                $("#ticketId").val(result.ticketID)
+                
+                //"CloseTicket(\'' + row['ticketID'] + '\')"
+                console.log(result);
+                $("#CreatedDate").val(result.CreatedDate)
+                $("#Category").val(result.Category)
+                $("#TicketStatus").val(result.TicketStatus)
             }).fail((error) => {
                 console.log(error);
             })
@@ -142,7 +153,16 @@
             CloseTicket();
             $("#closeTicketModal").hide();
         });
-
+        //var w = window.open();
+                  //w.document.open();
+                  //w.document.write("<h2>\'' +result+ '\'</h2>");
+                  //w.document.close();
+                //document.querySelector('#Author').innerHTML = result[1].Author;
+                ////for (var i=0; i<result.length; i++) {
+                ////  document.querySelectorAll('.myDivClass')[i].innerHTML = jsonData[i].first_name;
+                ////}
+                //$("#Author").val(result[o].Solution)
+                //console.log(result[o].Solution);
 
 
         let CloseTicket = (ticketId) => {
