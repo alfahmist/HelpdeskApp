@@ -22,7 +22,7 @@
                             <th scope="col">Ticket Date</th>
                             <th scope="col">Ticket Status</th>
                             <th scope="col">Status Date</th>
-                            @*<th scope="col">Action</th>*@
+                            <th scope="col">Detail</th>
                         </tr>
                     </thead>
                 </table>
@@ -78,6 +78,15 @@
                                     let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
                                     return dates
                                 }
+                            },
+                            {
+                                data: null,
+                                render: function (row) {
+                                    return '<a href="TicketDetail/'+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+
+                                },
+                                orderable: false,
+                                searchable: false
                             }
                         ],
                  "order": [[1, 'asc']]

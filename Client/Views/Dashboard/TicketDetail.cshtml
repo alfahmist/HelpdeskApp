@@ -1,6 +1,6 @@
 ﻿@using Client.ViewModels
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_LayoutDashboard.cshtml";
     ViewData["Title"] = "Detail";
     var ticketID = @ViewData["ticketID"] as string;
 
@@ -15,7 +15,7 @@
                 <li class="list-group-item">
                     <p class="text-muted mb-0">Author</p>
                     <p class="mb-2"><strong id="Author"></strong></p>
-                    <p class="text-muted mb-0">Created Time</p>
+                    <p class="text-muted mb-0" ">Created Time</p>
                     <p class="mb-2"><strong id="CreatedDate"></strong></p>
                 </li>
                 <li class="list-group-item">
@@ -32,11 +32,11 @@
         <div class="card">
             <div class="card-header">
                 Ticket Detail
-              
-                </div>
-         
-                <ul class="list-group list-group-flush" id="messageBody">
-                    @*<li class="list-group-item">
+
+            </div>
+
+            <ul class="list-group list-group-flush" id="messageBody">
+                @*<li class="list-group-item">
                         <h5 class="name">John : </h5>
                         <div class="card">
                             <ul class="list-group list-group-flush">
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="offset-7 col-sm-2">
                                     <button class="btn btn-danger" id="buttonMinimize">
-                                        <i class="fa fa-window-minimize " aria-hidden="true" ></i>
+                                        <i class="fa fa-window-minimize " aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
             model.Message = $("#messageContent").val();
             console.log(model);
             $.ajax({
-                url: "https://localhost:44326/Home/NewTicketMessage",
+                url: "https://localhost:44326/Dashboard/NewTicketMessage",
                 type: 'POST',
                 data: model,
             }).done((result) => {
@@ -136,7 +136,7 @@
         }
         let GetMessageByID = (id) => {
             $.ajax({
-                url: "https://localhost:44326/Home/GetTicketMessage",
+                url: "https://localhost:44326/Dashboard/GetTicketMessage",
                 type: 'GET',
                 data: {id : id}
             }).done((result) => {
@@ -151,7 +151,7 @@
                     console.log(item);
                     var name = `<div class="row">
                                      <div class="col-sm-5">
-                                        <p class="text-muted">Created  : ${moment(item.messageDate).format('LLL')}</p>
+                                        <p class="text-muted">Created  : ${moment(item.messageDate).format('DD MMMM YYYY HH:mm:ss')}</p>
                                      </div>
                                      <div class="col-sm-7">
                                         <p class="name text-muted">By - ${item.messageBy} </p>
@@ -165,7 +165,7 @@
                                             <div class="col-sm-12">
                                                <p>${item.message}</p>
                                             </div>
-                                         
+
                                         </div>
                                     </li>
                                 </div>`
@@ -180,15 +180,15 @@
             console.log(ticketId);
             $.ajax({
                 type: 'GET',
-                url: `https://localhost:44326/Home/TicketDetailById/`,
+                url: `https://localhost:44326/Dashboard/TicketDetailById/`,
                 data: { ticketId: ticketId},
             }).done((result) => {
                 newResult = JSON.parse(result);
                 console.log("NEW RESULT");
                 console.log(newResult);
-       
+
                 $("#Author").text(newResult.Author)
-                $("#CreatedDate").text(moment(newResult.CreatedDate).format('LLL'))
+                $("#CreatedDate").text(moment(newResult.CreatedDate).format('DD MMMM YYYY HH:mm:ss'))
                 $("#Category").text(newResult.Category)
                 $("#TicketStatus").text(newResult.TicketStatus)
             }).fail((error) => {
