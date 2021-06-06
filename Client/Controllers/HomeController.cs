@@ -129,6 +129,7 @@ namespace Client.Controllers
             }
 
                 ViewData["ticketID"] = id;
+                ViewData["empId"] = empId;
                 var tCount = GetTicketMessage(id);
                 return View("Detail");
             }
@@ -236,7 +237,14 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ChangePassword", content).Result;
             return result.StatusCode;
         }
-     
-        
+
+        [HttpPost]
+        public HttpStatusCode NewTicketMessage(SendMessageVM model)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/NewTicketMessage", content).Result;
+            return result.StatusCode;
+        }
     }
 }
