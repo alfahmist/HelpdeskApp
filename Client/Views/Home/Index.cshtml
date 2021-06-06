@@ -105,19 +105,11 @@
                             <th scope="col">TicketDate</th>
                             <th scope="col">TicketStatus</th>
                             <th scope="col">StatusDate</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Close</th>
+                            <th scope="col">Detail</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
-                    @*<tfoot>
-                            <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                            </tr>
-                        </tfoot>*@
+                   
                 </table>
             </div>
             <!-- /.card-body -->
@@ -179,7 +171,17 @@
                             orderable: false,
                             searchable: false
                         },
+                        {
+                            data: null,
+                            render: function (row) {
+                                return '<a href="detail/'+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
                     ],
+
                 "order": [[1, 'asc']]
             });
             table.on('order.dt search.dt', function () {
@@ -188,6 +190,10 @@
                 });
             }).draw();
         });
+
+        let DetailTicket = (param) => {
+            window.location.href  = "https://localhost:44326/detail";
+        }
 
         function GetTicket(id) {
             console.log(id);
@@ -217,7 +223,7 @@
             }).then((willCloseTicket) => {
                 if (willCloseTicket) {
                     $.ajax({
-                        url: `/Ticket/UpdateStatusTicket`,
+                        url: `Home/UpdateStatusTicket`,
                         type: "POST",
                         data: { "ticketId": ticketId },
                         success: (data) => {

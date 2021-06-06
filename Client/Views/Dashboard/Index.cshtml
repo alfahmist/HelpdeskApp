@@ -44,12 +44,14 @@
 
     <script>
         $(document).ready(function () {
+
       let table = $('#example2').DataTable({
                     ajax: {
                         url: "/Dashboard/AllNewTicketStatus",
                         type: "GET",
                         dataSrc: ""
                     },
+
                     columns:
                         [
                             {
@@ -86,9 +88,10 @@
                     });
                 }).draw();
         });
-        $("#btnSolution").click(function () {
+        $("#btnSolution").click(function (e) {
             TicketSolution();
-            $("#modalTicketSolution").hide();
+            e.preventDefault();
+            e.stopPropagation();
         });
         function TicketSolution() {
             var Ticket = new Object();

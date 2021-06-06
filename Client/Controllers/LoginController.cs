@@ -49,7 +49,7 @@ namespace Client.Controllers
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
             var result = client.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
             var token = result.Content.ReadAsStringAsync().Result;
-
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             HttpContext.Session.SetString("JWToken", token);
 
             if (result.IsSuccessStatusCode)
@@ -86,26 +86,26 @@ namespace Client.Controllers
             return result.StatusCode;
         }
         
-        [HttpPost]
-        public HttpStatusCode AuthLogin(LoginVM loginVM)
-        {
-            var httpclient = new HttpClient();
+        //[HttpPost]
+        //public HttpStatusCode AuthLogin(LoginVM loginVM)
+        //{
+        //    var httpclient = new HttpClient();
             
-            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-            var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+        //    StringContent stringContent = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
+        //    var result = httpclient.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
 
            
-            if((int)result.StatusCode == 200)
-            {
-                var responseBody = result.Content.ReadAsStringAsync().Result;
-                //HttpContext.Session.SetString("token", responseBody.Result.ToString());
-                httpclient.DefaultRequestHeaders.Add("Authorization", "Bearer " + responseBody);
-                HttpContext.Session.SetString(SessionName, loginVM.Email);
+        //    if((int)result.StatusCode == 200)
+        //    {
+        //        var responseBody = result.Content.ReadAsStringAsync().Result;
+        //        //HttpContext.Session.SetString("token", responseBody.Result.ToString());
+        //        httpclient.DefaultRequestHeaders.Add("Authorization", "Bearer " + responseBody);
+        //        HttpContext.Session.SetString(SessionName, loginVM.Email);
        
-                HttpContext.Session.SetString(SessionToken, responseBody);
-            }
-            return result.StatusCode;
-        }
+        //        HttpContext.Session.SetString(SessionToken, responseBody);
+        //    }
+        //    return result.StatusCode;
+        //}
 
         public IActionResult ResetPasswords(ResetVM model)
         {

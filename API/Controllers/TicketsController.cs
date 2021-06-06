@@ -91,7 +91,7 @@ namespace API.Controllers
             dbparams.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
-
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
             var parm = new DynamicParameters();
             parm.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dynamic dataEmail = dapper.Get<dynamic>(
@@ -213,6 +213,43 @@ namespace API.Controllers
             dbparams.Add("TicketId", ticketById.TicketId, DbType.String);
             dynamic result = dapper.Get<dynamic>(
                 "[dbo].[SP_TicketDetailById]",
+                dbparams,
+                CommandType.StoredProcedure
+                );
+            return Ok(result);
+        }
+
+        [HttpGet("GetTicketMessage/{id}")]
+        public ActionResult GetTicketMessage(string id)
+        {
+
+            var dbparams = new DynamicParameters();
+            dbparams.Add("@TicketId", id, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            var result = db.Query<dynamic>("[dbo].[SP_GetTicketMessage]", dbparams, commandType: CommandType.StoredProcedure);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("NewTicketMessage")]
+        public ActionResult NewTicketMessage([FromBody] SendMessageVM messageVM)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", messageVM.TicketId, DbType.String);
+            dbparams.Add("Message", messageVM.Message, DbType.String);
+            dbparams.Add("EmployeeId", messageVM.EmployeeId, DbType.String);
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_SendMessage]", dbparams, commandType: CommandType.StoredProcedure));
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("TicketDetailById/{ticketId}")]
+        public ActionResult TicketDetailById(string ticketId)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", ticketId, DbType.String);
+            dynamic result = dapper.Get<dynamic>(
+                "[dbo].[SP_TicketDetailId]",
                 dbparams,
                 CommandType.StoredProcedure
                 );

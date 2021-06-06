@@ -28,6 +28,7 @@ namespace Client.Controllers
         List<ClosedTicketVM> closedTickets = new List<ClosedTicketVM>();
         List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
         public int ticketNumber { get; set; }
+        public int TicketAllCount { get; set; }
         public DashboardController(MyContext myContext)
         {
             this.myContext = myContext;
@@ -61,10 +62,21 @@ namespace Client.Controllers
                 var email = jwt.Claims.First(e => e.Type == "email").Value;
                 var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
                 var empId = emailDb.Id;
-
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
-                return View("Views/Dashboard/Index.cshtml");
+                ViewData["TicketAllCount"] = TicketAllCount;
+                if (role.ToString().ToLower() == "client")
+                {
+                    //ForClient
+                    return RedirectToAction("Index", "Login");
+                }
+                else
+                {
+                    //For non-Client
+                    return View("Views/Dashboard/Index.cshtml");
+                }
+             
             }
             else
             {
@@ -133,6 +145,7 @@ namespace Client.Controllers
 
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
+         
                 return View("Views/Dashboard/InprogressTicket.cshtml");
             }
             else
@@ -155,8 +168,24 @@ namespace Client.Controllers
             return closedTickets;
         }
         
-
-        
+        [HttpGet]
+        public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
+        {
+            progressTicket = new List<InprogressTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
+                  
+            
+                }
+            }  
+            TicketAllCount = progressTicket.Count;
+          
+            return progressTicket;
+        }
 
         [HttpGet]
         public async Task<List<InprogressTicketVM>> GetInprogressTicket()
