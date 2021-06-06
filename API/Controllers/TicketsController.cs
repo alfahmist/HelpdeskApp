@@ -178,15 +178,6 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("GetALL-Ticket-Newest-Updates")]
-        //public IEnumerable<dynamic> GetAllNewTIcketUpdates()
-        //{
-        //    var dbparams = new DynamicParameters(); 
-        //    using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
-        //    return db.Query<dynamic>("[dbo].[SP_GetAllNewestTicket]", dbparams, commandType: CommandType.StoredProcedure);
-        //}
-
         [HttpPost]
         [Route("UpdateStatusTicket")]
         public ActionResult UpdateTicketStatus([FromBody] InputTicketStatusVM inputTicketStatusVM)
@@ -218,5 +209,14 @@ namespace API.Controllers
                 );
             return Ok(result);
         }
+
+        [HttpGet("GetTicketMessage")]
+        public IEnumerable<dynamic> GetTicketMessage()
+        {
+            var dbparams = new DynamicParameters();
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            return db.Query<dynamic>("[dbo].[SP_GetTicketMessage]", dbparams, commandType: CommandType.StoredProcedure);
+        }
+
     }
 }

@@ -172,11 +172,10 @@
                             orderable: false,
                             searchable: false
                         },
-                        {
+                         {
                             data: null,
                             render: function (row) {
-                                return '<button id="buttonDetail" onclick="DetailTicket(\'' + row['ticketID'] + '\')" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></button>';
-
+                                return '<a href="/detail?id='+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
                             },
                             orderable: false,
                             searchable: false

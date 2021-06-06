@@ -96,9 +96,12 @@ namespace Client.Controllers
 
         }
 
+        
         [Route("Detail")]
         public IActionResult Detail()
         {
+            var id = Request.Query["id"];
+            ViewData["ID"] = id;
             return View("Detail");
         }
         public IActionResult Logout()
@@ -171,6 +174,21 @@ namespace Client.Controllers
         {
 
             var responseTask = client.GetAsync($"Employee/{id}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var data = readTask.Result;
+                return Json(data);
+            }
+            return Json(null);
+        }
+        public JsonResult GetTicketMessage(string id)
+        {
+
+            var responseTask = client.GetAsync($"Tickets/GetTicketMessage");
             //responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
