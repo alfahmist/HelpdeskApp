@@ -30,6 +30,8 @@ namespace Client.Controllers
         private readonly MyContext myContext = new MyContext();
 
         List<InprogressTicketVM> progressTicket = new List<InprogressTicketVM>();
+        //List<TicketMessageVM> ticketMessage = new List<TicketMessageVM>();
+        
         public HomeController(MyContext myContext, ILogger<HomeController> logger)
         {
             this.myContext = myContext;
@@ -96,12 +98,45 @@ namespace Client.Controllers
 
         }
 
-        [Route("Detail")]
-        public IActionResult Detail()
+        public async Task<IList<TicketMessageVM>> GetTicketMessage(string id)
         {
-            var id = Request.Query["id"];
-            ViewData["ID"] = id;
-            return View("Detail");
+
+            var responseTask = client.GetAsync($"Tickets/GetTicketMessage/{id}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+
+            string apiResponse = await result.Content.ReadAsStringAsync();
+            var ticketMessage = JsonConvert.DeserializeObject<List<TicketMessageVM>>(apiResponse);
+            ViewData["tCount"] = ticketMessage.Count();
+            return ticketMessage;
+
+        }
+
+        [Route("Detail/{id}")]
+        public IActionResult Detail(string id)
+        {
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null) { 
+            var jwtReader = new JwtSecurityTokenHandler();
+            var jwt = jwtReader.ReadJwtToken(token);
+
+            var email = jwt.Claims.First(e => e.Type == "email").Value;
+            var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+            var empId = emailDb.Id;
+            if (id == "" )
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+                ViewData["ticketID"] = id;
+                var tCount = GetTicketMessage(id);
+                return View("Detail");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
         }
         public IActionResult Logout()
         {
@@ -201,5 +236,7 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ChangePassword", content).Result;
             return result.StatusCode;
         }
+     
+        
     }
 }
