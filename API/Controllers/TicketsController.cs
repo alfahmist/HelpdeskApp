@@ -218,5 +218,16 @@ namespace API.Controllers
                 );
             return Ok(result);
         }
+
+        [HttpGet("GetTicketMessage/{id}")]
+        public ActionResult GetTicketMessage(string id)
+        {
+
+            var dbparams = new DynamicParameters();
+            dbparams.Add("@TicketId", id, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            var result = db.Query<dynamic>("[dbo].[SP_GetTicketMessage]", dbparams, commandType: CommandType.StoredProcedure);
+            return Ok(result);
+        }
     }
 }
