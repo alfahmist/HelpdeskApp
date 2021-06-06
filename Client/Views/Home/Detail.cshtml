@@ -32,11 +32,11 @@
         <div class="card">
             <div class="card-header">
                 Ticket Detail
-              
-                </div>
-         
-                <ul class="list-group list-group-flush" id="messageBody">
-                    @*<li class="list-group-item">
+
+            </div>
+
+            <ul class="list-group list-group-flush" id="messageBody">
+                @*<li class="list-group-item">
                         <h5 class="name">John : </h5>
                         <div class="card">
                             <ul class="list-group list-group-flush">
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="offset-7 col-sm-2">
                                     <button class="btn btn-danger" id="buttonMinimize">
-                                        <i class="fa fa-window-minimize " aria-hidden="true" ></i>
+                                        <i class="fa fa-window-minimize " aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
 
 @section Scripts {
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script>
         var ticketID = `@ViewData["ticketID"]`;
         var empID = `@ViewData["empId"]`;
@@ -165,7 +165,7 @@
                                             <div class="col-sm-12">
                                                <p>${item.message}</p>
                                             </div>
-                                         
+
                                         </div>
                                     </li>
                                 </div>`
@@ -186,7 +186,7 @@
                 newResult = JSON.parse(result);
                 console.log("NEW RESULT");
                 console.log(newResult);
-       
+
                 $("#Author").text(newResult.Author)
                 $("#CreatedDate").text(moment(newResult.CreatedDate).format('LLL'))
                 $("#Category").text(newResult.Category)
