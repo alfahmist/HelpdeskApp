@@ -9,13 +9,21 @@
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header">
-                Ticket Information
-                @ViewData["ID"]
+                Ticket Information @ViewData["ID"]
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <h5>Status</h5>
-                    <p>Open</p>
+                    <p class="text-muted mb-0">Author</p>
+                    <p class="mb-2"><strong id="Author"></strong></p>
+                    <p class="text-muted mb-0"">Created Time</p>
+                    <p class="mb-2"><strong id="CreatedDate"></strong></p>
+                </li>
+                <li class="list-group-item">
+                    <p class="text-muted mb-0">Category</p>
+                    <p class="mb-2"> <strong id="Category"></strong></p>
+                    <hr />
+                    <p class="text-muted mb-0">Status</p>
+                    <strong id="TicketStatus" class="mb-2"></strong>
                 </li>
             </ul>
         </div>
@@ -26,18 +34,7 @@
                 Ticket Detail
               
                 </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <p>Created - 11-04-19 05:15 PM</p>
-                        </div>
-                        <div class="col-sm-3">
-                            <p> By - demo customer</p>
-                        </div>
-                    </div>
-                </li>
-                </ul>
+         
                 <ul class="list-group list-group-flush" id="messageBody">
                     @*<li class="list-group-item">
                         <h5 class="name">John : </h5>
@@ -99,6 +96,7 @@
         var empID = `@ViewData["empId"]`;
         $(document).ready(function () {
             GetMessageByID(ticketID);
+            GetTicket(ticketID)
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -178,6 +176,25 @@
             })
         }
 
-
+        function GetTicket(ticketId) {
+            console.log(ticketId);
+            $.ajax({
+                type: 'GET',
+                url: `https://localhost:44326/Home/TicketDetailById/`,
+                data: { ticketId: ticketId},
+            }).done((result) => {
+                newResult = JSON.parse(result);
+                //"CloseTicket('' + row['ticketID'] + '')"
+                console.log("NEW RESULT");
+                console.log(newResult);
+       
+                $("#Author").text(newResult.Author)
+                $("#CreatedDate").text(moment(newResult.CreatedDate).format('LLL'))
+                $("#Category").text(newResult.Category)
+                $("#TicketStatus").text(newResult.TicketStatus)
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
     </script>
 }

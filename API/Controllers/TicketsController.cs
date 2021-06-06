@@ -241,5 +241,19 @@ namespace API.Controllers
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_SendMessage]", dbparams, commandType: CommandType.StoredProcedure));
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet("TicketDetailById/{ticketId}")]
+        public ActionResult TicketDetailById(string ticketId)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", ticketId, DbType.String);
+            dynamic result = dapper.Get<dynamic>(
+                "[dbo].[SP_TicketDetailId]",
+                dbparams,
+                CommandType.StoredProcedure
+                );
+            return Ok(result);
+        }
     }
 }
