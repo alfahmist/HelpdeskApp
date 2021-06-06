@@ -14,10 +14,6 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <h5>Created Time</h5>
-                    <p>11-04-19 05:15 PM</p>
-                </li>
-                <li class="list-group-item">
                     <h5>Status</h5>
                     <p>Open</p>
                 </li>
@@ -120,21 +116,21 @@
                 type: 'GET',
                 data: {id : id}
             }).done((result) => {
-                let newData = result.map((data) => {
-                    data.messageDate = data.messageDate.substr(0, 10);
-                    return data;
-                });
-                console.log(newData);
-                newData.forEach(myFunction);
+                //let newData = result.map((data) => {
+                //    data.messageDate = data.messageDate.substr(0, 10);
+                //    return data;
+                //});
+                console.log(result);
+                result.forEach(myFunction);
 
                 function myFunction(item) {
                     console.log(item);
                     var name = `<div class="row">
-                                    <div class="col-sm-7">
-                                        <h5 class="name">${item.messageBy} : </h5>
-                                     </div>
                                      <div class="col-sm-5">
-                                        <p class="text-muted">Date : ${moment(item.messageDate).format('MMMM Do YYYY')}</p>
+                                        <p class="text-muted">Created  : ${moment(item.messageDate).format('LLL')}</p>
+                                     </div>
+                                     <div class="col-sm-7">
+                                        <p class="name text-muted">By - ${item.messageBy} </p>
                                      </div>
                                 </div>
                               `
