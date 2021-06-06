@@ -119,6 +119,21 @@ namespace Client.Controllers
 
         }
 
+        //public JsonResult GetTicketMessage(string ticketId)
+        //{
+
+        //    var responseTask = client.GetAsync($"Tickets/GetTicketMessage/" + ticketId);
+        //    //responseTask.Wait();
+        //    var result = responseTask.Result;
+        //    if (result.IsSuccessStatusCode)
+        //    {
+        //        var readTask = result.Content.ReadAsStringAsync();
+        //        readTask.Wait();
+        //        var data = readTask.Result;
+        //        return Json(data);
+        //    }
+        //    return Json(null);
+        //}
         [Route("Detail/{id}")]
         public IActionResult Detail(string id)
         {
@@ -151,23 +166,23 @@ namespace Client.Controllers
             return RedirectToAction("Index", "Login");
         }
         
-        [Route("TicketDetailById/{ticketId}")]
-        public JsonResult TicketDetailById(string ticketId)
-        {
+        //[Route("TicketDetailById/{ticketId}")]
+        //public JsonResult TicketDetailById(string ticketId)
+        //{
             
-            //var id = Request.Query["ticketId"];
-            var responseTask = client.GetAsync($"Tickets/TicketDetailById/{ticketId}");
-            //responseTask.Wait();
-            var result = responseTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-                var readTask = result.Content.ReadAsStringAsync();
-                readTask.Wait();
-                var tickets = readTask.Result;
-                return Json(tickets);
-            }
-            return Json(null);
-        }
+        //    //var id = Request.Query["ticketId"];
+        //    var responseTask = client.GetAsync($"Tickets/TicketDetailById/{ticketId}");
+        //    //responseTask.Wait();
+        //    var result = responseTask.Result;
+        //    if (result.IsSuccessStatusCode)
+        //    {
+        //        var readTask = result.Content.ReadAsStringAsync();
+        //        readTask.Wait();
+        //        var tickets = readTask.Result;
+        //        return Json(tickets);
+        //    }
+        //    return Json(null);
+        //}
 
         [HttpPost]
         public HttpStatusCode CreateTicket(CreateTicketVM model)
@@ -217,21 +232,6 @@ namespace Client.Controllers
         {
 
             var responseTask = client.GetAsync($"Employee/{id}");
-            //responseTask.Wait();
-            var result = responseTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-                var readTask = result.Content.ReadAsStringAsync();
-                readTask.Wait();
-                var data = readTask.Result;
-                return Json(data);
-            }
-            return Json(null);
-        }
-        public JsonResult GetTicketMessage(string ticketId)
-        {
-
-            var responseTask = client.GetAsync($"Tickets/GetTicketMessage/" + ticketId);
             //responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
