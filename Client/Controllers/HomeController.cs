@@ -246,5 +246,22 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/NewTicketMessage", content).Result;
             return result.StatusCode;
         }
+
+        public JsonResult TicketDetailById(string ticketId)
+        {
+
+            //var id = Request.Query["ticketId"];
+            var responseTask = client.GetAsync($"Tickets/TicketDetailById/{ticketId}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var tickets = readTask.Result;
+                return Json(tickets);
+            }
+            return Json(null);
+        }
     }
 }
