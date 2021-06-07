@@ -3,7 +3,6 @@
     ViewBag.Title = "Login";
 }
 <div>
-
             <div class="row">
                 <div class="col-sm-12">
                         <div class="mt-5 text-center ">
@@ -11,165 +10,36 @@
                             <p>Sign In</p>
                         </div>
                         <div class="form-login">
-                            <form>
+                            <form class="needs-validation" novalidate>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+                                    <div class="invalid-feedback">
+                                        Invalid email address
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+                                    <input type="password" class="form-control" id="inputPassword" placeholder="password">
+                                    <div class="invalid-feedback">
+                                        minimum 4 characters
+                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-danger form-control">Sign In</button>
-                                </div>
+                                <button class="btn btn-danger btn-block" type="submit">Sign in</button>
                             </form>
                             <small class="text-muted">Forgot your Password? <a asp-controller="Register" asp-action="Index">Reset Password</a></small>
                             <hr />
-                            <small class="text-muted">Need new account? <a asp-controller="Register" asp-action="Index">Sign up free</a></small>
+                            <small class="text-muted">Need a new account? <a asp-controller="Register" asp-action="Index">Sign up free</a></small>
                         </div>
                 </div>
             </div>
 </div>
  
 
-
-<!-- Modal Register-->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form class="needs-validation modal-validation" novalidate>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-
-                            <div class="card-body">
-                                <div class="form-row mb-3" id="registerName">
-                                    <label for="registerName" class="col-sm-3 col-form-label">Name</label>
-                                    <input type="text" class="form-control col-sm-9" id="name" placeholder="Ex. John Smith" name="registerName" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input your name
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3" id="registerEmail">
-                                    <label for="registerEmail" class="col-sm-3 col-form-label">Email</label>
-                                    <input type="email" class="form-control col-sm-9" id="email" placeholder="Ex. john.smith@gmail.com" name="registerEmail" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please provide an email correctly.
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3" id="registerPassword">
-                                    <label for="registerPassword" class="col-sm-3 col-form-label">Password</label>
-                                    <input type="password" class="form-control col-sm-9" id="password" placeholder="more than 6 | less then 13" name="registerPassword" min="6" max="12" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        password less then 6
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3" id="registerDateForm">
-                                    <label for="registerDate" class="col-sm-3 col-form-label">Birthdate</label>
-                                    <input type="date" class="form-control col-sm-9" id="registerDate" name="registerDate" min="1980-01-01" max="2021-12-31" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please provide a date correctly.
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3" id="registerPhoneForm">
-                                    <label for="registerPhone" class="col-sm-3 col-form-label">Phone</label>
-                                    <input type="number" class="form-control col-sm-9" id="registerPhone" name="registerPhone" placeholder="input phone number here..." required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        Please provide a phone number correctly.
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row " id="registerGenderForm">
-                                    <label for="registerGenderForm" class="col-sm-4 col-form-label">Gender</label>
-                                    <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px ;margin-right:5px">
-                                        <input type="radio" class="custom-control-input" name="gender" id="female" value="Female" required>
-                                        <label class="custom-control-label" for="female" value="Female"> Female </label>
-                                    </div>
-                                    <div class="custom-control custom-radio col-sm-2" style="margin-top: 10px">
-                                        <input type="radio" class="custom-control-input" name="gender" id="male" value="Male" required>
-                                        <label class="custom-control-label" for="male" value="Male">Male </label>
-                                    </div>
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Looks bad!
-                                    </div>
-                                </div>
-                                <div class="form-row mb-6" id="departmentForm">
-                                    <label for="departmentId" class="col-sm-6 col-form-label">Select Your Department</label>
-                                    <select class="col-sm-6 form-select form-select-sm" id="departmentId" aria-label="Default select example" style="margin:1px 1px">
-                                        <option disabled selected>Department</option>
-                                        <option value="1">Customer Support</option>
-                                        <option value="2">HelpDesk</option>
-                                        <option value="3">Human Resource</option>
-                                        <option value="4">Developer</option>
-                                        <option value="5">Accounting</option>
-                                    </select>
-                                </div>
-                                <div class="form-row mb-6" id="roleForm">
-                                    <label for="roleId" class="col-sm-6 col-form-label">Select Your Role</label>
-                                    <select class="col-sm-6 form-select form-select-sm" id="roleId" aria-label="Default select example" style="margin:1px 1px">
-                                        <option disabled selected>Role</option>
-                                        <option value="1">Customer Support</option>
-                                        <option value="2">Tehnical Support</option>
-                                        <option value="3">Advanced Support</option>
-                                        <option value="4">Client</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal" >Register</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
     <script>
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        Array.prototype.filter.call(forms, function (form) {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }, false);
-        });
         $(document).ready(function () {
             $('#exampleModalCenter').on('hidden.bs.modal', function () {
                 ModalClear();
@@ -179,99 +49,73 @@
 
             FormValidation();
         });
-
-        var ClearValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation modal-validation');
-            Array.prototype.filter.call(forms, function (form) {
-                form.classList.remove('was-validated');
-            });
-        }
-        var FormValidation = () => {
+        let FormValidation = () => {
             var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
                     if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
+                        form.classList.add('was-validated');
                     }
-                    form.classList.add('was-validated');
+                    else {
+                        var dataLogin = new Object();
+                    
+                        dataLogin.Email = $("#inputEmail").val();
+                        dataLogin.Password = $("#inputPassword").val();
+                        PostLogin(dataLogin);
+                    }
+
                 }, false);
             });
         }
 
-        // clear modal
-        var ModalClear = () => {
-            $('#name').val("");
-            $('#email').val("");
-            $('#password').val("");
-            $('#phone').val("");
-            $('#date').val("");
-            $('#female').prop("checked", false);
-            $('#male').prop("checked", false);
-            $("#departmentId").val("");
-            $("#roleId").val("");
-        }
-        $("#btnLogin").click(function () {
-            $('#formLogin').submit()
-        })
-        //validation
-        $('#formLogin').validate({
-            rules: {
-                emailLogin: {
-                    required: true,
-                },
-                passwordLogin: {
-                    required: true,
-                }
-            },
-            message: {
-                name: "Invalid email",
-                birthdate: "Invalid password",
-            },
-            submitHandler: function (form) {
-                var Login = new Object();
-            Login.Email = $("#emailLogin").val();
-            Login.Password = $("#passwordLogin").val();
-            console.log(Login);
-                if (Login.Email != "" && Login.Password != "") {
-                $.ajax({
+        let PostLogin = (data) => {
+            console.log(data);
+            $.ajax({
                 type: 'POST',
                 url: '/Login/LoginEmployee',
-                data: Login
-                }).done((result) => {
-                    if (result != "Error") {
-                     window.location.href = result;
-                    }
-
-            }).fail((result) => {
-                if (result != 200) {
-                    alert("Failed to Login");
+                data: data
+            }).done((result) => {
+        
+                console.log(result);
+                if (result == 200) {
+                    swal({
+                        title: "Success!",
+                        text: "Your Account Created Succesfully !",
+                        icon: "success",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        time: 2000
+                    })
+                } else if (result == 404) {
+                    swal({
+                        title: "Not Found",
+                        text: "Account is not found",
+                        icon: "warning",
+                        showCancelButton: false,
+                        showConfirmButton: true
+                    })
                 }
+                else {
+                    swal({
+                        text: "Oops..",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        time: 2000
+                    })
+                }
+            }).fail((result) => {
+                swal({
+                    title: "Oops..",
+                    text: "Server Error",
+                    icon: "error",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    time: 2000
+                })
             })
-            }
-            }
-        });
-
-        //button register form
-        $("#buttonModal").click(function (e) {
-            e.preventDefault();
-            var User = new Object();
-            User.Email = $("#email").val();
-            User.Name = $("#name").val();
-            User.Password = $("#password").val();
-            User.BirthDate = $("#registerDate").val();
-            User.Gender = $("input[type='radio'][name='gender']:checked").val();
-            User.Phone = $("#registerPhone").val();
-            User.DepartmentId = $("#departmentId").val();
-            User.RoleId = $("#roleId").val();
-            if (User.Name == "" && User.Password == "" && User.BirthDate == "" || User.Gender == "" && User.RoleId == "" && User.Phone == "" && User.DepartmentId == "") {
-                Forgot(User.Email);
-            }
-            else {
-                Register(User);
-            }
-        })
+        }
 
         //Function Forgot Password
         function Forgot(Data) {
@@ -291,111 +135,10 @@
             })
         }
 
-        //Function Login
-        //function Login() {
-        //    var Login = new Object();
-        //    Login.Email = $("#emailLogin").val();
-        //    Login.Password = $("#passwordLogin").val();
-        //    console.log(Login);
-        //    if ("#emailLogin" != "" &&  "#passwordLogin" != "") {
-        //        $.ajax({
-        //        type: 'POST',
-        //        url: '/Login/LoginEmployee',
-        //        data: Login
-        //    }).done((result) => {
-        //        window.location.href = result;
-        //    }).fail((result) => {
-        //        if (result != 200) {
-        //            alert("Failed to Login");
-        //        }
-        //    })
-        //    }
-            
-        //}
 
-        //Function register
-        function Register(Data) {
 
-        $.ajax({
-            type: 'POST',
-            url: '/Login/Register',
-            data: Data
-            }).done((result) => {
-                console.log(Data);
-                console.log(result);
-                if (result == 200) {
-                    //alert("Successed to Add Data!");
-                    $('#exampleModalCenter').modal("hide");
-                    $("#email").val("");
-                    $("#name").val("");
-                    $("#password").val("");
-                    $("#registerDate").val("");
-                    $("#departmentId").val("");
-                    $("#roleId").val("");
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Your Account Created Succesfully !",
-                            icon: "success"
-                        }
-                    ).then(() => { location.reload() });
-                }
-            }).fail((result) => {
-                console.log(result);
-                alert("Failed to Add Data!");
-            })
-        }
-
-        var ModalFlow = state => {
-            switch (state) {
-                case "forgot":
-                    $('#exampleModalLongTitle').text("Forgot Password");
-                    $('#buttonModal').text("Send Email");
-                    $('#registerName').hide();
-                    $('#registerPassword').hide();
-                    $('#registerPhone').hide();
-                    $('#registerGenderForm').hide();
-                    $('#registerPhoneForm').hide();
-                    $('#registerDateForm').hide();
-                    $("#roleForm").hide();
-                    $("#departmentForm").hide();
-                    break;
-                case "register":
-                    $('#exampleModalLongTitle').text("Register");
-                    $('#buttonModal').text("Register");
-                    $('#registerName').show();
-                    $('#registerPassword').show();
-                    $('#registerPhone').show();
-                    $('#registerGenderForm').show();
-                    $('#registerPhoneForm').show();
-                    $('#registerDateForm').show();
-                    $("#roleForm").show();
-                    $("#departmentForm").show();
-                    break;
-                default:
-                // code block
-            }
-        }
-
+  
+   
     </script>
-    @*<script>
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function () {
-                'use strict';
-                window.addEventListener('load', function () {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        form.addEventListener('submit', function (event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        </script>*@
+  
 }
