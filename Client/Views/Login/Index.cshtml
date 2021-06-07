@@ -71,6 +71,7 @@
     <script>
         $(document).ready(function () {
             FormValidation();
+            PostLogin(dataLogin);
         });
 
         let FormValidation = () => {
@@ -88,9 +89,6 @@
                         var dataLogin = new Object();
                         dataLogin.Email = $("#inputEmail").val();
                         dataLogin.Password = $("#inputPassword").val();
-
-                      
-
                         PostLogin(dataLogin);
                     }
 
