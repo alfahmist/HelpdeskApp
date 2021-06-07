@@ -2,83 +2,73 @@
     ViewData["Title"] = "Account";
 }
 
-<div class="card card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Account</h3>
-    </div>
-    <!-- /.card-header -->
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Your Profile</h4>
-                    <hr>
-                </div>
+
+<div class="container">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Your Profile</h4>
+                <hr>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <form id="formEdit">
-                        <div class="form-group row">
-                            <label for="username" class="col-4 col-form-label">Name</label>
-                            <div class="col-8">
-                                <input id="name" name="name" class="form-control here" required="required" type="text" disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-4 col-form-label">Email</label>
-                            <div class="col-8">
-                                <input id="email" name="email" class="form-control here" required="required" type="text" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="website" class="col-4 col-form-label">Birth Date</label>
-                            <div class="col-8">
-                                <input id="birthdate" name="birthdate" class="form-control here" type="text" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="website" class="col-4 col-form-label">Phone</label>
-                            <div class="col-8">
-                                <input id="phone" name="phone" class="form-control here" type="number" disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="offset-4 col-8">
-                                <button id="editButton" name="submit" type="submit" class="btn btn-primary" onclick="Edit()">Edit My Profile</button>
-                                <button id="cancelButton" name="cancel" type="button" class="btn btn-danger" onclick="Cancel()" hidden>Edit Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form id="formEdit" class="needs-validation">
+                    <div class="form-group row">
+                        <label for="username" class="col-2 col-form-label">Name</label>
+                        <div class="col-6">
+                            <input id="name" name="name" class="form-control here" required="required" type="text" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email" class="col-2 col-form-label">Email</label>
+                        <div class="col-6">
+                            <input id="email" name="email" class="form-control here" required="required" type="text" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="website" class="col-2 col-form-label">Birth Date</label>
+                        <div class="col-6">
+                            <input id="birthdate" name="birthdate" class="form-control here" type="text" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="website" class="col-2 col-form-label">Phone</label>
+                        <div class="col-6">
+                            <input id="phone" name="phone" class="form-control here" type="number" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="offset-4 col-4">
+                            <button id="editButton" name="submit" type="submit" class="btn btn-primary float-right ml-3" onclick="Edit()">Edit</button>
+                            <button id="cancelButton" name="cancel" type="button" class="btn btn-danger float-right" onclick="Cancel()" hidden>Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
-    <!-- /.card-body -->
-<!-- /.card -->
+</div>
 
 @section Scripts {
 
     <script>
         $(document).ready(function () {
             ReadById(clientID);
+            FormValidation();
         });
 
         let buttonEditStatus = false;
         let inputDateType = false;
-        $('#formEdit').submit(function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        });
 
-        var clientID = `@ViewData["empId"]`;
-     
         let ReadById = (Id) => {
             $.ajax({
                 url: `Home/GetEmployeeById`,
                 type: "GET",
-                data: {"Id" : Id}
+                data: { "Id": Id }
             }).done((result) => {
                 data = JSON.parse(result);
                 $("#name").val(data.name);
@@ -95,68 +85,52 @@
             });
         }
 
-      
-        let Update = () => {
-            let emp = new Object();
-            emp.Id = clientID;
-            emp.Name = $("#name").val();
-            emp.Email = $("#email").val();
-            emp.Phone = $("#phone").val().toString();
-            emp.BirthDate = $("#birthdate").val().substring(0, 10);
-            console.log(emp)
-            $.ajax({
-                url: "Home/UpdateEmployee",
-                type: "PUT",
-                data: emp
-            }).done((result) => {
-          
-                if (result == 200) {
-                    swal("Update Berhasil", {
-                        icon: "success",
-                        buttons: false,
-                        timer: 1500
-                    });
-                    Cancel();
+        let FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                        console.log("false")
+                    }
+                    else {
+                        console.log("true")
+                        var data = new Object();
+                        data.Id = clientID;
+                        data.Name = $("#name").val();
+                        data.Email = $("#email").val();
+                        data.Phone = $("#phone").val().toString();
+                        data.BirthDate = $("#birthdate").val().substring(0, 10);
+                        Update(data);
+                    }
 
-                } else {
-                    swal("Update Gagal Harap periksa data", {
-                        icon: "error",
-                        buttons: false,
-                        timer: 2000
-                    });
-                }
-             
-            }).fail((error) => {
-           
-                alert("request gagal");
+                }, false);
             });
         }
 
-        let Cancel = () => {
-            ReadById(clientID);
-            $("#editButton").text("Edit My Profile")
-            buttonEditStatus = false;
-            inputDateType = false;
-            $("#name").prop("disabled", true);
-            $("#birthdate").prop("disabled", true);
-            $("#birthdate").prop("type", "text");
-            $("#editButton").attr("onclick", "Edit()");
-       
-            $("#phone").prop("disabled", true);
-            $("#cancelButton").prop("hidden", true);
-        }
+        $('#formEdit').submit(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
 
+        var clientID = `@ViewData["empId"]`;
+
+     
+
+       
 
         let Edit = () => {
             if (buttonEditStatus == false) {
                 ReadById(clientID);
                 $("#editButton").text("Update")
+                $("#editButton").attr("onclick", "Update()");
                 $("#name").prop("disabled", false);
                 $("#birthdate").prop("disabled", false);
                 $("#birthdate").prop("type", "date");
    
                 $("#phone").prop("disabled", false);
-                $("#editButton").attr("onclick", "Update()");
                 $("#cancelButton").prop("hidden", false);
                 buttonEditStatus = true;
                 inputDateType = true;
@@ -166,6 +140,61 @@
              
             }
         }
+        let Cancel = () => {
+            ReadById(clientID);
+            $("#editButton").text("Edit")
+            buttonEditStatus = false;
+            inputDateType = false;
+            $("#name").prop("disabled", true);
+            $("#birthdate").prop("disabled", true);
+            $("#birthdate").prop("type", "text");
+            $("#editButton").attr("onclick", "Edit()");
 
+            $("#phone").prop("disabled", true);
+            $("#cancelButton").prop("hidden", true);
+        }
+
+        let Update = (data) => {
+            console.log(data)
+            $.ajax({
+                url: "Home/UpdateEmployee",
+                type: "PUT",
+                data: data
+            }).done((result) => {
+                switch (result) {
+                    case 200:
+                        swal({
+                            title: "Update Success!",
+                            text: "Your Account Updated Succesfully!",
+                            icon: "success",
+                            buttons: false,
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        Cancel();
+                        break;
+                    default:
+                        swal({
+                            text: "Oops..",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            time: 2000
+                        })
+                }
+                if (result == 200) {
+     
+
+                } else {
+                    swal("Update Gagal Harap periksa data", {
+                        icon: "error",
+                        buttons: false,
+                        timer: 2000
+                    });
+                }
+            }).fail((error) => {
+                alert("request gagal");
+            });
+        }
     </script>
 }
