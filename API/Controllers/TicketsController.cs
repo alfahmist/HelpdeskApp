@@ -61,8 +61,10 @@ namespace API.Controllers
             var ticketName = ticketVM.TicketName;
             var message = ticketVM.Message;
 
-            string sender = "aninsabrina17@gmail.com";
-            string pwd = "yulisulasta";
+            string sender = "bartpaul684@gmail.com";
+            string pwd = "barto9haan";
+            //string sender = "aninsabrina17@gmail.com";
+            //string pwd = "yulisulasta";
 
             //sender
             var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
@@ -105,8 +107,8 @@ namespace API.Controllers
             var ticketId = ResponseVM.TicketId;
             var solution = ResponseVM.Solution;
 
-            string sender = "aninsabrina17@gmail.com";
-            string pwd = "yulisulasta";
+            string sender = "bartpaul684@gmail.com";
+            string pwd = "barto9haan";
 
             //sender
             var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
