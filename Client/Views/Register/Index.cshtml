@@ -1,0 +1,126 @@
+﻿@{
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Register";
+}
+<div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="mt-5 text-center ">
+                <h4 class="title-name">Help Desk App</h4>
+                <p>Create your account</p>
+            </div>
+            <div class="form-login">
+                <form class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="inputName">Full name</label>
+                        <input type="text" class="form-control " id="inputName" placeholder="your beautiful name" required>
+                        <div class="invalid-feedback">
+                            Please input your name
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required>
+                        <div class="invalid-feedback">
+                            Invalid email address
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" class="form-control " id="inputPassword" placeholder="password" min="4" required>
+                        <div class="invalid-feedback">
+                            minimum 4 characters
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-block" type="submit">Create an account</button>
+                </form>
+                <hr />
+                <small class="text-muted">Already Have an account? <a asp-controller="Login" asp-action="Index">Sign in</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+     
+    <script>
+
+        $(document).ready(function () {
+            FormValidation();
+        });
+
+        let FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                    }
+                    else {
+                        var dataRegister = new Object();
+                        dataRegister.Name = $("#inputName").val();
+                        dataRegister.Email = $("#inputEmail").val();
+                        dataRegister.Password =$("#inputPassword").val();
+                        PostRegister(dataRegister);
+                    }
+           
+                }, false);
+            });
+        }
+
+        let PostRegister = (dataRegister) => {
+            console.log(dataRegister);
+            $.ajax({
+                type: 'POST',
+                url: '/Login/Register',
+                data: dataRegister
+            }).done((result) => {
+                console.log(Data);
+                console.log(result);
+                if (result == 200) {
+                    swal({
+                        title: "Success!",
+                        text: "Your Account Created Succesfully !",
+                        icon: "success",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        time: 2000
+                    })
+                } else if (result == 409) {
+                    swal({
+                        title: "Email problem",
+                        text: "Email has been used",
+                        icon: "warning",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        time: 2000
+                    })
+                }
+                else {
+                    swal({
+          
+                        text: "Oops..",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        time: 2000
+                    })
+                }
+            }).fail((result) => {
+                swal({
+                    title: "Oops..",
+                    text: "Server Error",
+                    icon: "error",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    time: 2000
+                })
+            })
+        }
+       
+    </script>
+}
