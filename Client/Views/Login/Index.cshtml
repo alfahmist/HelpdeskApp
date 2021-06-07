@@ -10,7 +10,7 @@
                 <p>Sign In</p>
             </div>
             <div class="form-login">
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation form-login-val" novalidate>
                     <div class="form-group">
                         <label for="inputEmail">Email address</label>
                         <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
@@ -45,7 +45,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div> 
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation form-forgot-val" novalidate>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="inputEmailForgot">Email address</label>
@@ -71,10 +71,11 @@
     <script>
         $(document).ready(function () {
             FormValidation();
+            FormForgotValidation();
         });
 
         let FormValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation');
+            var forms = document.getElementsByClassName('needs-validation form-login-val');
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
                     event.preventDefault();
@@ -88,10 +89,30 @@
                         var dataLogin = new Object();
                         dataLogin.Email = $("#inputEmail").val();
                         dataLogin.Password = $("#inputPassword").val();
-
-                      
-
+                        // jalankan fungsi
                         PostLogin(dataLogin);
+                    }
+
+                }, false);
+            });
+        }
+
+        let FormForgotValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                        console.log("false")
+                    }
+                    else {
+                        console.log("true")
+                        var data = new Object();
+                        data.Email = $("#inputEmailForgot").val();
+                        // jalankan fungsi
+                        Forgot(data);
                     }
 
                 }, false);
@@ -118,8 +139,8 @@
                         break;
                     case 401:
                         swal({
-                            title: "Not Found",
-                            text: "Account is not found",
+                            title: "Error",
+                            text: "Password is wrong",
                             icon: "warning",
                             showCancelButton: false,
                             showConfirmButton: true
@@ -157,13 +178,12 @@
         }
 
         //Function Forgot Password
-        function Forgot(Data) {
-            var Forgot = new Object();
-            Forgot.Email = $("#email").val();
+        function Forgot(data) {
+            console.log(data)
             $.ajax({
                 type: 'POST',
                 url: '/Login/ForgotPassword',
-                data: Forgot
+                data: data
             }).done((result) => {
                 console.log(result);
             }).fail((result) => {
