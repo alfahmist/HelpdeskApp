@@ -73,14 +73,14 @@
             });
         }
 
-        let PostRegister = (dataRegister) => {
+        let PostRegister = (data) => {
             console.log(dataRegister);
             $.ajax({
                 type: 'POST',
                 url: '/Login/Register',
-                data: dataRegister
+                data: data
             }).done((result) => {
-                console.log(Data);
+  
                 console.log(result);
                 if (result == 200) {
                     swal({
