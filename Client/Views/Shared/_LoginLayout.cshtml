@@ -10,6 +10,7 @@
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -30,6 +31,18 @@
             cursor: pointer;
         }
 
+        .form-login {
+            width: 400px;
+            margin: auto;
+        }
+        .title-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+        }
+        html, body {
+            background-color: #fefefe;
+            overflow-x: hidden;
+        }
     </style>
 
 </head>
@@ -41,6 +54,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/modal.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
