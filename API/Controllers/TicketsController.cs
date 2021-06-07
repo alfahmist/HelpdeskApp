@@ -57,15 +57,19 @@ namespace API.Controllers
 
             var client = myContext.Employees.FirstOrDefault(x => x.Id == ticketVM.ClientId);
             var email = client.Email;
+
             var subject = ticketVM.Subject;
             var ticketName = ticketVM.TicketName;
             var message = ticketVM.Message;
 
-            string sender = "aninsabrina17@gmail.com";
-            string pwd = "yulisulasta";
+            //string sender = "bartpaul684@gmail.com";
+            //string sender = "aninsabrina17@gmail.com";
+            //string pwd = "yulisulasta";
+            string sender = "chase0@ethereal.email";
+            string pwd = "Dwqc1mxPyREya1C3B5";
 
             //sender
-            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
@@ -93,6 +97,7 @@ namespace API.Controllers
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
             var parm = new DynamicParameters();
+
             parm.Add("TicketId", ResponseVM.TicketId, DbType.String);
             dynamic dataEmail = dapper.Get<dynamic>(
                 "[dbo].[SP_RetrieveEmail]",
@@ -105,11 +110,12 @@ namespace API.Controllers
             var ticketId = ResponseVM.TicketId;
             var solution = ResponseVM.Solution;
 
-            string sender = "aninsabrina17@gmail.com";
-            string pwd = "yulisulasta";
+            //string sender = "bartpaul684@gmail.com";
+            string sender = "chase0@ethereal.email";
+            string pwd = "Dwqc1mxPyREya1C3B5";
 
             //sender
-            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,

@@ -53,11 +53,11 @@ namespace API.Controllers
         public ActionResult ForgotPassword(ForgotVM forgotVM)
         {
 
-            string sender = "aninsabrina17@gmail.com";
-            string pwd = "yulisulasta";
-            
-            //sender
-            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
+            string sender = "chase0@ethereal.email";
+            string pwd = "Dwqc1mxPyREya1C3B5";
+
+            //sendersmtp.gmail.com
+            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
@@ -67,7 +67,7 @@ namespace API.Controllers
 
             var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(forgotVM.Email);
-            string url = "https://localhost:44326/Login/ResetPasswords?token=" + token;
+            string url = "https://localhost:44326/Login/ResetPassword?token=" + token;
             MailHandler mailHandler = new MailHandler(sender, forgotVM.Email, url, token);
 
 
