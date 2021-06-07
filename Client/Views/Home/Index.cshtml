@@ -3,336 +3,44 @@
     ViewData["Title"] = "Home Page";
     var clientId = @ViewData["empId"] as string;
 }
-<br />
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">New Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form class="needs-validation modal-validation" novalidate>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
 
-                            <div class="card-body">
-                                <div class="form-row mb-3">
-                                    <label for="ticketName">Ticket Name</label>
-                                    <input type="text" class="form-control" id="ticketName" aria-describedby="emailHelp" placeholder="Ticket Name" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid name for your ticket
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
+<div class="jumbotron text-center">
+    <h1>Hello, How can we help you ?</h1>
+    <p>Please fill your problem below</p>
+</div>
 
-                                <div class="form-row mb-3">
-                                    <label for="clientId">Client ID</label>
-                                    <input type="text" class="form-control" id="clientId" aria-describedby="emailHelp" placeholder="Client ID" value='@ViewData["empId"]' required disabled>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid ID
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-                                <div class="form-row mb-3" id="CategoryForm">
-                                    <label for="CategoriesId" class="col-sm-6 col-form-label">Ticket's Category</label>
-                                    <select class="col-sm-6 form-select form-select-sm" id="CategoriesId" aria-label="Default select example" style="margin:1px 1px" required>
-                                        <option value="">Category</option>
-                                        <option value="1">Bug Error</option>
-                                        <option value="2">Inquery</option>
-                                        <option value="3">Microsoft Problem</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-row mb-3">
-                                    <label for="Subject">Subject</label>
-                                    <input type="text" class="form-control" id="Subject" aria-describedby="emailHelp" placeholder="Subject" required>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        please input valid subject
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-row mb-3">
-                                    <label for="Message">Message</label>
-                                    <textarea class="form-control" id="Message" rows="3" required></textarea>
-                                    <div class="invalid-feedback col-sm-9 offset-3">
-                                        password less then 6
-                                    </div>
-                                    <div class="valid-feedback col-sm-9 offset-3">
-                                        Looks good!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="container">
+    <h5 class="text-center mb-2">Create Ticket Request</h5>
+    <div class="row">
+        <div class="col-sm-6 offset-3">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Category</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>Select Type</option>
+                        <option value="1">Bug Error</option>
+                        <option value="2">Inquery</option>
+                        <option value="3">Microsoft Problem</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="buttonModal">Add</button>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Ticket Name</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1">
                 </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Subject</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Message</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <button class="btn btn-primary float-right" type="submit">Create Ticket</button>
             </form>
         </div>
     </div>
+
+
 </div>
-
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">DataTable with minimal features & hover style</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">TicketID</th>
-                            <th scope="col">TicketName</th>
-                            <th scope="col">RequestorName</th>
-                            <th scope="col">TicketDate</th>
-                            <th scope="col">TicketStatus</th>
-                            <th scope="col">StatusDate</th>
-                            <th scope="col">Close</th>
-                            <th scope="col">Detail</th>
-                        </tr>
-                    </thead>
-                   
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-
-    </div>
-    <!-- /.col -->
-</div>
-<!-- /.row -->
-
-@section Scripts {
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        var clientID = `@ViewData["empId"]`;
-        $(document).ready(function () {
-            var clientID = `@ViewData["empId"]`;
-          let table = $('#example2').DataTable({
-                    ajax: {
-                        url:  '/Home/LatestStatusByClientId/',
-                        type: "Get",
-                        data: { "clientID": clientID },
-                        dataSrc: ""
-                    },
-                    columns: [
-                        {
-                            data: null,
-                            render: (data, type, row, meta) => {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }
-                        },
-                        { "data": "ticketID" },
-                        { "data": "ticketName" },
-                        { "data": "requestorName" },
-                        {
-                            "data": "ticketDate",
-                            render: function (data, type, row) {
-                                let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                                return date
-                            }
-                        },
-                        { "data": "ticketStatus" },
-                        {
-                            "data": "statusDate",
-                            render: function (data, type, row) {
-                                let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                                return dates
-                            }
-                        },
-                        {
-                            data: null,
-                            render: function (row) {
-                                return '<button onclick="CloseTicket(\'' + row['ticketID'] + '\')" class="btn btn-danger" style="margin-right : 5px;" title="Close"><i class="fas fa-check-circle"></i></button>';
-
-                            },
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: null,
-                            render: function (row) {
-                                return '<a href="detail/'+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
-
-                            },
-                            orderable: false,
-                            searchable: false
-                        },
-                    ],
-
-                "order": [[1, 'asc']]
-            });
-            table.on('order.dt search.dt', function () {
-                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            }).draw();
-        });
-
-        let DetailTicket = (param) => {
-            window.location.href  = "https://localhost:44326/detail";
-        }
-
-        function GetTicket(id) {
-            console.log(id);
-            $.ajax({
-                type: 'GET',
-                url: `Home/GetTicketID/${id}`,
-            }).done((result) => {
-                $("#ticketId").val(result.ticketID)
-            }).fail((error) => {
-                console.log(error);
-            })
-        }
-
-        $("#buttonCloseTicket").click(function () {
-            CloseTicket();
-            $("#closeTicketModal").hide();
-        });
-
-
-        let CloseTicket = (ticketId) => {
-            swal({
-                title: "Are you sure?",
-                text: "Once closed, you will not be able to make the status to close!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willCloseTicket) => {
-                if (willCloseTicket) {
-                    $.ajax({
-                        url: `Home/UpdateStatusTicket`,
-                        type: "POST",
-                        data: { "ticketId": ticketId },
-                        success: (data) => {
-                            console.log(data);
-                            if (data == 200) {
-                                //$("#modalDelete").modal('hide');
-                                swal("Poof! you already closed the ticket!", {
-                                    icon: "success",
-                                }).then(() => { location.reload() })
-
-                            }
-                            else {
-                                swal({
-                                    title: "Error",
-                                    text: "Can't update ticket status",
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: true
-                                }).then(() => {
-                                    $('#closeTicketModal').clear();
-                                    $('#closeTicketModal').ajax.reload();
-                                })
-                            }
-                        }
-                    })
-                }
-            })
-        }
-
-        $("#buttonCloseTicket").click(function () {
-            AddTicket();
-            $("#closeTicketModal").hide();
-        });
-
-
-        $("#buttonModal").click(function (e) {
-            AddTicket();
-            e.preventDefault();
-            e.stopPropagation();
-
-        });
-
-        function AddTicket() {
-            var Ticket = new Object();
-            Ticket.TicketName = $("#ticketName").val();
-            Ticket.ClientId = clientID;
-            Ticket.CategoriesId = $("#CategoriesId").val();
-            Ticket.Subject = $("#Subject").val();
-            Ticket.Message = $("#Message").val();
-            $.ajax({
-                url: 'Home/CreateTicket',
-                type: 'POST',
-                data: Ticket,
-            }).done((result) => {
-                if (result == 200) {
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Data added to Database !",
-                            icon: "success"
-                        }).then(() => { location.reload() })
-                }
-            }).fail((error) => {
-                console.log(error);
-                alert("Failed to Insert");
-            })
-        }
-        function TicketSolution() {
-            var Ticket = new Object();
-            Ticket.TicketId = $("#TicketId").val();
-            Ticket.EmployeeId = $("#EmployeeId").val();
-            Ticket.Solution = $("#Solution").val();
-            $.ajax({
-                url: 'Home/TicketSolution',
-                type: 'POST',
-                data: Ticket,
-            }).done((result) => {
-                if (result == 200) {
-                    swal(
-                        {
-                            title: "Success!",
-                            text: "Data added to Database !",
-                            icon: "success"
-                        }).then(() => { location.reload() })
-                }
-            }).fail((error) => {
-                console.log(error);
-                alert("Failed to Insert");
-            })
-        }
-
-        var ClearValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation modal-validation');
-            Array.prototype.filter.call(forms, function (form) {
-                form.classList.remove('was-validated');
-            });
-        }
-        var FormValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }
-    </script>
-}
