@@ -5,7 +5,7 @@
 }
 
 <div class="jumbotron text-center">
-    <h1>Hello, How can we help you ?</h1>
+    <h1>Hello <span class="text-capitalize">@ViewData["name"]</span> , how can we help you ?</h1>
     <p>Please fill your problem below</p>
 </div>
 
@@ -13,25 +13,34 @@
     <h5 class="text-center mb-2">Create Ticket Request</h5>
     <div class="row">
         <div class="col-sm-6 offset-3">
-            <form>
+            <form class="needs-validation" novalidate>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Category</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Select Type</option>
+                    <label for="inputCategory">Category</label>
+                    <select class="form-control" id="inputCategory" required>
+                        <option value="" disabled selected>Select Type</option>
                         <option value="1">Bug Error</option>
                         <option value="2">Inquery</option>
                         <option value="3">Microsoft Problem</option>
                     </select>
+                    <div class="invalid-feedback">
+                        Required
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Subject</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <label for="inputSubject">Subject</label>
+                    <input type="text" class="form-control" id="inputSubject" required>
+                    <div class="invalid-feedback">
+                        Required
+                    </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Message</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="inputMessage">Message</label>
+                    <textarea class="form-control" id="inputMessage" rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Required
+                    </div>
                 </div>
                 <button class="btn btn-primary float-right" type="submit">Create Ticket</button>
             </form>
@@ -40,3 +49,76 @@
 
 
 </div>
+
+@section Scripts
+{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            FormValidation();
+
+        });
+
+        let FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                        console.log("false")
+                    }
+                    else {
+                        console.log("true")
+                        var dataTicket = new Object();
+                        dataTicket.Subject = $("#inputSubject").val();
+                        dataTicket.ClientId = `@ViewData["empId"]`;
+                        dataTicket.CategoriesId = $("#inputCategory").val();
+                        dataTicket.Message = $("#inputMessage").val();
+                        dataTicket.TicketName = "NO TICKET NAME"
+                        // jalankan fungsi
+                        CreateTicket(dataTicket);
+                    }
+
+                }, false);
+            });
+        }
+        let CreateTicket = (data) => {
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: 'Home/CreateTicket',
+                data: data
+            }).done((result) => {
+                switch (result) {
+                    case 200:
+                        swal({
+                            title: "Success!",
+                            text: "Create ticket success !",
+                            icon: "success",
+                            buttons: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.reload();
+                        })
+                        break;
+                    default:
+                        swal({
+                            text: "Oops..",
+                            buttons: false,
+                            time: 2000
+                        })
+                }
+            }).fail((result) => {
+                swal({
+                    title: "Oops..",
+                    text: "Server Error",
+                    icon: "error",
+                    buttons: false,
+                    timer: 2000
+                })
+            })
+        }
+    </script>
+}

@@ -83,7 +83,7 @@ namespace Client.Controllers
             return View("register");
         }
 
-        [HttpPost("ajaxregister")]
+        [HttpPost("register/ajaxregister")]
         public HttpStatusCode AjaxRegister(RegisterVM registerVM)
         {
             var httpClient = new HttpClient();
