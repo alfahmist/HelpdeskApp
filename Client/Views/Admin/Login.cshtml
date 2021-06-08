@@ -1,0 +1,200 @@
+﻿@{
+    Layout = "/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Admin Login";
+}
+<div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="mt-5 text-center ">
+                <h4 class="title-name">Admin Help Desk App</h4>
+                <p>Sign In</p>
+            </div>
+            <div class="form-login">
+                <form class="needs-validation form-login-val" novalidate>
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
+                        <div class="invalid-feedback">
+                            Invalid email address
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" class="form-control" id="inputPassword" placeholder="password" required>
+                        <div class="invalid-feedback">
+                            minimum 4 characters
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalForgot" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Forgot Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation form-forgot-val" novalidate>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputEmailForgot">Email address</label>
+                        <input type="email" class="form-control" id="inputEmailForgot" placeholder="name@example.com" required>
+                        <div class="invalid-feedback">
+                            Invalid email address
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            FormValidation();
+            FormForgotValidation();
+        });
+
+        let FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation form-login-val');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                        console.log("false")
+                    }
+                    else {
+                        console.log("true")
+                        var dataLogin = new Object();
+                        dataLogin.Email = $("#inputEmail").val();
+                        dataLogin.Password = $("#inputPassword").val();
+                        // jalankan fungsi
+                        PostLogin(dataLogin);
+                    }
+
+                }, false);
+            });
+        }
+
+        let FormForgotValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                        console.log("false")
+                    }
+                    else {
+                        console.log("true")
+                        var data = new Object();
+                        data.Email = $("#inputEmailForgot").val();
+                        // jalankan fungsi
+                        Forgot(data);
+                    }
+
+                }, false);
+            });
+        }
+
+        let PostLogin = (data) => {
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/Login/LoginEmployee',
+                data: data
+            }).done((result) => {
+                switch (result) {
+                    case 200:
+                        swal({
+                            title: "Success!",
+                            text: "Your Account Created Succesfully !",
+                            icon: "success",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            time: 2000
+                        })
+                        break;
+                    case 401:
+                        swal({
+                            title: "Error",
+                            text: "Password is wrong",
+                            icon: "warning",
+                            showCancelButton: false,
+                            showConfirmButton: true
+                        })
+                        $("#inputEmailForgot").val(dataLogin.Email);
+                        break;
+                    case 404:
+                        swal({
+                            title: "Not Found",
+                            text: "Account is not found",
+                            icon: "warning",
+                            showCancelButton: false,
+                            showConfirmButton: true
+                        })
+                        break;
+
+                    default:
+                        swal({
+                            text: "Oops..",
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            time: 2000
+                        })
+                }
+            }).fail((result) => {
+                swal({
+                    title: "Oops..",
+                    text: "Server Error",
+                    icon: "error",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    time: 2000
+                })
+            })
+        }
+
+        //Function Forgot Password
+        function Forgot(data) {
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: '/Login/ForgotPassword',
+                data: data
+            }).done((result) => {
+                console.log(result);
+            }).fail((result) => {
+                console.log(result);
+                if (result != 200) {
+                    alert("failed Send Link Reset");
+                }
+            })
+        }
+
+
+
+
+
+    </script>
+
+}
