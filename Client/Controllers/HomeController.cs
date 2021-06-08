@@ -111,6 +111,31 @@ namespace Client.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+        }
+
+        [Route("Account")]
+        public IActionResult Account()
+        {
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
         }
 
@@ -131,28 +156,31 @@ namespace Client.Controllers
         [Route("ViewTicket/Detail/{id?}")]
         public IActionResult Detail(string id)
         {
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null) { 
-            //var jwtReader = new JwtSecurityTokenHandler();
-            //var jwt = jwtReader.ReadJwtToken(token);
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
 
-            //var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //var empId = emailDb.Id;
-            //if (id == "" )
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+                if (id == "")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
 
-                //ViewData["ticketID"] = id;
-                //ViewData["empId"] = empId;
-                //var tCount = GetTicketMessage(id);
+                ViewData["ticketID"] = id;
+                ViewData["empId"] = empId;
+                ViewData["name"] = name;
+                var tCount = GetTicketMessage(id);
                 return View("Detail");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
         }
         public IActionResult Logout()

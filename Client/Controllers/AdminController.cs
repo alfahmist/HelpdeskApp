@@ -77,9 +77,13 @@ namespace Client.Controllers
             return employees;
         }
         [Route("ajaxemployee")]
-        public async Task<List<EmployeeVM>> GetEmployee()
+        // public async Task<List<EmployeeVM>> GetEmployee()
+        // {
+        //     var responseTask = client.GetAsync("Employee/GetEmployee");
+        public async Task<List<dynamic>> Employee()
         {
-            var responseTask = client.GetAsync("Employee/GetEmployee");
+            List<dynamic> employees = new List<dynamic>();
+            var responseTask = client.GetAsync("Employee/All");
        
             var result = responseTask.Result;
             //status code
