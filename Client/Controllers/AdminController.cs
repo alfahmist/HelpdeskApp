@@ -60,17 +60,17 @@ namespace Client.Controllers
         }
 
         [Route("ajaxemployee")]
-        public async Task<List<Employee>> Employee()
+        public async Task<List<dynamic>> Employee()
         {
-            List<Employee> employees = new List<Employee>();
-            var responseTask = client.GetAsync("Employee");
+            List<dynamic> employees = new List<dynamic>();
+            var responseTask = client.GetAsync("Employee/All");
        
             var result = responseTask.Result;
             //status code
             if (result.IsSuccessStatusCode)
             {
                 var readTask = await result.Content.ReadAsStringAsync();
-                employees = JsonConvert.DeserializeObject<List<Employee>>(readTask);
+                employees = JsonConvert.DeserializeObject<List<dynamic>>(readTask);
                 return employees;
             }
 

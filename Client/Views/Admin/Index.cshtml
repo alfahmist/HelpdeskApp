@@ -17,7 +17,6 @@
                                     <th>No.</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Gender</th>
                                     <th>Role</th>
                                 </tr>
                             </thead>
@@ -46,10 +45,17 @@
 
     <script>
         $(document).ready(function () {
-
+            $.ajax({
+                url: 'https://localhost:44397/api/employee/All',
+                type: 'GET',
+            }).done((result) => {
+                console.log(result);
+            }).fail((error) => {
+                console.log("error");
+            })
             let table = $('#example').DataTable({
                 ajax: {
-                    url: 'ajaxemployee',
+                    url: 'https://localhost:44397/api/employee/All',
                     type: "GET",
                     dataSrc: ""
                 },
@@ -60,10 +66,9 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { data: "name" },
-                    { data: "email" },
-                    { data: "gender" },
-                    { data: "role" },
+                    { data: "Name" },
+                    { data: "Email" },
+                    { data: "Role" },
                 ],
 
                 "order": [[1, 'asc']]

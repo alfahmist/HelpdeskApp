@@ -5,6 +5,8 @@
     var ticketID = @ViewData["ticketID"] as string;
 
 }
+<div class="container">
+
 <div class="form-row my-3">
     <div class="col-sm-3">
         <div class="card">
@@ -27,76 +29,124 @@
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="col-sm-9">
+
         <div class="card">
             <div class="card-header">
-                Ticket Detail
-
+                Assign For
             </div>
-
-            <ul class="list-group list-group-flush" id="messageBody">
-                @*<li class="list-group-item">
-                        <h5 class="name">John : </h5>
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-
-                                            <p>Maecenas bibendum lorem sit amet nulla mollis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean placerat arcu orci, a tempor lorem tempor tempor.</p>
-
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>*@
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <select class="form-control" id="inputRole">
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="EMP01">Budi    | Customer Support</option>
+                        <option value="EMP02">Rizaldi | Technical Support</option>
+                        <option value="EMP03">Judika  | Advance Support</option>
+                    </select>
+                    <button class="btn btn-danger mt-2" onclick="Cancel()">Cancel</button>
+                    <button class="btn btn-info float-right mt-2">Select</button>
+                </li>
             </ul>
         </div>
-        <div class="row fixed-bottom">
-            <div class="offset-7 col-sm-5">
-                <div class="card ">
-                    <form>
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    Message
+        <div class="card">
+            <div class="card-header">
+                Ticket History
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">Help desk team</p>
+                            <p class="mb-2"><strong class="Author">Alexander</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">Joined Date</p>
+                            <p class="mb-2"><strong class="Created">20 june 2020</strong></p>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+<div class="col-sm-9">
+    <div class="card">
+        <div class="card-header">
+            Ticket Detail
+
+        </div>
+
+        <ul class="list-group list-group-flush" id="messageBody">
+            @*<li class="list-group-item">
+                    <h5 class="name">John : </h5>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-12">
+
+                                        <p>Maecenas bibendum lorem sit amet nulla mollis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean placerat arcu orci, a tempor lorem tempor tempor.</p>
+
+                                    </div>
+
                                 </div>
-                                <div class="offset-7 col-sm-2">
-                                    <button class="btn btn-danger" id="buttonMinimize">
-                                        <i class="fa fa-window-minimize " aria-hidden="true"></i>
-                                    </button>
-                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
+        </ul>
+    </div>
+    <div class="row fixed-bottom form-message">
+        <div class="offset-7 col-sm-5">
+            <div class="card ">
+                <form>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                Message
+                            </div>
+                            <div class="offset-7 col-sm-2">
+                                <button class="btn btn-danger" id="buttonMinimize">
+                                    <i class="fa fa-window-minimize " aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                        <div id="minimized">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="messageContent">
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-outline-primary" id="buttonSendMessage">Send</button>
+                    </div>
+                    <div id="minimized">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="messageContent">
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-outline-primary" id="buttonSendMessage">Send</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 @section Scripts {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script>
+        let Cancel = () => {
+            // passing assign terakhir
+            $("#inputRole").prop("selectedIndex", 0);
+        }
+
         var ticketID = `@ViewData["ticketID"]`;
         var empID = `@ViewData["empId"]`;
         $(document).ready(function () {
             GetMessageByID(ticketID);
-            GetTicket(ticketID)
+            GetTicket(ticketID);
+/*            if ($("#TicketStatus").text(newResult.TicketStatus) == "Closed") {*/
+                $(".form-message").hide();
+           /* }*/
+
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
                 e.stopPropagation();

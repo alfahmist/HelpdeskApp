@@ -1,4 +1,4 @@
-@{
+﻿@{
     Layout = "/Views/Shared/_LoginLayout.cshtml";
     ViewBag.Title = "Login";
 }
@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="mt-5 text-center ">
-                <h4 class="title-name">Help Desk App</h4>
+                <h4 class="title-name">Employee Login Page</h4>
                 <p>Sign In</p>
             </div>
             <div class="form-login">
@@ -28,8 +28,6 @@
                     <button class="btn btn-danger btn-block" type="submit">Sign in</button>
                 </form>
                 <small class="text-muted">Forgot your Password? <span class="reset-text" data-toggle="modal" data-target="#modalForgot">Reset Password</span></small>
-                <hr />
-                <small class="text-muted">Need a new account? <a asp-controller="Register" asp-action="Index">Sign up free</a></small>
             </div>
         </div>
     </div>
@@ -44,7 +42,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div> 
+            </div>
             <form class="needs-validation form-forgot-val" novalidate>
                 <div class="modal-body">
                     <div class="form-group">
@@ -98,7 +96,7 @@
         }
 
         let FormForgotValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
+            var forms = document.getElementsByClassName('form-forgot-val');
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
                     event.preventDefault();
@@ -111,6 +109,7 @@
                         console.log("true")
                         var data = new Object();
                         data.Email = $("#inputEmailForgot").val();
+                        // jalankan fungsi
                         Forgot(data);
                     }
 
@@ -157,7 +156,7 @@
                             timer: 2000
                         })
                         break;
-          
+
                     default:
                         swal({
                             text: "Oops..",
@@ -184,42 +183,12 @@
                 url: '/Login/ForgotPassword',
                 data: data
             }).done((result) => {
-                switch (result) {
-                    case 200:
-                        swal({
-                            title: "Success!",
-                            text: "Request link has been sent",
-                            icon: "success",
-                            buttons: false,
-                            timer: 2000
-                        }).then(() => {
-                            window.location = "https://localhost:44326";
-                        })
-                        break;
-                    case 404:
-                        swal({
-                            title: "Not Found",
-                            text: "Account is not registered",
-                            icon: "warning",
-                            buttons: false,
-                            timer: 2000
-                        })
-                        break;
-
-                    default:
-                        swal({
-                            text: "Oops..",
-                            buttons: false,
-                            time: 2000
-                        })
-                }
+                console.log(result);
             }).fail((result) => {
                 console.log(result);
-                swal({
-                    text: "Oops..",
-                    buttons: false,
-                    time: 2000
-                })
+                if (result != 200) {
+                    alert("failed Send Link Reset");
+                }
             })
         }
 

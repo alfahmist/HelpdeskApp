@@ -4,6 +4,7 @@
 }
 <div>
 
+
     <div class="row">
         <div class="col-sm-12">
             <div class="mt-5 text-center ">
@@ -91,7 +92,7 @@
                         text: "Your Account Created Succesfully !",
                         icon: "success",
                         buttons: false,
-                        time: 2000
+                        timer: 2000
                     }).then(() => {
                         window.location = "https://localhost:44326/Login";
                     })
@@ -101,7 +102,7 @@
                         text: "Email has been used",
                         icon: "warning",
                         buttons: false,
-                        time: 2000
+                        timer: 2000
                     })
                 }
                 else {
@@ -109,7 +110,7 @@
           
                         text: "Oops..",
                         buttons: false,
-                        time: 2000
+                        timer: 2000
                     })
                 }
             }).fail((result) => {
@@ -118,7 +119,7 @@
                     text: "Server Error",
                     icon: "error",
                     buttons: false,
-                    time: 2000
+                    timer: 2000
                 })
             })
         }
