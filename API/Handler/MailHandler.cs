@@ -12,21 +12,21 @@ namespace API.Handler
     {
         public string ResetUrl { get; private set; }
         public string Url { get; private set; }
-        public string Sender { get; private set; }
-        public string Receiver { get; private set; }
+        public string From { get; private set; }
+        public string To { get; private set; }
 
-        public MailHandler(string sender, string receiver, string url, string token)
+        public MailHandler(string from, string to, string url, string token)
         {
             Url = url;
-            ResetUrl = url + token;
-            Sender = sender;
-            Receiver = receiver;
+            ResetUrl = url + "/Login/ResetPassword?token=" + token;
+            From = from;
+            To = to;
         }
 
         public MailMessage Message()
         {
             // Body Message
-            MailMessage message = new MailMessage(Sender, Receiver);
+            MailMessage message = new MailMessage(From, To);
             message.IsBodyHtml = true;
             message.Subject = "Reset Password Request";
             message.Body = CreateBody();
