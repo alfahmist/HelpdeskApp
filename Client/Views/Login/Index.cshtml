@@ -98,7 +98,7 @@
         }
 
         let FormForgotValidation = () => {
-            var forms = document.getElementsByClassName('form-forgot-val');
+            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
                     event.preventDefault();
@@ -111,7 +111,6 @@
                         console.log("true")
                         var data = new Object();
                         data.Email = $("#inputEmailForgot").val();
-                        // jalankan fungsi
                         Forgot(data);
                     }
 
@@ -185,12 +184,42 @@
                 url: '/Login/ForgotPassword',
                 data: data
             }).done((result) => {
-                console.log(result);
+                switch (result) {
+                    case 200:
+                        swal({
+                            title: "Success!",
+                            text: "Request link has been sent",
+                            icon: "success",
+                            buttons: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location = "https://localhost:44326";
+                        })
+                        break;
+                    case 404:
+                        swal({
+                            title: "Not Found",
+                            text: "Account is not registered",
+                            icon: "warning",
+                            buttons: false,
+                            timer: 2000
+                        })
+                        break;
+
+                    default:
+                        swal({
+                            text: "Oops..",
+                            buttons: false,
+                            time: 2000
+                        })
+                }
             }).fail((result) => {
                 console.log(result);
-                if (result != 200) {
-                    alert("failed Send Link Reset");
-                }
+                swal({
+                    text: "Oops..",
+                    buttons: false,
+                    time: 2000
+                })
             })
         }
 
