@@ -53,31 +53,36 @@ namespace API.Controllers
         public ActionResult ForgotPassword(ForgotVM forgotVM)
         {
 
-            string sender = "chase0@ethereal.email";
-            string pwd = "Dwqc1mxPyREya1C3B5";
+            string from = "game.satarkhu@gmail.com";
+            string pwd = "musikamusik";
 
             //sendersmtp.gmail.com
-            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(sender, pwd),
+                Credentials = new NetworkCredential(from, pwd),
             };
+
+            var email = myContext.Employees.FirstOrDefault(em => em.Email == forgotVM.Email);
+            if(email == null)
+            {
+                return NotFound();
+            }
 
             var jwt = new JwtService(Configuration);
             string token = jwt.ForgotToken(forgotVM.Email);
-            string url = "https://localhost:44326/Login/ResetPassword?token=";
+            string url = "https://localhost:44326";
             // panggil class MailHandler
-            MailHandler mailHandler = new MailHandler(sender, forgotVM.Email, url, token);
-
+            MailHandler mailHandler = new MailHandler(from, forgotVM.Email, url, token);
 
             user.Send(mailHandler.Message());
             return Ok();
 
         }
 
-        [HttpPost("reset-password/{token}")]
+        [HttpPost("reset-password")]
         public ActionResult ResetPassword(ResetVM model)
         {
             var jwt = new JwtSecurityTokenHandler();
