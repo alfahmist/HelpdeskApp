@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Forgot -->
 <div class="modal fade" id="modalForgot" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -130,11 +130,12 @@
                     case 200:
                         swal({
                             title: "Success!",
-                            text: "Your Account Created Succesfully !",
+                            text: "Log in Success!",
                             icon: "success",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            time: 2000
+                            buttons: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location = "https://localhost:44326";
                         })
                         break;
                     case 401:
@@ -142,8 +143,8 @@
                             title: "Error",
                             text: "Password is wrong",
                             icon: "warning",
-                            showCancelButton: false,
-                            showConfirmButton: true
+                            buttons: false,
+                            timer: 2000
                         })
                         $("#inputEmailForgot").val(dataLogin.Email);
                         break;
@@ -152,16 +153,15 @@
                             title: "Not Found",
                             text: "Account is not found",
                             icon: "warning",
-                            showCancelButton: false,
-                            showConfirmButton: true
+                            buttons: false,
+                            timer: 2000
                         })
                         break;
           
                     default:
                         swal({
                             text: "Oops..",
-                            showCancelButton: false,
-                            showConfirmButton: false,
+                            buttons: false,
                             time: 2000
                         })
                 }
@@ -170,8 +170,7 @@
                     title: "Oops..",
                     text: "Server Error",
                     icon: "error",
-                    showCancelButton: false,
-                    showConfirmButton: false,
+                    buttons: false,
                     time: 2000
                 })
             })
