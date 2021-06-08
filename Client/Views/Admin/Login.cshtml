@@ -86,30 +86,7 @@
                         var dataLogin = new Object();
                         dataLogin.Email = $("#inputEmail").val();
                         dataLogin.Password = $("#inputPassword").val();
-                        // jalankan fungsi
                         PostLogin(dataLogin);
-                    }
-
-                }, false);
-            });
-        }
-
-        let FormForgotValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
-            Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    if (form.checkValidity() === false) {
-                        form.classList.add('was-validated');
-                        console.log("false")
-                    }
-                    else {
-                        console.log("true")
-                        var data = new Object();
-                        data.Email = $("#inputEmailForgot").val();
-                        // jalankan fungsi
-                        Forgot(data);
                     }
 
                 }, false);
@@ -120,27 +97,28 @@
             console.log(data);
             $.ajax({
                 type: 'POST',
-                url: '/Login/LoginEmployee',
+                url: 'ajaxlogin',
                 data: data
             }).done((result) => {
                 switch (result) {
                     case 200:
                         swal({
                             title: "Success!",
-                            text: "Your Account Created Succesfully !",
+                            text: "Login Success",
                             icon: "success",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            time: 2000
+                            buttons: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location = "https://localhost:44326/admin";
                         })
                         break;
                     case 401:
                         swal({
                             title: "Error",
-                            text: "Password is wrong",
+                            text: "Email or Password is wrong",
                             icon: "warning",
-                            showCancelButton: false,
-                            showConfirmButton: true
+                            buttons: false,
+                            timer: 2000
                         })
                         $("#inputEmailForgot").val(dataLogin.Email);
                         break;
@@ -149,17 +127,16 @@
                             title: "Not Found",
                             text: "Account is not found",
                             icon: "warning",
-                            showCancelButton: false,
-                            showConfirmButton: true
+                            buttons: false,
+                            timer: 2000
                         })
                         break;
 
                     default:
                         swal({
                             text: "Oops..",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            time: 2000
+                            buttons: false,
+                            timer: 2000
                         })
                 }
             }).fail((result) => {
@@ -173,24 +150,6 @@
                 })
             })
         }
-
-        //Function Forgot Password
-        function Forgot(data) {
-            console.log(data)
-            $.ajax({
-                type: 'POST',
-                url: '/Login/ForgotPassword',
-                data: data
-            }).done((result) => {
-                console.log(result);
-            }).fail((result) => {
-                console.log(result);
-                if (result != 200) {
-                    alert("failed Send Link Reset");
-                }
-            })
-        }
-
 
 
 
