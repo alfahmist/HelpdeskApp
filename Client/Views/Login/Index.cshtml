@@ -103,6 +103,7 @@
                 url: '/Login/LoginEmployee',
                 data: data
             }).done((result) => {
+                console.log(result);
                 switch (result) {
                     case 200:
                         swal({
@@ -134,13 +135,13 @@
                         })
                         break;
           
-                    default:
-                        swal({
-                            text: "Oops..",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            time: 2000
-                        })
+                    //default:
+                    //    swal({
+                    //        text: "Oops..",
+                    //        showCancelButton: false,
+                    //        showConfirmButton: false,
+                    //        time: 2000
+                    //    })
                 }
             }).fail((result) => {
                 swal({

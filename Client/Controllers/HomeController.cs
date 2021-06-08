@@ -65,12 +65,12 @@ namespace Client.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            ViewBag.Name = HttpContext.Session.GetString(SessionName);
-            ViewBag.name = "Hello";
-            if (ViewBag.Name == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            //ViewBag.Name = HttpContext.Session.GetString(SessionName);
+            //ViewBag.name = "Hello";
+            //if (ViewBag.Name == null)
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
         }
         [Route("ViewTicket")]
         public IActionResult ViewTicket()
