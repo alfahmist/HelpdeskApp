@@ -25,7 +25,7 @@ namespace API.Handler
 
         public MailMessage Message()
         {
-
+            // Body Message
             MailMessage message = new MailMessage(Sender, Receiver);
             message.IsBodyHtml = true;
             message.Subject = "Reset Password Request";
@@ -43,6 +43,8 @@ namespace API.Handler
                 body = reader.ReadToEnd();
             }
 
+            // fungsi ini untuk mengubah data pada file HTML
+            // body.Replace("{NAMA}", "John Smith");
             body = body.Replace("{ResetUrl}", ResetUrl);
             body = body.Replace("{Url}", Url);
             return body;
