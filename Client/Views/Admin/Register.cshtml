@@ -1,0 +1,166 @@
+﻿@{
+    Layout = "_Admin";
+}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="mt-5 text-center ">
+                    <h4 class="title-name">Admin Page</h4>
+                    <p>Register Account</p>
+                </div>
+                <div class="form-login">
+                    <form class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="inputName">Email address</label>
+                                    <input type="text" class="form-control" id="inputName" placeholder="a name" required>
+                                    <div class="invalid-feedback">
+                                        Invalid name
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail">Email address</label>
+                                    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="name@example.com" required>
+                                    <div class="invalid-feedback">
+                                        Invalid email address
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword">Password</label>
+                                    <input type="password" class="form-control " id="inputPassword" placeholder="password" min="4" required>
+                                    <div class="invalid-feedback">
+                                        minimum 4 characters
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="inputRole">Role</label>
+                                    <select class="form-control" id="inputRole" required>
+                                        <option value="" disabled selected >Select Role</option>
+                                        <option value="1">Customer Support</option>
+                                        <option value="2">Technical Support</option>
+                                        <option value="3">Advance Support</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a role
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDepartment">Department</label>
+                                    <select class="form-control" id="inputDepartment" required>
+                                        <option value="" disabled selected>Select Department</option>
+                                        <option value="1">IT Support</option>
+                                        <option value="2">Human Resource</option>
+                                        <option value="3">Developer</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a department
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputGender">Gender</label>
+                                    <select class="form-control" id="inputGender" required>
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a gender
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger btn-block" type="submit">Create an account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            FormValidation();
+        });
+
+        let FormValidation = () => {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (form.checkValidity() === false) {
+                        form.classList.add('was-validated');
+                    }
+                    else {
+                        let dataRegister = new Object();
+                        dataRegister.Name = $("#inputName").val();
+                        dataRegister.Email = $("#inputEmail").val();
+                        dataRegister.Password = $("#inputPassword").val();
+                        dataRegister.DepartmentId = $("#inputDepartment").val();
+                        dataRegister.RoleId = $("#inputRole").val();
+                        dataRegister.Gender = $("#inputGender").val();
+                        dataRegister.Birthdate = "1997-07-17";
+                        console.log(dataRegister);
+                        Register(dataRegister);
+                    }
+
+                }, false);
+            });
+        }
+
+        let Register = (data) => {
+
+         
+            $.ajax({
+                type: 'POST',
+                url: '/register/ajaxregister',
+                data: data
+            }).done((result) => {
+                console.log(result);
+                if (result == 200) {
+                    swal({
+                        title: "Success!",
+                        text: "Your Account Created Succesfully !",
+                        icon: "success",
+                        buttons: false,
+                        timer: 2000
+                    })
+                } else if (result == 409) {
+                    swal({
+                        title: "Email problem",
+                        text: "Email has been used",
+                        icon: "warning",
+                        buttons: false,
+                        timer: 2000
+                    })
+                }
+                else {
+                    swal({
+                        text: "Oops..",
+                        buttons: false,
+                        timer: 2000
+                    })
+                }
+            }).fail((result) => {
+                swal({
+                    title: "Oops..",
+                    text: "Server Error",
+                    icon: "error",
+                    buttons: false,
+                    timer: 2000
+                })
+            })
+        }
+
+    </script>
+}

@@ -65,7 +65,11 @@
                         var dataRegister = new Object();
                         dataRegister.Name = $("#inputName").val();
                         dataRegister.Email = $("#inputEmail").val();
-                        dataRegister.Password =$("#inputPassword").val();
+                        dataRegister.Password = $("#inputPassword").val();
+
+                        dataRegister.Birthdate = "1997-07-07";
+                        dataRegister.RoleId = "4";
+                        dataRegister.DepartmentId = "4";
                         PostRegister(dataRegister);
                     }
            
@@ -86,17 +90,17 @@
                         title: "Success!",
                         text: "Your Account Created Succesfully !",
                         icon: "success",
-                        showCancelButton: false,
-                        showConfirmButton: false,
+                        buttons: false,
                         time: 2000
+                    }).then(() => {
+                        window.location = "https://localhost:44326/Login";
                     })
                 } else if (result == 409) {
                     swal({
                         title: "Email problem",
                         text: "Email has been used",
                         icon: "warning",
-                        showCancelButton: false,
-                        showConfirmButton: false,
+                        buttons: false,
                         time: 2000
                     })
                 }
@@ -104,8 +108,7 @@
                     swal({
           
                         text: "Oops..",
-                        showCancelButton: false,
-                        showConfirmButton: false,
+                        buttons: false,
                         time: 2000
                     })
                 }
@@ -114,8 +117,7 @@
                     title: "Oops..",
                     text: "Server Error",
                     icon: "error",
-                    showCancelButton: false,
-                    showConfirmButton: false,
+                    buttons: false,
                     time: 2000
                 })
             })

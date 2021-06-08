@@ -26,6 +26,7 @@ namespace Client.Controllers
             
             return View();
         }
+
         public IActionResult Login()
         {
             HttpContext.Session.GetString("JWToken");
@@ -43,7 +44,7 @@ namespace Client.Controllers
             return NotFound();
         }
 
-        public string LoginEmployee(LoginVM login)
+        public HttpStatusCode LoginEmployee(LoginVM login)
         {
             var client = new HttpClient();
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
@@ -58,23 +59,20 @@ namespace Client.Controllers
                 var jwt = jwtReader.ReadJwtToken(token);
 
                 var role = jwt.Claims.First(c => c.Type == "role").Value;
-               
 
-                if (role.ToString().ToLower() == "client") 
+                if (role.ToString().ToLower() == "client")
                 {
                     //ForClient
-                    return Url.Action("Index", "Home");
+                    return HttpStatusCode.OK;
                 }
                 else
                 {
-                    //For non-Client
-                    return Url.Action("Index", "Dashboard");
+                    return HttpStatusCode.Unauthorized;
                 }
             }
             else
             {
-                return "Error";
-                //return BadRequest(new { result });
+                return result.StatusCode;
             }
         }
         [HttpPost]
