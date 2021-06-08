@@ -105,34 +105,21 @@ namespace Client.Controllers
         //    return result.StatusCode;
         //}
 
-        public IActionResult ResetPasswords(ResetVM model)
+        public HttpStatusCode ResetPasswords(ResetVM model)
         {
             var client = new HttpClient();
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var result = client.PostAsync("https://localhost:44397/api/Accounts/reset-password/", stringContent).Result;
-            if (result.IsSuccessStatusCode)
-            {
-                return Ok(new { result });
-            }
-            else
-            {
-                return BadRequest(new { result });
-            }
+            return result.StatusCode;
         }
 
-        public IActionResult ForgotPassword(ForgotVM forgotVM)
+        public HttpStatusCode ForgotPassword(ForgotVM forgotVM)
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(forgotVM), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync("https://localhost:44397/api/Accounts/ForgotPassword", content).Result;
-            if (result.IsSuccessStatusCode)
-            {
-                return Ok(new { result });
-            }
-            else
-            {
-                return BadRequest(new { result });
-            }
+            return result.StatusCode;
+      
         }
         [HttpPut]
         public HttpStatusCode ChangePassword(ChangePasswordVM changePasswordViewModels)
