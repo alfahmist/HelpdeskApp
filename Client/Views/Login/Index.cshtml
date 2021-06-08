@@ -98,7 +98,7 @@
         }
 
         let FormForgotValidation = () => {
-            var forms = document.getElementsByClassName('needs-validation form-forgot-val');
+            var forms = document.getElementsByClassName('form-forgot-val');
             Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
                     event.preventDefault();
@@ -126,6 +126,7 @@
                 url: '/Login/LoginEmployee',
                 data: data
             }).done((result) => {
+
                 switch (result) {
                     case 200:
                         swal({
