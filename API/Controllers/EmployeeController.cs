@@ -14,10 +14,10 @@ namespace API.Controllers
     [ApiController]
     public class EmployeeController : BaseController<Employee, EmployeeRepository, string>
     {
-        private readonly EmployeeRepository clientRepository;
-        public EmployeeController(EmployeeRepository clientRepository) : base(clientRepository)
+        private readonly EmployeeRepository employeeRepository;
+        public EmployeeController(EmployeeRepository employeeRepository) : base(employeeRepository)
         {
-            this.clientRepository = clientRepository;
+            this.employeeRepository = employeeRepository;
         }
     }
 }
