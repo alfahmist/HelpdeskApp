@@ -58,18 +58,21 @@ namespace Client.Controllers
             HttpContext.Session.Remove(SessionName);
             return RedirectToAction("Login");
         }
+
+        [Route("ajaxemployee")]
         public async Task<List<Employee>> Employee()
         {
             List<Employee> employees = new List<Employee>();
             var responseTask = client.GetAsync("Employee");
        
             var result = responseTask.Result;
-            // status code
-            //if (result.IsSuccessStatusCode)
-            //{
+            //status code
+            if (result.IsSuccessStatusCode)
+            {
                 var readTask = await result.Content.ReadAsStringAsync();
                 employees = JsonConvert.DeserializeObject<List<Employee>>(readTask);
-            //}
+                return employees;
+            }
 
             return employees;
         }

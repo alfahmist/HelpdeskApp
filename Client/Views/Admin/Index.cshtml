@@ -49,8 +49,8 @@
 
             let table = $('#example').DataTable({
                 ajax: {
-                    url: '/Admin/Employee/',
-                    type: "Get",
+                    url: 'ajaxemployee',
+                    type: "GET",
                     dataSrc: ""
                 },
                 columns: [
@@ -60,10 +60,10 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { "data": "name" },
-                    { "data": "email" },
-                    { "data": "gender" },
-                    { "data": "role" },
+                    { data: "name" },
+                    { data: "email" },
+                    { data: "gender" },
+                    { data: "role" },
                 ],
 
                 "order": [[1, 'asc']]
