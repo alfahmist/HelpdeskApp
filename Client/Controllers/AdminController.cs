@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using API.ViewModel;
+using Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,12 +16,13 @@ namespace Client.Controllers
 {
     public class AdminController : Controller
     {
+        List<EmployeeVM> employees = new List<EmployeeVM>();
         const string SessionName = "session";
         readonly HttpClient client = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:44397/API/")
         };
-
+        HttpClientHandler clientHandler = new HttpClientHandler();
 
         // Index
         [Route("admin")]
@@ -59,18 +61,32 @@ namespace Client.Controllers
             return RedirectToAction("Login");
         }
 
-        [Route("ajaxemployee")]
-        public async Task<List<Employee>> Employee()
+        [HttpGet("GetEmployees")]
+        public async Task<List<EmployeeVM>> GetEmployees()
         {
-            List<Employee> employees = new List<Employee>();
-            var responseTask = client.GetAsync("Employee");
+            employees = new List<EmployeeVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Employee/GetEmployee/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    employees = JsonConvert.DeserializeObject<List<EmployeeVM>>(apiResponse);
+                }
+            }
+
+            return employees;
+        }
+        [Route("ajaxemployee")]
+        public async Task<List<EmployeeVM>> GetEmployee()
+        {
+            var responseTask = client.GetAsync("Employee/GetEmployee");
        
             var result = responseTask.Result;
             //status code
             if (result.IsSuccessStatusCode)
             {
                 var readTask = await result.Content.ReadAsStringAsync();
-                employees = JsonConvert.DeserializeObject<List<Employee>>(readTask);
+                employees = JsonConvert.DeserializeObject<List<EmployeeVM>>(readTask);
                 return employees;
             }
 
