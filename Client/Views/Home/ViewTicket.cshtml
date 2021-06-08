@@ -13,18 +13,18 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="example" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Ticket ID</th>
-                                <th scope="col">Ticket Name</th>
-                                <th scope="col">Requestor Name</th>
-                                <th scope="col">Ticket Date</th>
-                                <th scope="col">Ticket Status</th>
-                                <th scope="col">Status Date</th>
-                                <th scope="col">Close</th>
-                                <th scope="col">Detail</th>
+                                <th>No</th>
+                                <th>Ticket ID</th>
+                                <th>Ticket Name</th>
+                                <th>Requestor Name</th>
+                                <th>Ticket Date</th>
+                                <th>Ticket Status</th>
+                                <th>Status Date</th>
+                                <th>Close</th>
+                                <th>Detail</th>
                             </tr>
                         </thead>
 
@@ -44,13 +44,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-        var clientID = `@ViewData["empId"]`;
         $(document).ready(function () {
             var clientID = `@ViewData["empId"]`;
-          let table = $('#example2').DataTable({
+          let table = $('#example').DataTable({
                     ajax: {
                         url:  '/Home/LatestStatusByClientId/',
-                        type: "Get",
+                        type: "GET",
                         data: { "clientID": clientID },
                         dataSrc: ""
                     },
