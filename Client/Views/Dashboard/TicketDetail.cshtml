@@ -30,7 +30,7 @@
             </ul>
         </div>
 
-        <div class="card">
+        <div class="card" id="assign-for">
             <div class="card-header">
                 Assign For
             </div>
@@ -144,9 +144,14 @@
             GetMessageByID(ticketID);
             GetTicket(ticketID);
             GetHistory(ticketID)
-       /*     if ($("#TicketStatus").text(newResult.TicketStatus) == "Closed") {*/
+
+            if (empID == "EMP03" || empID == "EMP05") {
+                $("#assign-for").hide();
+            }
+
+            if ($("#TicketStatus").text().toLowerCase() == "close") {
                 $(".form-message").hide();
-            //}
+            }
 
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
