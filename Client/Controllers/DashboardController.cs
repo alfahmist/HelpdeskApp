@@ -54,6 +54,20 @@ namespace Client.Controllers
             return progressTicket;
         }
 
+        public async Task<List<ClosedTicketVM>> GetClosedTicket()
+        {
+            closedTickets = new List<ClosedTicketVM>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetResponsedTickets"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    closedTickets = JsonConvert.DeserializeObject<List<ClosedTicketVM>>(apiResponse);
+                }
+            }
+            return closedTickets;
+        }
+
         [Route("Dashboard/TicketDetail/{id?}")]
         public IActionResult TicketDetail(string id)
         {
@@ -323,38 +337,7 @@ namespace Client.Controllers
             }
         }
         [HttpGet]
-        public async Task<List<ClosedTicketVM>> GetClosedTicket()
-        {
-            closedTickets = new List<ClosedTicketVM>();
-            using (var httpClient = new HttpClient(clientHandler))
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetResponsedTickets"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    closedTickets = JsonConvert.DeserializeObject<List<ClosedTicketVM>>(apiResponse);
-                }
-            }
-            return closedTickets;
-        }
-        
-        //[HttpGet]
-        //public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
-        //{
-        //    progressTicket = new List<InprogressTicketVM>();
-        //    using (var httpClient = new HttpClient(clientHandler))
-        //    {
-        //        using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
-                  
-            
-        //        }
-        //    }  
-        //    TicketAllCount = progressTicket.Count;
-          
-        //    return progressTicket;
-        //}
+     
 
         [HttpGet]
         public async Task<List<InprogressTicketVM>> GetInprogressTicket()

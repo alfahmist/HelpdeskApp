@@ -16,17 +16,21 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace API.Controllers
+
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : BaseController<Employee, EmployeeRepository, string>
     {
+        private readonly IGenericDapper dapper;
         private readonly EmployeeRepository employeeRepository;
         private IConfiguration Configuration;
-        public EmployeeController(EmployeeRepository employeeRepository, IConfiguration Configuration) : base(employeeRepository)
+        public EmployeeController(EmployeeRepository employeeRepository, IConfiguration Configuration, IGenericDapper dapper) : base(employeeRepository)
         {
             this.employeeRepository = employeeRepository;
             this.Configuration = Configuration;
+            this.dapper = dapper;
         }
         
 
@@ -46,14 +50,8 @@ namespace API.Controllers
             dbparams.Add("statusId", 1, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             return db.Query<dynamic>("[dbo].[SP_GetStatusByID]", dbparams, commandType: CommandType.StoredProcedure);
-        private readonly IGenericDapper dapper;
-        private readonly IConfiguration Configuration;
-        public EmployeeController(EmployeeRepository employeeRepository, IGenericDapper dapper, IConfiguration Configuration) : base(employeeRepository)
-        {
-            this.employeeRepository = employeeRepository;
-            this.dapper = dapper;
-            this.Configuration = Configuration;
         }
+       
         [HttpGet("All")]
         public IEnumerable<dynamic> All()
         {
