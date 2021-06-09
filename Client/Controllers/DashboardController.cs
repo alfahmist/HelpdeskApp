@@ -148,77 +148,46 @@ namespace Client.Controllers
         }
         public IActionResult Index()
         {
-            //ViewData["ticketNumber"] = ticketNumber;
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null)
-            //{
-            //    var jwtReader = new JwtSecurityTokenHandler();
-            //    var jwt = jwtReader.ReadJwtToken(token);
+            ViewData["ticketNumber"] = ticketNumber;
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
 
-            //    var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
-            //    var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //    var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //    var empId = emailDb.Id;
-            //    var role = jwt.Claims.First(c => c.Type == "role").Value;
-            //    ViewData["name"] = name;
-            //    ViewData["empId"] = empId;
-            //    ViewData["TicketAllCount"] = TicketAllCount;
-            //    if (role.ToString().ToLower() == "client")
-            //    {
-            //        //ForClient
-                //    return RedirectToAction("Index", "Login");
-                //}
-                //else
-                //{
-                //    //For non-Client
-                    return View("Views/Dashboard/Index.cshtml");
-            //    }
-             
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
-            
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
+   
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                ViewData["TicketAllCount"] = TicketAllCount;
+                if (!role.ToString().ToLower().Contains("support"))
+                {
+                    return RedirectToAction("Login","Dashboard");
+                }
+                else
+                {
+                    return View("Index");
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Dashboard");
+        }
+
         }
 
         public IActionResult Login()
         {
-            //ViewData["ticketNumber"] = ticketNumber;
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null)
-            //{
-            //    var jwtReader = new JwtSecurityTokenHandler();
-            //    var jwt = jwtReader.ReadJwtToken(token);
-
-            //    var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
-            //    var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //    var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //    var empId = emailDb.Id;
-            //    var role = jwt.Claims.First(c => c.Type == "role").Value;
-            //    ViewData["name"] = name;
-            //    ViewData["empId"] = empId;
-            //    ViewData["TicketAllCount"] = TicketAllCount;
-            //    if (role.ToString().ToLower() == "client")
-            //    {
-            //        //ForClient
-            //    return RedirectToAction("Index", "Login");
-            //}
-            //else
-            //{
-            //    //For non-Client
             return View("Login");
-            //    }
-
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
-
         }
+      
 
-
+        
         public IActionResult Technical()
         {
             //ViewData["ticketNumber"] = ticketNumber;

@@ -134,7 +134,9 @@
                         icon: "success",
                         buttons: false,
                         timer: 2000
-                    })
+                    }).then(() => {
+                        window.location.reload();
+                    });
                 } else if (result == 409) {
                     swal({
                         title: "Email problem",
