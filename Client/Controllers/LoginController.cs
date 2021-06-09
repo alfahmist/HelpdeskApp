@@ -93,8 +93,7 @@ namespace Client.Controllers
                 var role = jwt.Claims.First(c => c.Type == "role").Value;
 
                 if (role.ToString().ToLower().Contains("support"))
-                {
-                    //ForClient
+                {   
                     return HttpStatusCode.OK;
                 }
                 else
