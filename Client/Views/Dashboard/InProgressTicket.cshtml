@@ -4,8 +4,69 @@
 }
 
 
-    <br />
+<div class="container mt-5">
     <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3 id="allCount"></h3>
+                    <p>All Ticket</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="Index">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3 id="openCount"></h3>
+
+                    <p>Open</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="OpenedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 id="inProgressCount"></h3>
+
+                    <p>In Progress</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="InProgressTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3 id="closeCount"></h3>
+
+                    <p>Closed</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a class="small-box-footer" asp-area="" asp-controller="Dashboard" asp-action="ClosedTicket">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <div class="row mt-5">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -17,25 +78,14 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Ticket ID</th>
-                                <th scope="col">Ticket Name</th>
-                                <th scope="col">Requestor Name</th>
-                                <th scope="col">Ticket Date</th>
-                                <th scope="col">Ticket Status</th>
-                                <th scope="col">In-Progress Date</th>
+                                <th scope="col">TicketID</th>
+                                <th scope="col">TicketName</th>
+                                <th scope="col">RequestorName</th>
+                                <th scope="col">TicketDate</th>
+                                <th scope="col">TicketStatus</th>
+                                <th scope="col">Opened Date</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Ticket ID</th>
-                                <th scope="col">Ticket Name</th>
-                                <th scope="col">Requestor Name</th>
-                                <th scope="col">Ticket Date</th>
-                                <th scope="col">Ticket Status</th>
-                                <th scope="col">In-Progress Date</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -43,6 +93,7 @@
             <!-- /.card -->
         </div>
     </div>
+</div>
     @*<div style="width:90%; margin:50px auto;">
         <table id="inprogressDatatable" class="table table-bordered table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
             
