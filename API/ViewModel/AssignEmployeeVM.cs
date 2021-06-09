@@ -7,7 +7,10 @@ namespace API.ViewModel
 {
     public class AssignEmployeeVM
     {
-        public string EmpId{ get; set; }
-        public string TicketId{ get; set; }
+        public string TID { get; set; }
+        public string Requestor { get; set; }
+        public string Date { get; set; }
+        public string Status { get; set; }
+        public string StatusDate { get; set; }
     }
 }
