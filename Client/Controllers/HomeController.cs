@@ -53,8 +53,12 @@ namespace Client.Controllers
                 var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
                 var email = jwt.Claims.First(e => e.Type == "email").Value;
                 var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
+                if (role.ToString().ToLower() != "client")
+                {
+                    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                }
                 var empId = emailDb.Id;
-
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
                 return View("Views/Home/Index.cshtml");
