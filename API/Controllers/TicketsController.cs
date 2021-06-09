@@ -93,7 +93,7 @@ namespace API.Controllers
             var dbparams =  new DynamicParameters();
 
             dbparams.Add("TicketId", ResponseVM.TicketId, DbType.String);
-            dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
+            dbparams.Add("Solution", ResponseVM.Message, DbType.String);
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
             var parm = new DynamicParameters();
@@ -108,14 +108,14 @@ namespace API.Controllers
             var client = myContext.Tickets.FirstOrDefault(x => x.Id == ResponseVM.TicketId);
             var ticketSubject = client.Name;
             var ticketId = ResponseVM.TicketId;
-            var solution = ResponseVM.Solution;
+            var solution = ResponseVM.Message;
 
             //string sender = "bartpaul684@gmail.com";
             string sender = "gamesatarkhu@gmail.com";
             string pwd = "musikamusik";
 
             //sender
-            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
