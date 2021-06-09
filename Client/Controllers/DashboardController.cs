@@ -57,31 +57,31 @@ namespace Client.Controllers
         [Route("Dashboard/TicketDetail/{id?}")]
         public IActionResult TicketDetail(string id)
         {
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null)
-            //{
-            //    var jwtReader = new JwtSecurityTokenHandler();
-            //    var jwt = jwtReader.ReadJwtToken(token);
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
 
-            //    var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //    var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //    var empId = emailDb.Id;
-            //    if (id == "")
-            //    {
-            //        return RedirectToAction("Index", "Dashboard");
-            //    }
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+                if (id == "")
+                {
+                    return RedirectToAction("Index", "Dashboard");
+                }
 
-                //ViewData["ticketID"] = id;
-                //ViewData["empId"] = empId;
-                //var tCount = GetTicketMessage(id);
+                ViewData["ticketID"] = id;
+                ViewData["empId"] = empId;
+                var tCount = GetTicketMessage(id);
                 return View("TicketDetail");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
-
         }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+    }
+
+}
         [HttpPost]
         public HttpStatusCode NewTicketMessage(SendMessageVM model)
         {
@@ -305,25 +305,6 @@ namespace Client.Controllers
             }
             return closedTickets;
         }
-        
-        //[HttpGet]
-        //public async Task<List<InprogressTicketVM>> AllNewTicketStatus()
-        //{
-        //    progressTicket = new List<InprogressTicketVM>();
-        //    using (var httpClient = new HttpClient(clientHandler))
-        //    {
-        //        using (var response = await httpClient.GetAsync("https://localhost:44397/api/Tickets/GetAllTicketUpdates/"))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            progressTicket = JsonConvert.DeserializeObject<List<InprogressTicketVM>>(apiResponse);
-                  
-            
-        //        }
-        //    }  
-        //    TicketAllCount = progressTicket.Count;
-          
-        //    return progressTicket;
-        //}
 
         [HttpGet]
         public async Task<List<InprogressTicketVM>> GetInprogressTicket()
@@ -360,6 +341,15 @@ namespace Client.Controllers
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/ResponseTicket", content).Result;
+            return result.StatusCode;
+        }
+
+        [HttpPost]
+        public HttpStatusCode AssignTicket(AssignVM assignVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(assignVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/AssignTicket", content).Result;
             return result.StatusCode;
         }
     }
