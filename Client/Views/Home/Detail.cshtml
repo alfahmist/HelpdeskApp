@@ -13,7 +13,7 @@
             <div class="card-header">
                 Ticket Information @ViewData["ID"]
             </div>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" >
                 <li class="list-group-item">
                     <p class="text-muted mb-0">Author</p>
                     <p class="mb-2"><strong id="Author"></strong></p>
@@ -29,8 +29,8 @@
                 </li>
             </ul>
         </div>
-        <div class="card">
-            <div class="card-header">
+        <div class="card" id="assignHistory">
+            @*<div class="card-header">
                 Ticket History
             </div>
             <ul class="list-group list-group-flush">
@@ -46,8 +46,8 @@
                         </div>
                     </div>
                 </li>
-            
-            </ul>
+
+            </ul>*@
         </div>
     </div>
 <div class="col-sm-9">
@@ -119,7 +119,8 @@
         var empID = `@ViewData["empId"]`;
         $(document).ready(function () {
             GetMessageByID(ticketID);
-            GetTicket(ticketID)
+            GetTicket(ticketID);
+            GetHistory(ticketID)
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -199,7 +200,7 @@
             })
         }
 
-        function GetTicket(ticketId) {
+         function GetTicket(ticketId) {
             console.log(ticketId);
             $.ajax({
                 type: 'GET',
@@ -209,11 +210,41 @@
                 newResult = JSON.parse(result);
                 console.log("NEW RESULT");
                 console.log(newResult);
-
                 $("#Author").text(newResult.Author)
                 $("#CreatedDate").text(moment(newResult.CreatedDate).format('LLL'))
                 $("#Category").text(newResult.Category)
                 $("#TicketStatus").text(newResult.TicketStatus)
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+
+        function GetHistory(ticketId) {
+            console.log(ticketId);
+            $.ajax({
+                type: 'GET',
+                url: `https://localhost:44326/Home/AssignHistory/`,
+                data: { ticketId: ticketId},
+            }).done((result) => {
+                console.log(result);
+                result.forEach(myFunction);
+
+                function myFunction(item) {
+                    console.log(item);
+                    
+                    var name = `<div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="text-muted mb-0">Help desk team</p>
+                                        <p class="mb-2"><strong class="Author">${item.name}</strong></p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="text-muted mb-0">Joined Date</p>
+                                        <p class="mb-2"><strong class="Created">${moment(item.assignDate).format('LLL')}</strong></p>
+                                    </div>
+                                </div>
+                              `
+                    $("#assignHistory").append(`<li class="list-group-item">${name}</li>`);
+                }
             }).fail((error) => {
                 console.log(error);
             })

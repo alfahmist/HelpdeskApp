@@ -261,5 +261,28 @@ namespace API.Controllers
                 );
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("AssignTicket")]
+        public ActionResult AssignTicket([FromBody] AssignVM assignVM)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", assignVM.TicketId, DbType.String);
+            dbparams.Add("EmployeeId", assignVM.EmployeeId, DbType.String);
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_AssignTicket]", dbparams, commandType: CommandType.StoredProcedure));
+            return Ok(result);
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpGet("AssignHistory/{ticketId}")]
+        public IEnumerable<dynamic> AssignHistory(string ticketId)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", ticketId, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            return db.Query<dynamic>("[dbo].[SP_AssignHistory]", dbparams, commandType: CommandType.StoredProcedure);
+        }
     }
 }
