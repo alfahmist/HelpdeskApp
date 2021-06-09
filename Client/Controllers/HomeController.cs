@@ -56,7 +56,7 @@ namespace Client.Controllers
                 var role = jwt.Claims.First(c => c.Type == "role").Value;
                 if (role.ToString().ToLower() != "client")
                 {
-                    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                    return RedirectToAction("Index", "Login");
                 }
                 var empId = emailDb.Id;
                 ViewData["name"] = name;
