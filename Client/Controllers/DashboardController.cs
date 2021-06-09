@@ -222,6 +222,18 @@ namespace Client.Controllers
             }
 
             }
+        public async Task<List<AssignEmployeeVM>> AjaxTechnical(string empId)
+        {
+
+            //var id = Request.Query["ticketId"];
+            var responseTask = client.GetAsync($"Tickets/GetAssignTicket/{empId}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            var readTask = await result.Content.ReadAsStringAsync();
+            var assignEmp = JsonConvert.DeserializeObject<List<AssignEmployeeVM>>(readTask);
+            return assignEmp;
+        }
+
         public IActionResult OpenedTicket()
         {
             var token = HttpContext.Session.GetString("JWToken");
@@ -267,8 +279,7 @@ namespace Client.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-
-   
+     
         public IActionResult InProgressTicket()
         {
             var token = HttpContext.Session.GetString("JWToken");
