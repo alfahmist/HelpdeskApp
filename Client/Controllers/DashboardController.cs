@@ -164,9 +164,9 @@ namespace Client.Controllers
                 ViewData["name"] = name;
                 ViewData["empId"] = empId;
                 ViewData["TicketAllCount"] = TicketAllCount;
-                if (!role.ToString().ToLower().Contains("support"))
+                if (!role.ToString().ToLower().Contains("customer"))
                 {
-                    return RedirectToAction("Login","Dashboard");
+                    return RedirectToAction("Technical","Dashboard");
                 }
                 else
                 {
@@ -185,44 +185,43 @@ namespace Client.Controllers
         {
             return View("Login");
         }
-      
 
-        
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("JWToken");
+            return RedirectToAction("Login", "Dashboard");
+        }
+
         public IActionResult Technical()
         {
-            //ViewData["ticketNumber"] = ticketNumber;
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null)
-            //{
-            //    var jwtReader = new JwtSecurityTokenHandler();
-            //    var jwt = jwtReader.ReadJwtToken(token);
+            ViewData["ticketNumber"] = ticketNumber;
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
 
-            //    var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
-            //    var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //    var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //    var empId = emailDb.Id;
-            //    var role = jwt.Claims.First(c => c.Type == "role").Value;
-            //    ViewData["name"] = name;
-            //    ViewData["empId"] = empId;
-            //    ViewData["TicketAllCount"] = TicketAllCount;
-            //    if (role.ToString().ToLower() == "client")
-            //    {
-            //        //ForClient
-            //    return RedirectToAction("Index", "Login");
-            //}
-            //else
-            //{
-            //    //For non-Client
-            return View("Technical");
-            //    }
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
+                ViewData["TicketAllCount"] = TicketAllCount;
+                if (role.ToString().ToLower().Contains("customer"))
+                {
+                    return RedirectToAction("Logout", "Dashboard");
+                }
+                return View("Technical");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Dashboard");
+            }
 
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-            //}
-
-        }
+            }
         public IActionResult OpenedTicket()
         {
             var token = HttpContext.Session.GetString("JWToken");
@@ -268,6 +267,8 @@ namespace Client.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
+
+   
         public IActionResult InProgressTicket()
         {
             var token = HttpContext.Session.GetString("JWToken");
