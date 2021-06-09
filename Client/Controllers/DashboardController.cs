@@ -352,5 +352,17 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/AssignTicket", content).Result;
             return result.StatusCode;
         }
+
+        public async Task<List<AssignHistoryVM>> AssignHistory(string ticketId)
+        {
+
+            //var id = Request.Query["ticketId"];
+            var responseTask = client.GetAsync($"Tickets/AssignHistory/{ticketId}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+                var readTask = await result.Content.ReadAsStringAsync();
+                var tickets = JsonConvert.DeserializeObject<List<AssignHistoryVM>>(readTask);
+            return tickets;
+        }
     }
 }
