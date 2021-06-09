@@ -65,11 +65,11 @@ namespace API.Controllers
             //string sender = "bartpaul684@gmail.com";
             //string sender = "aninsabrina17@gmail.com";
             //string pwd = "yulisulasta";
-            string sender = "chase0@ethereal.email";
-            string pwd = "Dwqc1mxPyREya1C3B5";
+            string sender = "gamesatarkhu@gmail.com";
+            string pwd = "musikamusik";
 
             //sender
-            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
