@@ -130,7 +130,7 @@ namespace Client.Controllers
 
         }
 
-        [Route("ViewTicket/Detail/{id?}")]
+        [Route("ViewTicket/Detail/{id}")]
         public IActionResult Detail(string id)
         {
             var token = HttpContext.Session.GetString("JWToken");

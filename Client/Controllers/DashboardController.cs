@@ -393,5 +393,31 @@ namespace Client.Controllers
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/ResponseTicket", content).Result;
             return result.StatusCode;
         }
+        
+        [HttpPost]
+        public HttpStatusCode AssignTicket(AssignVM assignVM)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(assignVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/AssignTicket", content).Result;
+            return result.StatusCode;
+        }
+        
+        public JsonResult AssignHistory(string ticketId)
+        {
+
+            //var id = Request.Query["ticketId"];
+            var responseTask = client.GetAsync($"Tickets/AssignHistory/{ticketId}");
+            //responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var tickets = readTask.Result;
+                return Json(tickets);
+            }
+            return Json(null);
+        }
     }
 }

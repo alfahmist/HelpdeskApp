@@ -29,7 +29,7 @@ namespace API.Controllers
         [HttpGet("All")]
         public IEnumerable<dynamic> All()
         {
-                return dapper.GetAll<dynamic>("[dbo].[SP_SelectEmployee]", null, commandType: CommandType.StoredProcedure);
+                return dapper.GetAll<dynamic>("[dbo].[SP_GetEmployee]", null, commandType: CommandType.StoredProcedure);
         }
     }
 }

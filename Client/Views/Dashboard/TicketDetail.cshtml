@@ -11,7 +11,7 @@
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header">
-                Ticket Information @ViewData["ID"]
+                Ticket Information @ViewData["ticketID"]
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -38,12 +38,12 @@
                 <li class="list-group-item">
                     <select class="form-control" id="inputRole">
                         <option value="" disabled selected>Select Role</option>
-                        <option value="EMP01">Budi    | Customer Support</option>
-                        <option value="EMP02">Rizaldi | Technical Support</option>
-                        <option value="EMP03">Judika  | Advance Support</option>
+                        <option value="EMP24">Budi    | Customer Support</option>
+                        <option value="EMP25">Rizaldi | Technical Support</option>
+                        <option value="EMP26">Judika  | Advance Support</option>
                     </select>
                     <button class="btn btn-danger mt-2" onclick="Cancel()">Cancel</button>
-                    <button class="btn btn-info float-right mt-2">Select</button>
+                    <button class="btn btn-info float-right mt-2" id="btnAssign">Select</button>
                 </li>
             </ul>
         </div>
@@ -168,6 +168,35 @@
             console.log(model);
             $.ajax({
                 url: "https://localhost:44326/Dashboard/NewTicketMessage",
+                type: 'POST',
+                data: model,
+            }).done((result) => {
+                console.log(result)
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text: "Message has been sent !",
+                            icon: "success"
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log("error");
+            })
+        }
+         $("#btnAssign").click(function (e) {
+            Assign();
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        let Assign = () => {
+            var model = new Object();
+            model.TicketId = ticketID;
+            model.EmployeeId = $("#inputRole").val();
+            console.log(model);
+            $.ajax({
+                url: "https://localhost:44326/Dashboard/AssignTicket",
                 type: 'POST',
                 data: model,
             }).done((result) => {
