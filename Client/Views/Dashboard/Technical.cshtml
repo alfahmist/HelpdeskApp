@@ -17,7 +17,6 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Ticket ID</th>
-                                <th scope="col">Ticket Name</th>
                                 <th scope="col">Requestor Name</th>
                                 <th scope="col">Ticket Date</th>
                                 <th scope="col">Ticket Status</th>
@@ -37,7 +36,7 @@
 
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js" integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -46,58 +45,69 @@
 
     <script>
         $(document).ready(function () {
+            var empId = `@ViewData["empId"]`;
+            $.ajax({
+                type: 'GET',
+                url: "/Dashboard/AjaxTechnical",
+                data: { empId: empId }
+            }).done((result) => {
+                console.log(result);
+    
 
-      let table = $('#example2').DataTable({
-                    ajax: {
-                        url: "/Dashboard/AllNewTicketStatus",
-                        type: "GET",
-                        dataSrc: ""
-                    },
+            }).fail((error) => {
+                console.log(error);
+            })
 
-                    columns:
-                        [
-                            {
-                                data: null,
-                                render: (data, type, row, meta) => {
-                                    return meta.row + meta.settings._iDisplayStart + 1;
-                                }
-                            },
-                            { "data": "ticketID" },
-                            { "data": "ticketName" },
-                            //{ "data": "Category"},
-                            { "data": "requestorName" },
-                            {
-                                "data": "ticketDate",
-                                render: function (data, type, row) {
-                                    let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
-                                    return date
-                                }
-                            },
-                            { "data": "ticketStatus" },
-                            {
-                                "data": "statusDate",
-                                render: function (data, type, row) {
-                                    let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
-                                    return dates
-                                }
-                            },
-                            {
-                                data: null,
-                                render: function (row) {
-                                    return '<a href="TicketDetail/'+ row['ticketID'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+            let table = $('#example2').DataTable({
+                ajax: {
+                    url: "/Dashboard/AjaxTechnical",
+                    type: "GET",
+                    data: { empId: empId},
+                    dataSrc: ""
+                },
 
-                                },
-                                orderable: false,
-                                searchable: false
+                columns:
+                    [
+                        {
+                            data: null,
+                            render: (data, type, row, meta) => {
+                                return meta.row + meta.settings._iDisplayStart + 1;
                             }
-                        ],
-                 "order": [[1, 'asc']]
+                        },
+                        { "data": "tid" },
+                        { "data": "requestor" },
+                        {
+                            "data": "ticketDate",
+                            render: function (data, type, row) {
+                                let date = moment(row.ticketDate).format('DD MMMM YYYY HH:mm:ss')
+                                return date
+                            }
+                        },
+                        { "data": "status" },
+                        {
+                            "data": "statusDate",
+                            render: function (data, type, row) {
+                                let dates = moment(row.statusDate).format('DD MMMM YYYY HH:mm:ss')
+                                return dates
+                            }
+                        },
+                        {
+                            data: null,
+                            render: function (row) {
+                                return '<a href="TicketDetail/' + row['tid'] + '" class="btn btn-info" style="margin-right : 5px;" title="Detail"><i class="fas fa-eye"></i></a>';
+
+                            },
+                            orderable: false,
+                            searchable: false
+                        }
+                    ],
+                "order": [[1, 'asc']]
             });
-                table.on('order.dt search.dt', function () {
-                    table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                        cell.innerHTML = i + 1;
-                    });
-                }).draw();
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         });
         $("#btnSolution").click(function (e) {
             TicketSolution();
