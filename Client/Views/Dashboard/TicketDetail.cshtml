@@ -17,7 +17,7 @@
                 <li class="list-group-item">
                     <p class="text-muted mb-0">Author</p>
                     <p class="mb-2"><strong id="Author"></strong></p>
-                    <p class="text-muted mb-0" ">Created Time</p>
+                    <p class="text-muted mb-0">Created Time</p>
                     <p class="mb-2"><strong id="CreatedDate"></strong></p>
                 </li>
                 <li class="list-group-item">
@@ -30,20 +30,20 @@
             </ul>
         </div>
 
-        <div class="card">
+        <div class="card" id="assign-for">
             <div class="card-header">
                 Assign For
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <select class="form-control" id="inputRole">
-                        <option value="" disabled selected>Select Role</option>
-                        <option value="EMP01">Budi    | Customer Support</option>
-                        <option value="EMP02">Rizaldi | Technical Support</option>
-                        <option value="EMP03">Judika  | Advance Support</option>
+                    <select class="form-control" id="inputAssign">
+                        <option value="" disabled selected>Select Employee</option>
+                        <option value="EMP04">Veronica  | Customer Support</option>
+                        <option value="EMP03">Juna      | Technical Support</option>
+                        <option value="EMP05">Jonathan  | Advance Support</option>
                     </select>
                     <button class="btn btn-danger mt-2" onclick="Cancel()">Cancel</button>
-                    <button class="btn btn-info float-right mt-2">Select</button>
+                    <button class="btn btn-info float-right mt-2" onclick="Assign()">Select</button>
                 </li>
             </ul>
         </div>
@@ -52,8 +52,8 @@
                 Ticket History
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="row">
+                <li class="list-group-item" id="assignHistory">
+                    @*<div class="row">
                         <div class="col-sm-6">
                             <p class="text-muted mb-0">Help desk team</p>
                             <p class="mb-2"><strong class="Author">Alexander</strong></p>
@@ -62,7 +62,7 @@
                             <p class="text-muted mb-0">Joined Date</p>
                             <p class="mb-2"><strong class="Created">20 june 2020</strong></p>
                         </div>
-                    </div>
+                    </div>*@
                 </li>
 
             </ul>
@@ -135,7 +135,7 @@
     <script>
         let Cancel = () => {
             // passing assign terakhir
-            $("#inputRole").prop("selectedIndex", 0);
+            $("#inputAssign").prop("selectedIndex", 0);
         }
 
         var ticketID = `@ViewData["ticketID"]`;
@@ -143,9 +143,15 @@
         $(document).ready(function () {
             GetMessageByID(ticketID);
             GetTicket(ticketID);
-/*            if ($("#TicketStatus").text(newResult.TicketStatus) == "Closed") {*/
+            GetHistory(ticketID)
+
+            if (empID == "EMP03" || empID == "EMP05") {
+                $("#assign-for").hide();
+            }
+
+            if ($("#TicketStatus").text().toLowerCase() == "close") {
                 $(".form-message").hide();
-           /* }*/
+            }
 
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
@@ -186,7 +192,7 @@
         }
         let GetMessageByID = (id) => {
             $.ajax({
-                url: "https://localhost:44326/Dashboard/GetTicketMessage",
+                url: "https://localhost:44326/Home/GetTicketMessage",
                 type: 'GET',
                 data: {id : id}
             }).done((result) => {
@@ -199,7 +205,8 @@
 
                 function myFunction(item) {
                     console.log(item);
-                    var name = `<div class="row">
+                    if (item.message != null) {
+                        var name = `<div class="row">
                                      <div class="col-sm-5">
                                         <p class="text-muted">Created  : ${moment(item.messageDate).format('DD MMMM YYYY HH:mm:ss')}</p>
                                      </div>
@@ -208,7 +215,7 @@
                                      </div>
                                 </div>
                               `
-                    var card = `<div class="card">
+                        var card = `<div class="card">
                                     <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <div class="row">
@@ -219,7 +226,9 @@
                                         </div>
                                     </li>
                                 </div>`
-                    $("#messageBody").append(`<li class="list-group-item">${name} ${card}</li>`);
+                        $("#messageBody").append(`<li class="list-group-item">${name} ${card}</li>`);
+                    }
+                   
                 }
             }).fail((error) => {
                 console.log("error");
@@ -245,5 +254,61 @@
                 console.log(error);
             })
         }
+
+        let Assign = () => {
+            var model = new Object();
+            model.TicketId = ticketID;
+            model.EmployeeId = $("#inputAssign").val();
+            console.log(model);
+            $.ajax({
+                url: "https://localhost:44326/Dashboard/AssignTicket",
+                type: 'POST',
+                data: model,
+            }).done((result) => {
+                console.log(result)
+                if (result == 200) {
+                    swal(
+                        {
+                            title: "Success!",
+                            text:  " Assigned",
+                            icon: "success",
+                        }).then(() => { location.reload() })
+                }
+            }).fail((error) => {
+                console.log("error");
+            })
+        }
+
+        function GetHistory(ticketId) {
+            console.log(ticketId);
+            $.ajax({
+                type: 'GET',
+                url: "https://localhost:44326/Dashboard/AssignHistory",
+                data: { ticketId: ticketId },
+            }).done((result) => {
+                console.log(result);
+                result.forEach(myFunction);
+
+                function myFunction(item) {
+                    console.log(item);
+
+                    var name = `<div class="row">
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">CS</p>
+                            <p class="mb-2"><strong class="Author">${item.name}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">Joined Date</p>
+                            <p class="mb-2"><strong class="Created">${moment(item.assignDate).format('LLL')}</strong></p>
+                        </div>
+                    </div>`
+
+                    $("#assignHistory").append(`<li class="list-group-item">${name}</li>`);
+                }
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+
     </script>
 }
