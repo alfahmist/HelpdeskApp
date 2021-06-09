@@ -173,7 +173,7 @@
             model.Message = $("#messageContent").val();
             console.log(model);
             $.ajax({
-                url: "https://localhost:44326/Dashboard/NewTicketMessage",
+                url: "https://localhost:44326/Dashboard/TicketSolution",
                 type: 'POST',
                 data: model,
             }).done((result) => {
@@ -183,7 +183,8 @@
                         {
                             title: "Success!",
                             text: "Message has been sent !",
-                            icon: "success"
+                            icon: "success",
+                            timer: 1908,
                         }).then(() => { location.reload() })
                 }
             }).fail((error) => {
