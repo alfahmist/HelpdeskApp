@@ -111,8 +111,8 @@ namespace API.Controllers
             var solution = ResponseVM.Solution;
 
             //string sender = "bartpaul684@gmail.com";
-            string sender = "chase0@ethereal.email";
-            string pwd = "Dwqc1mxPyREya1C3B5";
+            string sender = "gamesatarkhu@gmail.com";
+            string pwd = "musikamusik";
 
             //sender
             var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
@@ -259,6 +259,17 @@ namespace API.Controllers
                 dbparams,
                 CommandType.StoredProcedure
                 );
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AssignTicket")]
+        public ActionResult AssignTicket([FromBody] AssignVM assignVM)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("TicketId", assignVM.TicketId, DbType.String);
+            dbparams.Add("EmployeeId", assignVM.EmployeeId, DbType.String);
+            var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_AssignTicket]", dbparams, commandType: CommandType.StoredProcedure));
             return Ok(result);
         }
     }
