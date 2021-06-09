@@ -282,5 +282,15 @@ namespace API.Controllers
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             return db.Query<dynamic>("[dbo].[SP_AssignHistory]", dbparams, commandType: CommandType.StoredProcedure);
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetAssignTicket/{empid}")]
+        public IEnumerable<dynamic> GetAssignTicket(string empid)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("empId", empid, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            return db.Query<dynamic>("[dbo].[SP_GetAssignTicket]", dbparams, commandType: CommandType.StoredProcedure);
+        }
     }
 }
