@@ -1,6 +1,5 @@
 ﻿using API.Models;
 using API.ViewModel;
-using Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,13 +15,12 @@ namespace Client.Controllers
 {
     public class AdminController : Controller
     {
-        List<EmployeeVM> employees = new List<EmployeeVM>();
         const string SessionName = "session";
         readonly HttpClient client = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:44397/API/")
         };
-        HttpClientHandler clientHandler = new HttpClientHandler();
+
 
         // Index
         [Route("admin")]
@@ -61,36 +59,18 @@ namespace Client.Controllers
             return RedirectToAction("Login");
         }
 
-        [HttpGet("GetEmployees")]
-        public async Task<List<EmployeeVM>> GetEmployees()
-        {
-            employees = new List<EmployeeVM>();
-            using (var httpClient = new HttpClient(clientHandler))
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44397/api/Employee/GetEmployee/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    employees = JsonConvert.DeserializeObject<List<EmployeeVM>>(apiResponse);
-                }
-            }
-
-            return employees;
-        }
         [Route("ajaxemployee")]
-        public async Task<List<EmployeeVM>> GetEmployee()
+        public async Task<List<dynamic>> Employee()
         {
-            var responseTask = client.GetAsync("Employee/GetEmployee");
-            //public async Task<List<dynamic>> Employee()
-            //{
-            //    List<dynamic> employees = new List<dynamic>();
-            //    var responseTask = client.GetAsync("Employee/All");
-
+            List<dynamic> employees = new List<dynamic>();
+            var responseTask = client.GetAsync("Employee/All");
+       
             var result = responseTask.Result;
             //status code
             if (result.IsSuccessStatusCode)
             {
                 var readTask = await result.Content.ReadAsStringAsync();
-                employees = JsonConvert.DeserializeObject<List<EmployeeVM>>(readTask);
+                employees = JsonConvert.DeserializeObject<List<dynamic>>(readTask);
                 return employees;
             }
 

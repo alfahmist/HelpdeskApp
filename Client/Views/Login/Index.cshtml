@@ -71,7 +71,6 @@
     <script>
         $(document).ready(function () {
             FormValidation();
-            PostLogin(dataLogin);
             FormForgotValidation();
         });
 
@@ -126,7 +125,7 @@
                 url: '/Login/LoginEmployee',
                 data: data
             }).done((result) => {
-                console.log(result);
+
                 switch (result) {
                     case 200:
                         swal({
@@ -158,6 +157,7 @@
                             timer: 2000
                         })
                         break;
+          
                     default:
                         swal({
                             text: "Oops..",

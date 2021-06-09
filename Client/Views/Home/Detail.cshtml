@@ -153,14 +153,6 @@
                             icon: "success"
                         }).then(() => { location.reload() })
                 }
-                else {
-                    swal(
-                        {
-                            title: "OOps!",
-                            text: "Ticket Closed ! You Could not sent message anymore!",
-                            icon: "Error"
-                        }).then(() => { location.reload() })
-                }
             }).fail((error) => {
                 console.log("error");
             })

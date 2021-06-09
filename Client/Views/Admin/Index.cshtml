@@ -55,7 +55,6 @@
             })
             let table = $('#example').DataTable({
                 ajax: {
-                    // url: 'GetEmployees',
                     url: 'https://localhost:44397/api/employee/All',
                     type: "GET",
                     dataSrc: ""
@@ -67,11 +66,6 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-//                     { data: "employeeName" },
-//                     { data: "employeeEmail" },
-//                     { data: "employeeGender" },
-//                     { data: "employeeRole" },
-// =======
                     { data: "Name" },
                     { data: "Email" },
                     { data: "Role" },
@@ -79,7 +73,6 @@
 
                 "order": [[1, 'asc']]
             });
-            console.log(data);
             table.on('order.dt search.dt', function () {
                 table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
                     cell.innerHTML = i + 1;

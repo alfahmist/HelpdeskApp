@@ -245,12 +245,7 @@ namespace API.Controllers
             dbparams.Add("Message", messageVM.Message, DbType.String);
             dbparams.Add("EmployeeId", messageVM.EmployeeId, DbType.String);
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_SendMessage]", dbparams, commandType: CommandType.StoredProcedure));
-            var results = result.Result;
-            if (results != 0)
-            {
-                return Ok(result);
-            }
-            return BadRequest("Error");
+            return Ok(result);
         }
 
         [AllowAnonymous]

@@ -44,24 +44,26 @@ namespace Client.Controllers
 
         public IActionResult Index()
         {
-            //var token = HttpContext.Session.GetString("JWToken");
-            //if (token != null)
-            //{
-            //    var jwtReader = new JwtSecurityTokenHandler();
-            //    var jwt = jwtReader.ReadJwtToken(token);
+            var token = HttpContext.Session.GetString("JWToken");
+            if (token != null)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
 
-            //    var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
-            //    var email = jwt.Claims.First(e => e.Type == "email").Value;
-            //    var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
-            //    var empId = emailDb.Id;
+                var name = jwt.Claims.First(c => c.Type == "unique_name").Value;
+                var email = jwt.Claims.First(e => e.Type == "email").Value;
+                var emailDb = myContext.Employees.FirstOrDefault(emp => emp.Email == email);
+                var empId = emailDb.Id;
 
-            //    ViewData["name"] = name;
-            //    ViewData["empId"] = empId;
+                ViewData["name"] = name;
+                ViewData["empId"] = empId;
                 return View("Views/Home/Index.cshtml");
-            //else
-            //{
-            //    return RedirectToAction("Index", "Login");
-           // }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+    
         }
         [Route("ViewTicket")]
         public IActionResult ViewTicket()
@@ -111,6 +113,7 @@ namespace Client.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
         }
 
         public async Task<IList<TicketMessageVM>> GetTicketMessage(string id)
@@ -262,8 +265,7 @@ namespace Client.Controllers
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync("https://localhost:44397/api/Tickets/NewTicketMessage", content).Result;
-              return result.StatusCode;
-           
+            return result.StatusCode;
         }
 
         public JsonResult TicketDetailById(string ticketId)
