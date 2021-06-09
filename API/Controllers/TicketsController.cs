@@ -65,11 +65,11 @@ namespace API.Controllers
             //string sender = "bartpaul684@gmail.com";
             //string sender = "aninsabrina17@gmail.com";
             //string pwd = "yulisulasta";
-            string sender = "chase0@ethereal.email";
-            string pwd = "Dwqc1mxPyREya1C3B5";
+            string sender = "gamesatarkhu@gmail.com";
+            string pwd = "musikamusik";
 
             //sender
-            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
@@ -93,7 +93,7 @@ namespace API.Controllers
             var dbparams =  new DynamicParameters();
 
             dbparams.Add("TicketId", ResponseVM.TicketId, DbType.String);
-            dbparams.Add("Solution", ResponseVM.Solution, DbType.String);
+            dbparams.Add("Solution", ResponseVM.Message, DbType.String);
             dbparams.Add("EmployeeId", ResponseVM.EmployeeId, DbType.String);
             var result = Task.FromResult(dapper.Insert<int>("[dbo].[SP_ResponseTicket]", dbparams, commandType: CommandType.StoredProcedure));
             var parm = new DynamicParameters();
@@ -108,14 +108,14 @@ namespace API.Controllers
             var client = myContext.Tickets.FirstOrDefault(x => x.Id == ResponseVM.TicketId);
             var ticketSubject = client.Name;
             var ticketId = ResponseVM.TicketId;
-            var solution = ResponseVM.Solution;
+            var solution = ResponseVM.Message;
 
             //string sender = "bartpaul684@gmail.com";
-            string sender = "chase0@ethereal.email";
-            string pwd = "Dwqc1mxPyREya1C3B5";
+            string sender = "gamesatarkhu@gmail.com";
+            string pwd = "musikamusik";
 
             //sender
-            var user = new SmtpClient("smtp.ethereal.email", 587) //bikin 1 handler sendiri
+            var user = new SmtpClient("smtp.gmail.com", 587) //bikin 1 handler sendiri
             {
                 UseDefaultCredentials = true,
                 EnableSsl = true,
@@ -273,8 +273,6 @@ namespace API.Controllers
             return Ok(result);
         }
 
-
-
         [AllowAnonymous]
         [HttpGet("AssignHistory/{ticketId}")]
         public IEnumerable<dynamic> AssignHistory(string ticketId)
@@ -283,6 +281,16 @@ namespace API.Controllers
             dbparams.Add("TicketId", ticketId, DbType.String);
             using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
             return db.Query<dynamic>("[dbo].[SP_AssignHistory]", dbparams, commandType: CommandType.StoredProcedure);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetAssignTicket/{empid}")]
+        public IEnumerable<dynamic> GetAssignTicket(string empid)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("empId", empid, DbType.String);
+            using IDbConnection db = new SqlConnection(Configuration.GetConnectionString("MyConnection"));
+            return db.Query<dynamic>("[dbo].[SP_GetAssignTicket]", dbparams, commandType: CommandType.StoredProcedure);
         }
     }
 }

@@ -34,8 +34,8 @@
                 Ticket History
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="row">
+                <li class="list-group-item" id="assignHistory">
+                    @*<div class="row">
                         <div class="col-sm-6">
                             <p class="text-muted mb-0">Help desk team</p>
                             <p class="mb-2"><strong class="Author">Alexander</strong></p>
@@ -44,7 +44,7 @@
                             <p class="text-muted mb-0">Joined Date</p>
                             <p class="mb-2"><strong class="Created">20 june 2020</strong></p>
                         </div>
-                    </div>
+                    </div>*@
                 </li>
 
             </ul>*@
@@ -117,10 +117,11 @@
     <script>
         var ticketID = `@ViewData["ticketID"]`;
         var empID = `@ViewData["empId"]`;
+       
         $(document).ready(function () {
             GetMessageByID(ticketID);
             GetTicket(ticketID);
-            GetHistory(ticketID)
+            GetHistory(ticketID);
             $("#buttonSendMessage").click((e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -131,7 +132,7 @@
                 e.stopPropagation();
                 $("#minimized").toggle();
             });
-
+   
         });
 
         let Send = () => {
@@ -173,7 +174,8 @@
 
                 function myFunction(item) {
                     console.log(item);
-                    var name = `<div class="row">
+                    if (item.message != null) {
+                        var name = `<div class="row">
                                      <div class="col-sm-5">
                                         <p class="text-muted">Created  : ${moment(item.messageDate).format('LLL')}</p>
                                      </div>
@@ -182,7 +184,7 @@
                                      </div>
                                 </div>
                               `
-                    var card = `<div class="card">
+                        var card = `<div class="card">
                                     <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <div class="row">
@@ -193,7 +195,8 @@
                                         </div>
                                     </li>
                                 </div>`
-                    $("#messageBody").append(`<li class="list-group-item">${name} ${card}</li>`);
+                        $("#messageBody").append(`<li class="list-group-item">${name} ${card}</li>`);
+                    }
                 }
             }).fail((error) => {
                 console.log("error");
@@ -214,6 +217,42 @@
                 $("#CreatedDate").text(moment(newResult.CreatedDate).format('LLL'))
                 $("#Category").text(newResult.Category)
                 $("#TicketStatus").text(newResult.TicketStatus)
+
+                var ticketStatus = newResult.TicketStatus;
+                if (ticketStatus.toLowerCase() == "close") {
+                    $(".fixed-bottom").hide();
+                }
+            }).fail((error) => {
+                console.log(error);
+            })
+        }
+
+        function GetHistory(ticketId) {
+            console.log(ticketId);
+            $.ajax({
+                type: 'GET',
+                url: "https://localhost:44326/Dashboard/AssignHistory",
+                data: { ticketId: ticketId },
+            }).done((result) => {
+                console.log(result);
+                result.forEach(myFunction);
+
+                function myFunction(item) {
+                    console.log(item);
+
+                    var name = `<div class="row">
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">CS</p>
+                            <p class="mb-2"><strong class="Author">${item.name}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">Joined Date</p>
+                            <p class="mb-2"><strong class="Created">${moment(item.assignDate).format('LLL')}</strong></p>
+                        </div>
+                    </div>`
+
+                    $("#assignHistory").append(`<li class="list-group-item">${name}</li>`);
+                }
             }).fail((error) => {
                 console.log(error);
             })

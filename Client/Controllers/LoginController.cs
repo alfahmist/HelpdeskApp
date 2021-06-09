@@ -44,13 +44,13 @@ namespace Client.Controllers
             return NotFound();
         }
 
-        public HttpStatusCode LoginEmployee(LoginVM login)
+        public HttpStatusCode LoginClient(LoginVM login)
         {
             var client = new HttpClient();
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
             var result = client.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
             var token = result.Content.ReadAsStringAsync().Result;
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             HttpContext.Session.SetString("JWToken", token);
 
             if (result.IsSuccessStatusCode)
@@ -63,6 +63,37 @@ namespace Client.Controllers
                 if (role.ToString().ToLower() == "client")
                 {
                     //ForClient
+                    return HttpStatusCode.OK;
+                }
+                else
+                {
+                    return HttpStatusCode.Unauthorized;
+                }
+            }
+            else
+            {
+                return result.StatusCode;
+            }
+        }
+
+        public HttpStatusCode LoginEmployee(LoginVM login)
+        {
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44397/api/Accounts/Login", stringContent).Result;
+            var token = result.Content.ReadAsStringAsync().Result;
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            HttpContext.Session.SetString("JWToken", token);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var role = jwt.Claims.First(c => c.Type == "role").Value;
+
+                if (role.ToString().ToLower().Contains("support"))
+                {   
                     return HttpStatusCode.OK;
                 }
                 else

@@ -122,7 +122,7 @@
             console.log(data);
             $.ajax({
                 type: 'POST',
-                url: '/Login/LoginEmployee',
+                url: '/Login/LoginClient',
                 data: data
             }).done((result) => {
 
@@ -157,7 +157,6 @@
                             timer: 2000
                         })
                         break;
-          
                     default:
                         swal({
                             text: "Oops..",
