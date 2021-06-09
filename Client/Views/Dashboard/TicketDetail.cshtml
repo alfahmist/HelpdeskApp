@@ -186,7 +186,7 @@
         }
         let GetMessageByID = (id) => {
             $.ajax({
-                url: "https://localhost:44326/Dashboard/GetTicketMessage",
+                url: "https://localhost:44326/Home/GetTicketMessage",
                 type: 'GET',
                 data: {id : id}
             }).done((result) => {
