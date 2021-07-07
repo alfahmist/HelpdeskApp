@@ -27,7 +27,7 @@ user : membuat tiket, melihat tiket, menutup tiket, membalas tiket.
   2.  CSS (Bootstrap)
   3.  Javascript (JQuery, Ajax, Datatables)
 
-#example page
+# example page
 ## customer service page
 ![dashboard_home](https://user-images.githubusercontent.com/48145002/124714365-e005db00-df2b-11eb-8c54-08422f6dc8ef.PNG)
 ## ticket detail
